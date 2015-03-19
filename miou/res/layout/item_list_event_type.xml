@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/white" 
+    android:gravity="center_vertical">
+    <CheckBox
+        android:id="@+id/item_event_checkBox"
+        android:layout_width="wrap_content"
+    	android:layout_height="40dp" 
+    	android:layout_marginLeft="20dp"
+    	android:layout_alignParentLeft="true" 
+    	android:scaleX="0.7" 
+    	android:scaleY="0.7" >
+        
+    </CheckBox>
+    <TextView
+        android:id="@+id/item_event_type"
+        android:layout_toRightOf="@id/item_event_checkBox"
+        android:layout_width="match_parent"
+    	android:layout_height="40dp"
+    	android:textSize="16sp"
+    	android:gravity="center_vertical"
+    	android:textColor="@color/black" 
+    	android:layout_marginLeft="10dp" >
+        
+    </TextView>
+
+</RelativeLayout>

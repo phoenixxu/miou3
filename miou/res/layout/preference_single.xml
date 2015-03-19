@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:background="@color/white">
+    <TextView
+        android:layout_width="wrap_content"
+    	android:layout_height="40dp" 
+    	android:layout_alignParentLeft="true" 
+    	android:id="@+id/title" 
+    	android:gravity="center_vertical"
+    	android:textSize="14sp" 
+    	android:layout_marginLeft="30dp" >
+        
+    </TextView>
+	<Button 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp" 
+    	android:id="@+id/option1" 
+    	android:layout_toLeftOf="@+id/option2"
+    	android:scaleX="0.7"
+    	android:scaleY="0.7"
+    	android:gravity="center_vertical">
+	    
+	</Button>
+	<Button 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp" 
+    	android:layout_toLeftOf="@+id/option3"
+    	android:scaleX="0.7"
+    	android:scaleY="0.7"
+    	android:id="@id/option2" 
+    	android:gravity="center_vertical">
+	    
+	</Button>
+	<Button 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp" 
+    	android:layout_toLeftOf="@+id/option4"
+    	android:scaleX="0.7"
+    	android:scaleY="0.7"
+    	android:id="@id/option3" 
+    	android:gravity="center_vertical">
+	    
+	</Button>
+	<Button 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp" 
+    	android:layout_alignParentRight="true"
+    	android:scaleX="0.7"
+    	android:scaleY="0.7"
+    	android:id="@id/option4" 
+    	android:layout_marginRight="20dp"
+    	android:gravity="center_vertical" >
+	    
+	</Button>
+
+</RelativeLayout>

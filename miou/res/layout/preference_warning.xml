@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toggleprefrence="http://schemas.android.com/apk/res/com.datang.miou"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white" >
+    <com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:background="@color/title_background_gray" >
+    <TextView
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/little_title"
+		android:id="@+id/wifi_textView"
+		android:text="声音" >
+    
+    </TextView>
+	<com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="声音提醒"
+        toggleprefrence:key="PREF_VOICE_REMIND" 
+        android:layout_marginBottom="0.5dp"
+        android:id="@+id/void_remind_pref" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <TextView
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/little_title"
+		android:text="告警开关" >
+        
+    </TextView>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="未接通"
+        toggleprefrence:key="PREF_SWITCH_NO_CALL" 
+        android:layout_marginBottom="0.5dp" 
+        android:id="@+id/switch_no_call_pref" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="掉话"
+        toggleprefrence:key="PREF_SWITCH_DROP" 
+        android:layout_marginBottom="0.5dp" 
+        android:id="@+id/switch_drop" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="FTP掉线"
+        toggleprefrence:key="PREF_SWITCH_FTP_DROP" 
+        android:layout_marginBottom="0.5dp" 
+        android:id="@+id/switch_ftp_drop" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="系统内切换失败"
+        toggleprefrence:key="PREF_SWITCH_FAIL_IN_SYSTEM" 
+        android:layout_marginBottom="0.5dp" 
+        android:id="@+id/switch_fail_in_system" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="系统间切换失败"
+        toggleprefrence:key="PREF_SWITCH_FAIL_INTER_SYSTEM" 
+        android:id="@+id/switch_fail_inter_system" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    </LinearLayout>
+</LinearLayout>

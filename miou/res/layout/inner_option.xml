@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical" >
+    <TextView
+    	android:layout_width="match_parent"
+    	android:layout_height="30dp"
+    	android:text="建筑物"
+    	android:gravity="center" 
+    	android:background="@color/menu_border_gray"></TextView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+	<Button 
+	    android:layout_width="match_parent"
+    	android:layout_height="40dp"
+    	android:text="世纪大厦"
+    	android:gravity="center" 
+    	android:background="@color/white"
+    	android:layout_alignParentRight="true" 
+    	android:id="@+id/building_button" ></Button>
+	<TextView 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp"
+    	android:text=">"
+    	android:gravity="center" 
+    	android:background="@color/white" 
+    	android:layout_alignParentRight="true" ></TextView>
+	</RelativeLayout>
+	<TextView
+    	android:layout_width="match_parent"
+    	android:layout_height="30dp"
+    	android:text="楼层"
+    	android:gravity="center" 
+    	android:background="@color/menu_border_gray"></TextView>
+	<LinearLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal" 
+    	android:gravity="center_horizontal">
+	<Button 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp"
+    	android:text="-"
+    	android:gravity="center" 
+    	android:id="@+id/decrease_floor_button"></Button>
+	<TextView
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="5楼"
+    	android:gravity="center" 
+    	android:background="@color/white"
+    	android:id="@+id/floor_textView"></TextView>
+	<Button 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp"
+    	android:text="+"
+    	android:gravity="center" 
+    	android:id="@+id/increase_floor_button"></Button>
+	</LinearLayout>
+	<TextView
+    	android:layout_width="match_parent"
+    	android:layout_height="30dp"
+    	android:text="照片"
+    	android:gravity="center" 
+    	android:background="@color/menu_border_gray">
+	    
+	</TextView>
+	<com.datang.miou.views.inner.Gallery 
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/photo_gallery" >
+	    
+	</com.datang.miou.views.inner.Gallery>
+		
+	<TextView
+    	android:layout_width="match_parent"
+    	android:layout_height="30dp"
+    	android:text="地图"
+    	android:gravity="center" 
+    	android:background="@color/menu_border_gray"></TextView>
+	<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+	<Button 
+	    android:layout_width="match_parent"
+    	android:layout_height="40dp"
+    	android:text="Icmp_gd_zh.jpg"
+    	android:gravity="center" 
+    	android:background="@color/white" 
+    	android:id="@+id/inner_map_button" ></Button>
+	<TextView 
+	    android:layout_width="40dp"
+    	android:layout_height="40dp"
+    	android:text=">"
+    	android:gravity="center" 
+    	android:background="@color/white" 
+    	android:layout_alignParentRight="true" ></TextView>
+	</RelativeLayout>
+	<com.datang.miou.views.inner.Gallery 
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/map_gallery" >
+	    
+	</com.datang.miou.views.inner.Gallery>
+</LinearLayout>
+</ScrollView>

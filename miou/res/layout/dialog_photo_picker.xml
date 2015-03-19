@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:orientation="vertical" >
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="手机拍摄"
+        android:id="@+id/take_button" ></Button>
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="手机相册"
+        android:id="@+id/pick_button" ></Button>
+	<ImageView
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:id="@+id/test_imageView" ></ImageView>
+</LinearLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:weightSum="1" >
+
+	<com.baidu.mapapi.map.MapView
+		android:id="@+id/gen_map_view" 
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="0.9" />
+	<HorizontalScrollView 
+	    android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="0.1" >
+		<LinearLayout 
+		    android:id="@+id/check_box_group"
+		    android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:orientation="horizontal">
+		    <CheckBox 
+		        android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="@string/cover_trace_check_box"
+				android:id="@+id/cover_checkBox" >
+		        
+		    </CheckBox>
+		    <CheckBox 
+		        android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="@string/quality_trace_check_box"
+				android:id="@+id/quality_checkBox" >
+		        
+		    </CheckBox>
+		    <CheckBox 
+		        android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="@string/speed_trace_check_box"
+				android:id="@+id/speed_checkBox" >
+		        
+		    </CheckBox>
+		    <CheckBox 
+		        android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="@string/station_check_box"
+				android:id="@+id/station_checkBox" >
+		        
+		    </CheckBox>
+		     <CheckBox 
+		        android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="@string/station_info_check_box"
+				android:id="@+id/station_info_checkBox" >
+		         
+		     </CheckBox>
+		    <CheckBox 
+		        android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:scaleX="0.7"
+				android:scaleY="0.7"
+				android:text="@string/line_check_box"
+				android:id="@+id/line_checkBox" >
+		        
+		    </CheckBox>		    
+		</LinearLayout>
+	</HorizontalScrollView>
+</LinearLayout>

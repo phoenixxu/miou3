@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+    <item>
+	    <type>0</type>
+	    <description>BandWidth</description>
+    </item>
+	<item>
+    	<type>1</type>
+    	<description>ECGI</description>
+	</item>
+	<item>
+    	<type>2</type>
+    	<description>EMM</description>
+	</item>
+	<item>
+    	<type>8</type>
+    	<description>TM</description>
+	</item>
+		<item>
+    	<type>100</type>
+    	<description>EARFCN</description>
+	</item>
+		<item>
+    	<type>101</type>
+    	<description>PCI</description>
+	</item>
+		<item>
+    	<type>102</type>
+    	<description>RSRP</description>
+	</item>
+</items>

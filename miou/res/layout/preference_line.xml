@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:radiogroupprefrence="http://schemas.android.com/apk/res/com.datang.miou"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:id="@+id/fragmentContainer" >
+   <com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+   <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:background="@color/title_background_gray" >
+    <TextView
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/little_title"
+		android:text="曲线1" >
+	</TextView>
+	<com.datang.miou.widget.ListPickerPrefrence 
+	    android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		radiogroupprefrence:title="参数"
+		radiogroupprefrence:key="PREF_LINE_PARAM_1"
+		radiogroupprefrence:id="1"
+		android:layout_marginBottom="0.5dp">
+	    
+	</com.datang.miou.widget.ListPickerPrefrence>
+	<com.datang.miou.widget.ColorPickerPrefrence 
+	    android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		radiogroupprefrence:title="颜色"
+		radiogroupprefrence:key="PREF_LINE_COLOR_1"
+		radiogroupprefrence:id="1"
+		android:layout_marginBottom="0.5dp">
+	    
+	</com.datang.miou.widget.ColorPickerPrefrence>
+	 <TextView
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/little_title"
+		android:text="曲线2" >
+	</TextView>
+		<com.datang.miou.widget.ListPickerPrefrence 
+	    android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		radiogroupprefrence:title="参数"
+		radiogroupprefrence:key="PREF_LINE_PARAM_2"
+		radiogroupprefrence:id="2"
+		android:layout_marginBottom="0.5dp">
+	    
+	</com.datang.miou.widget.ListPickerPrefrence>
+	<com.datang.miou.widget.ColorPickerPrefrence 
+	    android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		radiogroupprefrence:title="颜色"
+		radiogroupprefrence:key="PREF_LINE_COLOR_2"
+		radiogroupprefrence:id="2"
+		android:layout_marginBottom="0.5dp">
+	    
+	</com.datang.miou.widget.ColorPickerPrefrence>
+	 <TextView
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/little_title"
+		android:text="曲线3" >
+	</TextView>
+		<com.datang.miou.widget.ListPickerPrefrence 
+	    android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		radiogroupprefrence:title="参数"
+		radiogroupprefrence:key="PREF_LINE_PARAM_3"
+		radiogroupprefrence:id="3"
+		android:layout_marginBottom="0.5dp">
+	    
+	</com.datang.miou.widget.ListPickerPrefrence>
+	<com.datang.miou.widget.ColorPickerPrefrence 
+	    android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		radiogroupprefrence:title="颜色"
+		radiogroupprefrence:key="PREF_LINE_COLOR_3"
+		radiogroupprefrence:id="3"
+		android:layout_marginBottom="0.5dp">
+	    
+	</com.datang.miou.widget.ColorPickerPrefrence>
+	</LinearLayout>
+</LinearLayout>

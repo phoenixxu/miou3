@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:colorpickerreference="http://schemas.android.com/apk/res/com.datang.miou"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/white" 
+    android:gravity="center_vertical">
+    <CheckBox
+        android:id="@+id/item_event_checkBox"
+        android:layout_width="wrap_content"
+    	android:layout_height="40dp" 
+    	android:layout_marginLeft="20dp"
+    	android:layout_alignParentLeft="true" 
+    	android:scaleX="0.7" 
+    	android:scaleY="0.7" >
+        
+    </CheckBox>
+    <com.datang.miou.widget.ColorPickerPrefrence 
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/item_event_checkBox"
+		android:id="@+id/item_event_option"
+		android:layout_marginBottom="0.5dp" 
+		colorpickerreference:colors="@array/event_color" >
+        
+    </com.datang.miou.widget.ColorPickerPrefrence>
+
+</RelativeLayout>

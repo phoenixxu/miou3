@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toggleprefrence="http://schemas.android.com/apk/res/com.datang.miou"
+    xmlns:singleprefrence="http://schemas.android.com/apk/res/com.datang.miou"
+    xmlns:nextprefrence="http://schemas.android.com/apk/res/com.datang.miou"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white" >
+    <com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:background="@color/title_background_gray" >
+    <TextView
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/little_title"
+		android:id="@+id/wifi_textView"
+		android:text="Wifi下是否自动获取数据" >
+    
+    </TextView>
+	<com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="定时获取测试序列"
+        toggleprefrence:key="PREF_AUTO_FETCH_TEST_SCRIPT" 
+        android:layout_marginBottom="0.5dp"
+        android:id="@+id/auto_fetch_test_script_toggle_pref" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="定时获取地图文件"
+        toggleprefrence:key="PREF_AUTO_FETCH_MAP" 
+        android:layout_marginBottom="0.5dp" 
+        android:id="@+id/auto_fetch_map_pref" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="定时上传测试日志"
+        toggleprefrence:key="PREF_AUTO_UPLOAD_TEST_LOG" 
+        android:layout_marginBottom="0.5dp" 
+        android:id="@+id/auto_upload_test_log" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.TogglePrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        toggleprefrence:title="开启手机时间同步"
+        toggleprefrence:key="PREF_ASYNC_PHONE_TIME" 
+        android:layout_marginBottom="2dp" 
+        android:id="@+id/async_phone_time_prf" >
+        
+    </com.datang.miou.widget.TogglePrefrence>
+    <com.datang.miou.widget.SinglePrefrence 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        singleprefrence:title="终端存储上限"
+        singleprefrence:key="PREF_MAX_STORAGE" 
+        singleprefrence:option1="1G"
+        singleprefrence:option2="2G"
+        singleprefrence:option3="5G"
+        singleprefrence:option4="∞"
+        android:layout_marginBottom="2dp" 
+        android:id="@+id/max_storage_pref"  >
+        
+    </com.datang.miou.widget.SinglePrefrence>
+    <com.datang.miou.widget.NextPrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	nextprefrence:title="曲线设置" 
+    	nextprefrence:icon="@drawable/line"
+    	android:id="@+id/line_next_preference"
+    	android:layout_marginBottom="0.5dp"   >"
+        
+    </com.datang.miou.widget.NextPrefrence>
+    <com.datang.miou.widget.NextPrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	nextprefrence:title="告警设置" 
+    	nextprefrence:icon="@drawable/warning"
+    	android:id="@+id/warning_next_preference"
+    	android:layout_marginBottom="0.5dp"   >
+        
+    </com.datang.miou.widget.NextPrefrence>
+    <com.datang.miou.widget.NextPrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	nextprefrence:title="信令筛选设置" 
+    	nextprefrence:icon="@drawable/signal"
+    	android:id="@+id/signal_filter_next_preference"
+    	android:layout_marginBottom="0.5dp"   >
+        
+    </com.datang.miou.widget.NextPrefrence>
+    <com.datang.miou.widget.NextPrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	nextprefrence:title="图例设置" 
+    	nextprefrence:icon="@drawable/sign"
+    	android:id="@+id/sign_next_preference"
+    	android:layout_marginBottom="0.5dp"   >
+        
+    </com.datang.miou.widget.NextPrefrence>
+    <com.datang.miou.widget.NextPrefrence
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	nextprefrence:title="地图设置" 
+    	nextprefrence:icon="@drawable/map"
+    	android:id="@+id/map_next_preference"
+    	android:layout_marginBottom="0.5dp" >
+    	
+        
+    </com.datang.miou.widget.NextPrefrence>
+
+    </LinearLayout>
+</LinearLayout>

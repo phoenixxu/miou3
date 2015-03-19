@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:weightSum="1" 
+    android:background="@color/white" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+    	android:layout_height="0dp"
+    	android:layout_weight="0.45" >
+    <RelativeLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content" 
+    	android:background="@color/gray" 
+    	android:layout_alignParentTop="true"
+    	android:id="@+id/layout" >
+        <CheckBox
+            android:layout_width="wrap_content"
+    		android:layout_height="40dp" 
+    		android:text="事件列表" 
+    		android:layout_alignParentLeft="true"
+    		android:layout_marginLeft="20dp" 
+    		android:id="@+id/all_checkBox" />
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true" >
+            
+        </LinearLayout>
+         <EditText 
+             android:layout_marginLeft="5dp"
+             android:layout_marginTop="4dp"
+             android:layout_marginBottom="4dp"
+             android:layout_toLeftOf="@+id/search_event_ImageButton"    
+             android:layout_width="match_parent"
+             android:layout_height="40dp" 
+             android:layout_toRightOf="@id/all_checkBox"
+             android:id="@+id/search_event_editText" />
+         <ImageButton
+             android:id="@id/search_event_ImageButton"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:gravity="center"
+             android:layout_marginTop="4dp"
+             android:layout_marginBottom="4dp"
+             android:layout_alignParentRight="true"
+             android:src="@android:drawable/ic_menu_search"/>
+    </RelativeLayout>
+    <ListView 
+        android:layout_below="@id/layout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content" 
+    	android:id="@+id/event_listView" 
+    	android:layout_marginBottom="4dp">
+        
+    </ListView>
+    </RelativeLayout>
+    <LinearLayout 
+        android:layout_weight="0.1"
+        android:layout_width="match_parent"
+    	android:layout_height="0dp"
+    	android:weightSum="1" 
+    	android:orientation="horizontal" 
+    	android:background="@color/white"
+    	android:gravity="center"  >
+        <ImageView 
+            android:id="@+id/remove_from_selected"
+            android:layout_width="0dp"
+            android:src="@drawable/remove_from"
+    		android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="0.5"/>
+
+        <ImageView 
+            android:id="@+id/add_to_selected"
+            android:src="@drawable/add_to"
+            android:gravity="center"
+            android:layout_width="0dp"
+    		android:layout_height="wrap_content"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+    	android:layout_height="0dp"
+    	android:layout_weight="0.45" >
+    <RelativeLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content" 
+    	android:background="@color/gray" 
+    	android:layout_alignParentTop="true"
+    	android:id="@+id/selected_layout" >"
+        <CheckBox
+            android:layout_width="wrap_content"
+    		android:layout_height="40dp" 
+    		android:text="筛选结果" 
+    		android:layout_alignParentLeft="true"
+    		android:layout_marginLeft="20dp" 
+    		android:id="@+id/all_selected_checkBox" />
+         <EditText 
+             android:layout_marginLeft="5dp"
+             android:layout_marginTop="4dp"
+             android:layout_marginBottom="4dp"
+             android:layout_toLeftOf="@+id/search_event_selected_ImageButton"    
+             android:layout_width="match_parent"
+             android:layout_height="40dp" 
+             android:layout_toRightOf="@id/all_selected_checkBox"
+             android:id="@+id/search_event_selected_editText" />
+         <ImageButton
+             android:id="@id/search_event_selected_ImageButton"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:gravity="center"
+             android:layout_marginTop="4dp"
+             android:layout_marginBottom="4dp"
+             android:layout_alignParentRight="true"
+             android:src="@android:drawable/ic_menu_search"/>
+    </RelativeLayout>
+    <ListView 
+        android:layout_below="@id/selected_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content" 
+    	android:id="@+id/event_selected_listView" 
+    	android:layout_marginBottom="4dp">
+        
+    </ListView>
+    </RelativeLayout>
+</LinearLayout>

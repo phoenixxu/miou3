@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:radiogroupprefrence="http://schemas.android.com/apk/res/com.datang.miou"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/menu_border_gray" >
+    <com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+  	<com.datang.miou.widget.ListPickerPrefrence 
+  	    android:layout_width="match_parent"
+  	    android:layout_height="wrap_content"
+  	    radiogroupprefrence:title="参数"
+  	    radiogroupprefrence:key="PREF_PARAM"
+  	    radiogroupprefrence:id="0" >
+  	    
+  	</com.datang.miou.widget.ListPickerPrefrence>
+</LinearLayout>

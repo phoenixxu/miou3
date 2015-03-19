@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- 应用程序统一背景色 -->
+	<color name="app_background_color">#f1f1f1</color>
+	<!-- 白色 -->
+    <color name="white">#FFFFFF</color>
+    <!-- 黑色 -->
+    <color name="black">#000000</color>
+    <!-- Dialog标题蓝 -->
+    <color name="dialog_title_blue">#0090e6</color>
+    <!-- 标题蓝 -->
+    <color name="title_blue">#039bf6</color>
+    <!-- 菜单默认底色 -->
+    <color name="menu_gray">#e5e5e5</color>
+    <!-- 菜单边框颜色 -->
+    <color name="menu_border_gray">#bcbcbc</color>
+    <!-- 按钮绿 -->
+    <color name="button_green">#8ac654</color>
+    <!-- 按钮蓝-->
+    <color name="button_blue">#039bf6</color>
+    <!-- 小标题背景灰色 -->
+    <color name="title_background_gray">#bcbcbc</color>
+    <color name="table_background">#82aaf5</color>
+    
+    <color name="blue">#039bf6</color>
+    <color name="green">#8ac654</color>
+    <color name="yellow">#ffff80</color>
+    <color name="pink">#ff60ff</color>
+    <color name="red">#ff0000</color>
+    <color name="orange">#f75000</color>
+    <color name="purple">#af60ff</color>
+    
+    <color name="gray">#c8c8c8</color>
+    
+        <!--字体颜色-->
+    <color name="black_text">#ff4c4c4c</color>
+
+    <color name="tab_bar_background">#FF2B5B9B</color>
+
+    <color name="tab_text_color_dark">#FF433F2F</color>
+    <color name="tab_text_color_light">#FFF8F8FC</color>
+    
+</resources>

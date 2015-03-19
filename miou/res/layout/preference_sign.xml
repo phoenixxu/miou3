@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:drawerprefrence="http://schemas.android.com/apk/res/com.datang.miou"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/menu_border_gray" >
+    <com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+	<FrameLayout 
+	    android:id="@+id/gen_realtabcontent"
+		android:layout_width="match_parent" 
+		android:layout_height="0dip"
+		android:layout_weight="1" />
+	<android.support.v4.app.FragmentTabHost
+		android:id="@+id/gen_tabhost" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" 
+		android:background="#333333">
+		<FrameLayout 
+		    android:id="@+id/gen_tabcontent"
+			android:layout_width="0dp" 
+			android:layout_height="0dp"
+			android:layout_weight="0" />
+	</android.support.v4.app.FragmentTabHost>
+</LinearLayout>

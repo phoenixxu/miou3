@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content" 
+    	android:layout_alignParentTop="true"
+    	android:orientation="horizontal"
+    	android:id="@+id/page_indicator_layout" 
+    	android:gravity="center"
+    	android:weightSum="3">
+        <Button
+            android:layout_width="0dp"
+    		android:layout_height="wrap_content" 
+    		android:layout_weight="1"
+    		android:text="打点测试" 
+    		android:gravity="center"
+    		android:id="@+id/dot_test_button"/>
+        <Button
+            android:layout_width="0dp"
+    		android:layout_height="wrap_content" 
+    		android:layout_weight="1"
+    		android:text="轨迹测试" 
+    		android:gravity="center"
+    		android:id="@+id/trace_test_button"/>
+        <Button
+            android:layout_width="0dp"
+    		android:layout_height="wrap_content" 
+    		android:layout_weight="1"
+    		android:text="电梯测试" 
+    		android:gravity="center"
+    		android:id="@+id/lift_test_button"/>
+    </LinearLayout>
+    <android.support.v4.view.ViewPager 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content" 
+    	android:id="@+id/inner_test_viewPager"
+    	android:layout_below="@id/page_indicator_layout"
+    	android:layout_above="@+id/map_loader_layout">"
+        
+    </android.support.v4.view.ViewPager >
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+    	android:layout_height="40dp" 
+    	android:layout_alignParentBottom="true" 
+    	android:id="@id/map_loader_layout" >
+    	<Button 
+    	    android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_alignParentLeft="true"
+    		android:text="加载地图"
+    		android:id="@+id/load_map_button" >
+    	    
+    	</Button>
+    	<TextView 
+    	    android:layout_width="wrap_content"
+    		android:layout_height="40dp"
+    		android:layout_toLeftOf="@+id/building_editText"
+    		android:text="楼宇"
+    		android:layout_marginTop="10dp"
+    		android:id="@+id/building_textView" ></TextView>
+    	<EditText
+	        android:layout_width="60dp"
+    		android:layout_height="40dp"
+    		android:id="@+id/building_editText"
+    		android:layout_toLeftOf="@+id/floor_textView" />
+    	<TextView 
+    	    android:layout_width="wrap_content"
+    		android:layout_height="40dp"
+    		android:layout_toLeftOf="@+id/floor_editText"
+    		android:text="楼层"
+    		android:layout_marginTop="10dp"
+    		android:id="@id/floor_textView" ></TextView>
+	    <EditText
+	        android:layout_width="60dp"
+    		android:layout_height="40dp"
+    		android:layout_alignParentRight="true"
+    		android:id="@id/floor_editText" />
+	</RelativeLayout>
+</RelativeLayout>

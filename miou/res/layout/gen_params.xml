@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1" >
+  <RelativeLayout
+      android:layout_width="match_parent"
+  	  android:layout_height="0dp"
+  	  android:layout_weight="0.65" >
+	    <TextView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+	        android:text="@string/cell_info"
+	        android:id="@+id/cell_info_textView"
+	        android:gravity="center"
+	        style="@style/little_title" 
+	        android:layout_alignParentTop="true" >     
+	    </TextView>	
+	    
+	    <android.support.v4.view.ViewPager
+		    android:id="@+id/modeViewPager"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" 
+		    android:layout_below="@id/cell_info_textView"
+		    android:layout_above="@+id/modeViewGroup" >
+	    
+		</android.support.v4.view.ViewPager>
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
+		    android:gravity="center_horizontal"
+		    android:orientation="horizontal" 
+		    android:id="@id/modeViewGroup">    
+	
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/modes_indicator_1" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" />
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/modes_indicator_2" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" /> 
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/modes_indicator_3" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" />
+	    </LinearLayout>
+	</RelativeLayout>
+	<RelativeLayout
+	    android:layout_width="match_parent"
+  	    android:layout_height="0dp"
+  	    android:layout_weight="0.35" >
+	   	<TextView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+	        android:text="@string/params"
+	        android:gravity="center"
+	        android:id="@+id/param_textView"
+	        style="@style/little_title" 
+	        android:layout_alignParentTop="true" >
+	        
+	    </TextView>
+	    
+		<android.support.v4.view.ViewPager
+		    android:id="@+id/paramsViewPager"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" 
+		    android:layout_below="@id/param_textView" 
+		    android:layout_above="@+id/paramsViewGroup">
+		    
+		</android.support.v4.view.ViewPager>
+	
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:id="@id/paramsViewGroup"
+		    android:gravity="center_horizontal"
+		    android:layout_alignParentBottom="true"
+		    android:orientation="horizontal" >    
+	
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/params_indicator_1" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" />
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/params_indicator_2" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" /> 
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/params_indicator_3" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" />
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/params_indicator_4" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" /> 
+		   	<ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/params_indicator_5" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" />
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/params_indicator_6" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" /> 
+		    <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:id="@+id/params_indicator_7" 
+		        android:scaleX="0.7"
+		        android:scaleY="0.7" />
+	
+		</LinearLayout>
+		
+		</RelativeLayout>
+</LinearLayout>
