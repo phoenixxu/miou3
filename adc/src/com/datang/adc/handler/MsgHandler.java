@@ -44,7 +44,7 @@ public final class MsgHandler {
                 LogUploadStatus.add(logfile);
             }
         }
-//        Handlers.put("Config", new ConfigHandler(this));
+        Handlers.put("Config", new ConfigHandler(this));
         Handlers.put("Upload", new UploadHandler(this));
         Handlers.put("Eof", new EofHandler(this));
 //        Handlers.put("Supgrade", new SupgradeHandler(this));
