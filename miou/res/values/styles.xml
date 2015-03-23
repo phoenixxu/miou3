@@ -32,7 +32,7 @@
     </style>
     
     <!-- dingzhongchang add -->
-    <style name="Theme.Tab" parent="android:Theme.Holo">
+    <style name="Theme.Tab" parent="android:Theme">
         <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
         <item name="vpiTabPageIndicatorStyle">@style/Widget.TabIndicator</item>
         <item name="android:textColor">@color/black_text</item>
@@ -67,5 +67,9 @@
         <item name="android:textColor">@color/btn_text_color</item>
         <item name="android:background">@drawable/normal_btn</item>
     </style>
-    
+
+    <style name="TaskButton" parent="android:Widget.Button">
+        <item name="android:textColor">@color/btn_text_color</item>
+        <item name="android:background">@drawable/task_btn</item>
+    </style>
 </resources>

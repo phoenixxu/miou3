@@ -4,21 +4,20 @@
     android:layout_height="@dimen/header_bar_height"
     android:background="@color/title_blue"
     android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp">
 
     <ImageView
         android:id="@+id/app_title_left"
         android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/thumbnail_height"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:scaleType="center"
         android:src="@drawable/back" />
 
     <TextView
         android:id="@+id/app_title_value"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -26,9 +25,10 @@
 
     <TextView
         android:id="@+id/app_title_right_txt"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textColor="@color/white" />
+        android:textColor="@color/btn_text_color" />
 </RelativeLayout>

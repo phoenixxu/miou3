@@ -1,6 +1,7 @@
 package com.datang.miou.views.percept.connect;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
@@ -25,6 +26,8 @@ public class ConnectActivity extends ActivitySupport {
         super.onCreate(savedInstanceState);
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("连接测试");
+        TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
+        mRight.setText("编辑");
         ImageView mBackButton = (ImageView) findViewById(R.id.app_title_left);
         mBackButton.setOnClickListener(new View.OnClickListener() {
 
@@ -37,6 +40,12 @@ public class ConnectActivity extends ActivitySupport {
                 } catch (Exception e) {
                     finish();
                 }
+            }
+        });
+        mRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, EditConnectActivity.class));
             }
         });
     }
