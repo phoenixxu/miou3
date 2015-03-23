@@ -1,11 +1,11 @@
 package com.datang.adc.handler;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import com.datang.adc.*;
 import com.datang.adc.util.Util;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
-
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -17,7 +17,7 @@ public final class MsgHandler {
     //    private static final Logger L = Logger.getLogger(MsgHandler.class);
 //    private static final Config C = Config.getInstance();
     private static final Map<String, IHandler> Handlers = new HashMap<String, IHandler>();
-    private static final Set<String> LogUploadStatus = new ConcurrentSkipListSet<String>();
+    @SuppressLint("NewApi") private static final Set<String> LogUploadStatus = new ConcurrentSkipListSet<String>();
     private static final ClientManager MANAGER = ClientManager.getManager();
     //    private static final Heart HEART = Heart.getInstance();
     private static final String TAG = "MsgHandler";
