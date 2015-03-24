@@ -77,7 +77,7 @@ class ConfigHandler implements IHandler {
           if (cver != null) {
             if (msgHandler != null)
               msgHandler.setCver(cver);
-            SDCardUtils.writeReadOnly(SDCardUtils.getSystemPath(), format.format(new Date()) + cver
+            SDCardUtils.writeReadOnly(SDCardUtils.getConfigPath(), format.format(new Date()) + cver
                 + ".xml", testPlan.toString().getBytes());
           } else {
             // L.error("Not Found Version in testplan ：" +
