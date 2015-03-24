@@ -5,7 +5,7 @@
     android:background="@color/title_blue"
     android:paddingBottom="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp" >
 
     <ImageView
         android:id="@+id/app_title_left"
@@ -17,18 +17,19 @@
 
     <TextView
         android:id="@+id/app_title_value"
-        style="@android:style/TextAppearance.DeviceDefault.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/app_title_right_txt"
-        style="@android:style/TextAppearance.DeviceDefault.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textColor="@color/btn_text_color" />
+        android:textColor="@color/btn_text_color"
+        android:textSize="16sp" />
+
 </RelativeLayout>
