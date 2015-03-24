@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" android:background="@drawable/plan_selector">
 
     <TextView
         android:id="@+id/tv_plan_name"
@@ -11,6 +11,6 @@
         android:padding="10dp"
         android:textColor="@color/black_text"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold" android:drawableEnd="@drawable/detail"/>
 
 </LinearLayout>

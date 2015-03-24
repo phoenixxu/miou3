@@ -55,7 +55,7 @@ public class DataActivity extends FragmentActivity {
 
     class DataFragmentAdapter extends FragmentPagerAdapter {
         private String[] CONTENT = new String[]{"数据上传设置", "测试序列管理", "地图文件下载"};
-        private Fragment[] fragments = new Fragment[]{new DataUploadSettingFragment(), new TestPlanManagerFragment(), new MapFileDownloadFragment()};
+        private Fragment[] fragments = new Fragment[]{new DataUploadSettingFragment(), new PlanManagerFragment(), new MapFileDownloadFragment()};
 
         public DataFragmentAdapter(FragmentManager fm) {
             super(fm);
