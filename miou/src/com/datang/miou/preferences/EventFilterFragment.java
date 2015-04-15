@@ -1,28 +1,27 @@
 package com.datang.miou.preferences;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datang.miou.R;
 
@@ -30,16 +29,16 @@ import com.datang.miou.FragmentSupport;
 import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
 import com.datang.miou.datastructure.EventType;
-import com.datang.miou.datastructure.EventTypeLab;
-import com.datang.miou.datastructure.Globals;
-import com.datang.miou.datastructure.TestLog;
-import com.datang.miou.datastructure.TestPlan;
+import com.datang.miou.datastructure.EventTypeJSONSerializer;
 import com.datang.miou.widget.ColorPickerPrefrence;
 
 @AutoView(R.layout.preference_filter_event)
 public class EventFilterFragment extends FragmentSupport {
 
+	public static final String TAG = "EventFilterFragment";
+	
 	public static final String KEY_BASE = "PREF_EVENT_COLOR";
+	private static final String FILE_NAME_EVENT_TYPE = "event_types.json";
 	@AutoView(R.id.all_checkBox)
 	private CheckBox mAllCheckBox;
 	@AutoView(R.id.search_event_editText)
@@ -68,6 +67,7 @@ public class EventFilterFragment extends FragmentSupport {
 
 		private Context mAppContext;
 		
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			// TODO 自动生成的方法存根
@@ -109,6 +109,7 @@ public class EventFilterFragment extends FragmentSupport {
 	private class SelectedEventTypeAdapter extends ArrayAdapter<EventType> {
 		private Context mAppContext;
 		
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			// TODO 自动生成的方法存根
@@ -119,9 +120,10 @@ public class EventFilterFragment extends FragmentSupport {
 			EventType type = getItem(position);
 			
 			ColorPickerPrefrence picker = (ColorPickerPrefrence) convertView.findViewById(R.id.item_event_option);
-			picker.setId(type.getId().toString());
-			picker.setKey(KEY_BASE + "_" + type.getId());
+			picker.setId(String.valueOf(type.getId()));
+			//picker.setKey(KEY_BASE + "_" + type.getId());
 			picker.setTitle(type.getDescription());
+			picker.setItem(type);
 			picker.refreshOptionView();
 			
 			CheckBox mCheckBox = (CheckBox) convertView.findViewById(R.id.item_event_checkBox);
@@ -150,6 +152,14 @@ public class EventFilterFragment extends FragmentSupport {
 		}	
 	}
 	
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		this.setRetainInstance(true);
+	}
+
 	@AfterView
 	void init() {
 		
@@ -161,6 +171,8 @@ public class EventFilterFragment extends FragmentSupport {
 		SelectedEventTypeAdapter adapterSelected = new SelectedEventTypeAdapter(getActivity(), mSelectedTypes);
 		mEventSelectedListView.setAdapter(adapterSelected);
 		
+		//事件全选复选框
+		mAllCheckBox.setChecked(false);
 		mAllCheckBox.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -180,6 +192,8 @@ public class EventFilterFragment extends FragmentSupport {
 			}
 		});
 		
+		//已选事件全选复选框
+		mAllSelectedCheckBox.setChecked(false);
 		mAllSelectedCheckBox.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -199,6 +213,7 @@ public class EventFilterFragment extends FragmentSupport {
 			}
 		});
 		
+		//向已选事件列表添加事件
 		mAddButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -228,6 +243,7 @@ public class EventFilterFragment extends FragmentSupport {
 			}		
 		});
 		
+		//从已选事件列表移除事件
 		mRemoveButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -249,6 +265,7 @@ public class EventFilterFragment extends FragmentSupport {
 			}
 		});
 		
+		//搜索事件文本框
 		mSearchEventEditText.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -275,15 +292,17 @@ public class EventFilterFragment extends FragmentSupport {
 			
 		});
 		
+		//搜索按钮
 		mSearchEventImageButton.setOnClickListener(new View.OnClickListener() {
 			
+			@SuppressLint("DefaultLocale")
 			@Override
 			public void onClick(View arg0) {
 				// TODO 自动生成的方法存根
-				String filter = mSearchEventEditText.getText().toString();
+				String filter = mSearchEventEditText.getText().toString().toLowerCase();
 				ArrayList<EventType> part = new ArrayList<EventType>();
 				for (EventType type : mTypes) {
-					if (type.getDescription().contains(filter)) {
+					if (type.getDescription().toLowerCase().contains(filter)) {
 						part.add(type);
 					}
 				}
@@ -292,6 +311,7 @@ public class EventFilterFragment extends FragmentSupport {
 			}
 		});
 		
+		//搜索已选事件文本框
 		mSearchSelectedEventEditText.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -318,15 +338,17 @@ public class EventFilterFragment extends FragmentSupport {
 			
 		});
 		
+		//搜索按钮
 		mSearchSelectedEventImageButton.setOnClickListener(new View.OnClickListener() {
 			
+			@SuppressLint("DefaultLocale")
 			@Override
 			public void onClick(View arg0) {
 				// TODO 自动生成的方法存根
-				String filter = mSearchSelectedEventEditText.getText().toString();
+				String filter = mSearchSelectedEventEditText.getText().toString().toLowerCase();
 				ArrayList<EventType> part = new ArrayList<EventType>();
 				for (EventType type : mSelectedTypes) {
-					if (type.getDescription().contains(filter)) {
+					if (type.getDescription().toLowerCase().contains(filter)) {
 						part.add(type);
 					}
 				}
@@ -336,40 +358,25 @@ public class EventFilterFragment extends FragmentSupport {
 		});
 	}
 	
+	//初始化数据源
 	private void initTypeArray() {
 		// TODO 自动生成的方法存根
-
-		/*
-		mTypes = new ArrayList<EventType>();
-		mTypes.add(new EventType("Task Finished Call", 0));
-		mTypes.add(new EventType("Stop Logging", 0));
-		mTypes.add(new EventType("Start Task Ping", 0));
-		mTypes.add(new EventType("PPP Dial", 0));
-		mTypes.add(new EventType("Dial Success", 0));
-		mTypes.add(new EventType("One Ping Start", 0));
-		*/
-		mTypes = EventTypeLab.get(getActivity()).getEventTypes();
-		/*
-		if (mTypes.size() == 0) {
-			mTypes.add(new EventType("Task Finished Call", 0));
-			mTypes.add(new EventType("Stop Logging", 0));
-			mTypes.add(new EventType("Start Task Ping", 0));
-			mTypes.add(new EventType("PPP Dial", 0));
-			mTypes.add(new EventType("Dial Success", 0));
-			mTypes.add(new EventType("One Ping Start", 0));
-			 EventTypeLab.get(getActivity()).saveEventTypes();
+		if (mTypes == null) {
+			mTypes = initEventTypes();
 		}
-		*/
 		
+		if (mSelectedTypes == null) {
 		mSelectedTypes = new ArrayList<EventType>();
-		for (EventType type : mTypes) {
-			if (type.isSelected()) {
-				mSelectedTypes.add(type);
+			for (EventType type : mTypes) {
+				if (type.isSelected()) {
+					mSelectedTypes.add(type);
+				}
 			}
 		}
 		
 	}
 
+	//刷新已选事件列表
 	private void refreshSelectedEventList() {
 		// TODO 自动生成的方法存根
 		//((EventTypeAdapter) mEventSelectedListView.getAdapter()).notifyDataSetChanged();
@@ -377,9 +384,102 @@ public class EventFilterFragment extends FragmentSupport {
 		mEventSelectedListView.setAdapter(adapterSelected);
 	}
 	
+	//刷新事件列表
 	private void refreshEventList() {
 		// TODO 自动生成的方法存根
 		EventTypeAdapter adapterSelected = new EventTypeAdapter(getActivity(), mTypes);
 		mEventListView.setAdapter(adapterSelected);
 	}
+	
+    private ArrayList<EventType> initEventTypes() {
+		// TODO Auto-generated method stub
+    	ArrayList<EventType> types = null;
+    	
+    	String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			File file = new File(getActivity().getExternalFilesDir(null), FILE_NAME_EVENT_TYPE);
+			if (!file.exists()) {
+				Toast.makeText(getActivity(), FILE_NAME_EVENT_TYPE + " does not exist", Toast.LENGTH_SHORT).show();
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//初始化文件
+				types = new ArrayList<EventType>();
+				types.add(new EventType("Outgoing Call Attempt", 0x2000));
+				types.add(new EventType("Outgoing Call Alerting", 0x2001));
+				types.add(new EventType("Outgoing Call Connected", 0x2002));
+				types.add(new EventType("Outgoing Call Failure", 0x2003));
+				types.add(new EventType("Incoming Call Attempt", 0x2004));
+				types.add(new EventType("Incoming Call Alerting", 0x2005));
+				types.add(new EventType("Incoming Call Connected", 0x2006));
+				types.add(new EventType("Incoming Call Failure", 0x2007));
+				types.add(new EventType("Call Complete", 0x2008));
+				types.add(new EventType("Drop Call", 0x2009));
+				
+				String path = file.getAbsolutePath();
+				
+				EventTypeJSONSerializer serializer = new EventTypeJSONSerializer(getActivity(), path);
+				try {
+					serializer.saveEventTypes(types);
+				} catch (Exception e) {
+					Toast.makeText(getActivity(), "json init error!", Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				String path = file.getAbsolutePath();
+				EventTypeJSONSerializer serializer = new EventTypeJSONSerializer(getActivity(), path);
+				try {
+					types = serializer.loadEventTypes();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					Toast.makeText(getActivity(), "json load error!", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+		return types;
+	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//保存
+		saveEventTypes();
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+    
+	//保存事件类型到JSON文件，主要是颜色改动
+	private void saveEventTypes() {
+		// TODO Auto-generated method stub
+    	String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			File file = new File(getActivity().getExternalFilesDir(null), FILE_NAME_EVENT_TYPE);
+			if (file.exists()) {
+				file.delete();
+			}
+			try {
+				file.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String path = file.getAbsolutePath();
+			EventTypeJSONSerializer serializer = new EventTypeJSONSerializer(getActivity(), path);
+			try {
+				serializer.saveEventTypes(mTypes);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Toast.makeText(getActivity(), "json save error!", Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+    
 }

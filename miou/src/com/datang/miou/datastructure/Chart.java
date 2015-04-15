@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.datang.miou.R;
+import com.datang.miou.utils.MiscUtils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -16,19 +16,21 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class Chart extends View{
 
 	private static final String TAG = "Chart";
+	private static final int POP_WINDOW_WIDTH = 120;
 	private int mHorizontalAxeNum = 5;
 	private int mVerticalAxeNum = 10;
 	
 	//private ArrayList<Point>[] mPoints;
 	//private ArrayList<Point>[] mCurrentPoints;
+	@SuppressWarnings("unchecked")
 	private ArrayList<Point>[] mPoints = new ArrayList[] {new ArrayList<Point>(), new ArrayList<Point>(), new ArrayList<Point>()};
+	@SuppressWarnings("unchecked")
 	private ArrayList<Point>[] mCurrentPoints = new ArrayList[] {new ArrayList<Point>(), new ArrayList<Point>(), new ArrayList<Point>()};
 	private Point mLastPoint;
 	
@@ -50,7 +52,6 @@ public class Chart extends View{
 	private int mMaxEndIndex;
 	
 	private int mAxisColor = R.color.menu_border_gray;
-	private int mPointColor = R.color.title_blue;
 	private int mTextColor = R.color.black;
 	
 	public void setAxisColor(int axisColor) {
@@ -58,7 +59,6 @@ public class Chart extends View{
 	}
 
 	public void setPointColor(int pointColor) {
-		this.mPointColor = pointColor;
 	}
 
 	public void setSelectedColor(int selectedColor) {
@@ -108,7 +108,7 @@ public class Chart extends View{
 	
 	public class DataSet {
 		public double[] mParams;
-		public int mMaxParamNum = 4;
+		public int mMaxParamNum = 7;
 		
 		public DataSet() {
 			mParams = new double[mMaxParamNum];
@@ -145,7 +145,7 @@ public class Chart extends View{
 		axisPaint.setColor(r.getColor(mAxisColor));
 		axisPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 		
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			pointPaint[i] = new Paint(Paint.ANTI_ALIAS_FLAG);
 			pointPaint[i].setColor(r.getColor(Globals.chartLineColor[i]));
 			pointPaint[i].setStyle(Paint.Style.FILL_AND_STROKE);
@@ -215,6 +215,7 @@ public class Chart extends View{
 		measuredWidth = getMeasuredWidth();
 		measuredHeight = getMeasuredHeight();
 		
+		/*
 		for (int i = 0; i < mVerticalAxeNum + 1; i++) {
 			int x = (measuredWidth / mVerticalAxeNum) * i;
 			for (int j = 0; j < mHorizontalAxeNum + 1; j++) {
@@ -222,6 +223,7 @@ public class Chart extends View{
 				//mPoints[i][j] = new Point(x, y);
 			}
 		}
+		*/
 		
 		for (int i = 1; i < mHorizontalAxeNum; i++) {
 			int startY = (measuredHeight / mHorizontalAxeNum) * i;
@@ -242,6 +244,7 @@ public class Chart extends View{
 		canvas.save();
 		
 		int[] data = {100, 600, 300, 400, 500, 1000, 600, 700, 1200};
+		@SuppressWarnings("unused")
 		int[] result = new int[data.length];
 		result = transformDataToPoints(data);
 		
@@ -253,22 +256,24 @@ public class Chart extends View{
 		}
 		*/
 		
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			for (Point p : mCurrentPoints[i]) {
 				if (p.selected) {
 					//canvas.drawCircle(p.px, p.py, 5, pointPaint[i]);
 					showDetailWindow(canvas, p);
 				} else {
+					pointPaint[i].setColor(getResources().getColor(Globals.chartLineColor[i]));
 					canvas.drawCircle(p.px, p.py, 2, pointPaint[i]);
 				}
 			}
 		}
 		canvas.save();
 		
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			for (int j = 0; j < mCurrentPoints[i].size() - 1; j++) {
 				Point start = mCurrentPoints[i].get(j);
 				Point end = mCurrentPoints[i].get(j + 1);
+				pointPaint[i].setColor(getResources().getColor(Globals.chartLineColor[i]));
 				canvas.drawLine(start.px, start.py, end.px, end.py, pointPaint[i]);
 			}
 		}
@@ -288,7 +293,7 @@ public class Chart extends View{
 				} else {
 					point = getNearbyPoint(current);
 					if (point != null) {
-						for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+						for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 							for (Point p : mCurrentPoints[i]) {
 								p.selected = false;
 							}
@@ -322,12 +327,13 @@ public class Chart extends View{
 		Point p = adjustTextPosition(point);
 		
 		Collection<String> c = mItemInPopWindow.keySet();
+		@SuppressWarnings("rawtypes")
 		Iterator it = c.iterator();
 		int textY = p.py;
 		while (it.hasNext()) {
 			String name = (String) it.next();
 			int type = mItemInPopWindow.get(name);
-			int value = (int) p.data.mParams[type];
+			double value = (double) p.data.mParams[type];
 			//这里得到的type只是参数的类型，需要通过这个value获得对应的即时数据
 			/*
 			switch (type) {
@@ -342,7 +348,7 @@ public class Chart extends View{
 					break;
 			}
 			*/
-			canvas.drawText(name + ": " + value, p.px, textY , textPaint);
+			canvas.drawText(name + ": " + MiscUtils.reserveTwoBit(value, 2), p.px, textY , textPaint);
 			textY += 20;
 		}
 		
@@ -353,11 +359,11 @@ public class Chart extends View{
 		// TODO 自动生成的方法存根
 		Point p = new Point(point.px, point.py, point.data);
 		
-		int left = point.px - 50;
-		int right = point.px + 50;
+		int left = point.px - POP_WINDOW_WIDTH / 2;
+		int right = point.px + POP_WINDOW_WIDTH / 2;
 		int top = point.py - popWindowHeight;
 		int bottom = point.py;
-		int textLeft = point.px - 40;
+		int textLeft = point.px - (POP_WINDOW_WIDTH / 2 - 10);
 		int textTop = point.py - popWindowHeight + 15;
 		
 		Log.i(TAG, "baseHeight = " + popWindowHeight);
@@ -369,7 +375,7 @@ public class Chart extends View{
 		if (right > measuredWidth) {
 			right = measuredWidth;
 			left = measuredWidth - 100;
-			textLeft = measuredWidth - 90;
+			textLeft = measuredWidth - (POP_WINDOW_WIDTH - 10);
 		}
 		if (top < 0) {
 			top = 0;
@@ -389,18 +395,18 @@ public class Chart extends View{
 	private Rect adjustWindowPosition(Point point) {
 		// TODO 自动生成的方法存根
 		Rect rect = new Rect();
-		int left = point.px - 50;
-		int right = point.px + 50;
+		int left = point.px - POP_WINDOW_WIDTH / 2;
+		int right = point.px + POP_WINDOW_WIDTH / 2;
 		int top = point.py - popWindowHeight;
 		int bottom = point.py;
 		
 		if (left < 0) {
 			left = 0;
-			right = 100;
+			right = POP_WINDOW_WIDTH;
 		}
 		if (right > measuredWidth) {
 			right = measuredWidth;
-			left = measuredWidth - 100;
+			left = measuredWidth - POP_WINDOW_WIDTH;
 		}
 		if (top < 0) {
 			top = 0;
@@ -422,12 +428,12 @@ public class Chart extends View{
 		if (bias < 0) {
 			for (int i = 0; i < Math.abs(bias); i++) {
 				if (mStartIndex > 0) {
-					for (int j = 0; j < Globals.CHART_INDEX_NUM; j++) {
+					for (int j = 0; j < Globals.CHART_PARAM_NUM; j++) {
 						mCurrentPoints[j].remove(mVerticalAxeNum);
 					}
 					mStartIndex--;
 					mEndIndex--;
-					for (int j = 0; j < Globals.CHART_INDEX_NUM; j++) {
+					for (int j = 0; j < Globals.CHART_PARAM_NUM; j++) {
 						mCurrentPoints[j].add(0, mPoints[j].get(mStartIndex));	
 					}
 				}
@@ -435,7 +441,7 @@ public class Chart extends View{
 		} else {
 			for (int i = 0; i < bias; i++) {
 				if (mEndIndex < mPoints[0].size() - 1) {
-					for (int j = 0; j < Globals.CHART_INDEX_NUM; j++) {
+					for (int j = 0; j < Globals.CHART_PARAM_NUM; j++) {
 						mCurrentPoints[j].remove(0);
 						mCurrentPoints[j].add(mPoints[j].get(mEndIndex + 1));
 					}
@@ -444,7 +450,7 @@ public class Chart extends View{
 				}		
 			}
 		}
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			for (int j = 0; j < mCurrentPoints[i].size(); j++) {
 				mCurrentPoints[i].get(j).px = j * (measuredWidth / mVerticalAxeNum);
 			}
@@ -456,7 +462,7 @@ public class Chart extends View{
 	}
 
 	private Point getNearbyPoint(Point current) {
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			for (Point p : mCurrentPoints[i]) {
 				double distance = (Math.pow((double) (current.px - p.px), 2) + Math.pow((double) (current.py - p.py), 2));
 				double toleration = 1000;
@@ -478,7 +484,7 @@ public class Chart extends View{
 		mStartIndex = mMaxStartIndex;
 		mEndIndex = mMaxEndIndex;
 		
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			if (mPoints[i].size() > mVerticalAxeNum) {
 				nowX = (mVerticalAxeNum + 1) * (measuredWidth / mVerticalAxeNum);
 				mCurrentPoints[i].remove(0);
@@ -491,7 +497,7 @@ public class Chart extends View{
 		
 		
 		mEndIndex++;
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			mPoints[i].add(point[i]);
 			mCurrentPoints[i].add(point[i]);
 			//if (mCurrentPoints[i].size() > mVerticalAxeNum) {
@@ -506,7 +512,7 @@ public class Chart extends View{
 		mMaxStartIndex = mStartIndex;
 		mMaxEndIndex = mEndIndex;
 		
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			if (mPoints[i].size() > mVerticalAxeNum) {
 				mCurrentPoints[i] = new ArrayList<Point>();
 				for (int j = mPoints[i].size() - mVerticalAxeNum - 1; j < mPoints[i].size(); j++) {
@@ -515,7 +521,7 @@ public class Chart extends View{
 			}
 		}
 		
-		for (int i = 0; i < Globals.CHART_INDEX_NUM; i++) {
+		for (int i = 0; i < Globals.CHART_PARAM_NUM; i++) {
 			for (int j = 0; j < mCurrentPoints[i].size(); j++) {
 				mCurrentPoints[i].get(j).px = j * (measuredWidth / mVerticalAxeNum);
 			}

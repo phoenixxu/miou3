@@ -5,11 +5,45 @@
 	android:layout_height="match_parent"
 	android:weightSum="1" >
 
-	<com.baidu.mapapi.map.MapView
-		android:id="@+id/gen_map_view" 
-		android:layout_width="match_parent"
+   <FrameLayout 
+        android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_weight="0.9" />
+		android:layout_weight="0.9" >
+		  
+		<com.baidu.mapapi.map.MapView
+			android:id="@+id/gen_map_view" 
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" />
+		
+		<LinearLayout 
+		    android:id="@+id/gen_map_controller" 
+		    android:layout_width="match_parent"
+		    android:layout_height="40dp"
+		    android:orientation="horizontal"  
+		    android:background="@color/gray_half"
+		    android:visibility="invisible" >
+		    
+			<SeekBar 
+			    android:id="@+id/time_seekbar" 
+			    android:layout_width="0dp"
+			    android:layout_height="wrap_content" 
+			    android:layout_weight="1" 
+			    android:layout_gravity="center"
+			    android:scaleX="0.9"
+			    android:scaleY="0.9" 
+			    android:minHeight="3dp"
+			    android:maxHeight="3dp" />
+			<Spinner 
+			    android:id="@+id/speed_spinner" 
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_gravity="center" 
+			    android:scaleX="0.9"
+			    android:scaleY="0.9" />
+		</LinearLayout>  
+		
+    </FrameLayout>
+	
 	<HorizontalScrollView 
 	    android:layout_width="match_parent"
 		android:layout_height="0dp"

@@ -13,13 +13,7 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 
-import com.datang.miou.ActivitySupport;
 import com.datang.miou.R;
-import com.datang.miou.views.gen.GenMapFragment;
-import com.datang.miou.views.gen.GenParamsFragment;
-import com.datang.miou.views.gen.GenSignalFragment;
-import com.datang.miou.views.gen.GenTelStatFragment;
-import com.datang.miou.widget.NextPrefrence;
 
 public class SignPreferenceActivity extends FragmentActivity {
 

@@ -8,12 +8,13 @@ public class TestPlan {
 	//测试计划重复次数
 	private int mTimes;
 	//测试计划类型
-	private int mType;
+	private TestType mType;
 	//该测试计划是否被选中，该变量用来提供列表中的删除功能
 	private boolean isChecked;
 	
 	private static int sCount;
 	
+	/*
 	public static final int TEST_PLAN_TYPE_IDLE = 0;
 	public static final int TEST_PLAN_TYPE_VOICE = 1;
 	public static final int TEST_PLAN_TYPE_VOLTE = 2;
@@ -30,11 +31,13 @@ public class TestPlan {
 	public static final int TEST_PLAN_TYPE_MESSAGE_SR = 13;
 	public static final int TEST_PLAN_TYPE_WAP_DOWNLOAD = 14;
 	public static final int TEST_PLAN_TYPE_FLOW_MEDIA = 15;
+	*/
 	
-	public TestPlan() {
+	public TestPlan(TestType type) {
 		this.mId = sCount++;
 		this.isChecked = false;
-		this.mName = "Default Test Plan";
+		this.mName = type.getDescription();
+		this.mType = type;
 	}
 	
 	public int getId() {
@@ -60,11 +63,11 @@ public class TestPlan {
 		this.mTimes = times;
 	}
 	
-	public int getType() {
+	public TestType getType() {
 		return mType;
 	}
 	
-	public void setType(int type) {
+	public void setType(TestType type) {
 		this.mType = type;
 	}
 

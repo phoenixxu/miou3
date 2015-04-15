@@ -1,5 +1,6 @@
 package com.datang.miou.views.inner;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 import com.datang.miou.views.dialogs.LogPickerDialogFragment;
+import com.datang.miou.views.gen.GenParamsFragment;
 import com.datang.miou.views.gen.GenScriptSettingActivity;
 
 import com.datang.miou.R;
@@ -40,7 +41,7 @@ public class InnerActivity extends FragmentActivity {
     private Class<?> fragmentArray[] = {InnerOptionsFragment.class, 
     									InnerTestFragment.class,  
     									InnerSignalFragment.class, 
-    									InnerParamsFragment.class,
+    									GenParamsFragment.class,
     									InnerResultFragment.class };  
       
     //Tab选项卡的文字  
@@ -103,7 +104,7 @@ public class InnerActivity extends FragmentActivity {
 		});
         
         mTitleTextView = (TextView) findViewById(R.id.app_title_value);
-		mTitleTextView.setText(R.string.gen_innner_title);
+		mTitleTextView.setText(R.string.innner_title);
 		
 		mScriptButton = (TextView) findViewById(R.id.app_title_right_txt);
 		mScriptButton.setText(R.string.gen_map_title_script_button);
@@ -196,7 +197,8 @@ public class InnerActivity extends FragmentActivity {
     /** 
      * 给Tab按钮设置图标和文字 
      */  
-    private View getTabItemView(int index) {  
+    @SuppressLint("InflateParams")
+	private View getTabItemView(int index) {  
         TextView view = (TextView) layoutInflater.inflate(R.layout.gen_menu_item, null, false);
         view.setText(mTextviewArray[index]);
         if(index == 0) {

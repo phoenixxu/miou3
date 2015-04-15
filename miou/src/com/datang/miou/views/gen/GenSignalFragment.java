@@ -1,23 +1,32 @@
 package com.datang.miou.views.gen;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.datang.miou.FragmentSupport;
+import com.datang.miou.ProcessInterface;
 import com.datang.miou.R;
 import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
 import com.datang.miou.datastructure.Event;
+import com.datang.miou.datastructure.RealData;
 import com.datang.miou.datastructure.Signal;
+import com.datang.miou.datastructure.TestLog;
 import com.datang.miou.detailtree.TreeMainActivity;
 import com.datang.miou.views.dialogs.LabelInfoDialogFragment;
 
@@ -30,6 +39,7 @@ import com.datang.miou.views.dialogs.LabelInfoDialogFragment;
 public class GenSignalFragment extends FragmentSupport {
 	public static final String EXTRA_SIGNAL = "extra_signal";
 	private static final String DIALOG_LABEL_INFO = "label_info";
+	public static final String TAG = "GenSignalFragment";
 	private EditText searchEventEditText;
 	private EditText searchSignalEditText;
 	private ImageButton searchEventButton;
@@ -38,7 +48,67 @@ public class GenSignalFragment extends FragmentSupport {
 	private ListView signalListView;
 	private ArrayList<Event> mEvents;
 	private ArrayList<Signal> mSignals;
+	private List<Event> mCurrentEvents = new ArrayList<Event>();
+	private List<Signal> mCurrentSignals = new ArrayList<Signal>();
+	private ArrayAdapter<Signal> mSignalAdapter;
+	private ArrayAdapter<Event> mEventAdapter;
 	
+	private class EventAdapter extends ArrayAdapter<Event> {
+		private Context mAppContext;
+		
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			// TODO 自动生成的方法存根
+			if (convertView == null) {
+				convertView = ((Activity) mAppContext).getLayoutInflater().inflate(R.layout.item_display, null);
+			}
+			
+			Event event = this.getItem(position);
+
+			TextView mTime = (TextView) convertView.findViewById(R.id.time);
+			mTime.setText(event.getHour() + ":" + event.getMinute() + ":" + event.getSecond());
+			
+			TextView mContent = (TextView) convertView.findViewById(R.id.content);
+			mContent.setText(event.getType());
+			
+			//TODO:根据事件类型设置文字颜色
+			return convertView;
+		}
+
+		public EventAdapter(Context context, ArrayList<Event> events) {
+			super(context, 0, events);
+			// TODO 自动生成的构造函数存根
+			mAppContext = context;
+		}	
+	}
+	
+	private class SignalAdapter extends ArrayAdapter<Signal> {
+		private Context mAppContext;
+		
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			// TODO 自动生成的方法存根
+			if (convertView == null) {
+				convertView = ((Activity) mAppContext).getLayoutInflater().inflate(R.layout.item_display, null);
+			}
+			
+			Signal signal = this.getItem(position);
+
+			TextView mTime = (TextView) convertView.findViewById(R.id.time);
+			mTime.setText(signal.getHour() + ":" + signal.getMinute() + ":" + signal.getSecond());
+			
+			TextView mContent = (TextView) convertView.findViewById(R.id.content);
+			mContent.setText(signal.getType());
+			
+			return convertView;
+		}
+
+		public SignalAdapter(Context context, ArrayList<Signal> signals) {
+			super(context, 0, signals);
+			// TODO 自动生成的构造函数存根
+			mAppContext = context;
+		}	
+	}
 	
 	private void setupEventAdapter(ArrayList<Event> events) {
 		// TODO 自动生成的方法存根
@@ -132,9 +202,9 @@ public class GenSignalFragment extends FragmentSupport {
 			
 		});
 
-		mEvents = getEvents();
-		ArrayAdapter<Event> eventAdapter = new ArrayAdapter<Event>(getActivity(), android.R.layout.simple_list_item_1, mEvents);
-		eventListView.setAdapter(eventAdapter);
+		mEvents = new ArrayList<Event>();
+		mEventAdapter = new EventAdapter(getActivity(), mEvents);
+		eventListView.setAdapter(mEventAdapter);
 		
 		signalListView = (ListView) f(R.id.signal_listView);
 		signalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -144,34 +214,103 @@ public class GenSignalFragment extends FragmentSupport {
 				// TODO 自动生成的方法存根
 				Signal signal = (Signal) listView.getAdapter().getItem(position);
 				Intent intent = new Intent(getActivity(), TreeMainActivity.class);
-				intent.putExtra(EXTRA_SIGNAL, signal.toString());
+				intent.putExtra(EXTRA_SIGNAL, signal.getContent());
 				startActivity(intent);
 			}
 		});
-		mSignals = getSignals();
-		ArrayAdapter<Signal> signalAdapter = new ArrayAdapter<Signal>(getActivity(), android.R.layout.simple_list_item_1, mSignals);
-		signalListView.setAdapter(signalAdapter);
-	}
-
-	private ArrayList<Signal> getSignals() {
-		// TODO 自动生成的方法存根
 		mSignals = new ArrayList<Signal>();
-		for (int i = 0; i < 100; i++) {
-			Signal signal = new Signal();
-			signal.setContent("Signal " + i);
-			mSignals.add(0, signal);
-		}
-		return mSignals;
+		mSignalAdapter = new SignalAdapter(getActivity(), mSignals);
+		signalListView.setAdapter(mSignalAdapter);
 	}
 
-	private ArrayList<Event> getEvents() {
-		// TODO 自动生成的方法存根
-		mEvents = new ArrayList<Event>();
-		for (int i = 0; i < 100; i++) {
-			Event event = new Event();
-			event.setContent("Event " + i);
-			mEvents.add(0, event);
+	@Override
+	protected void updateUI(RealData data) {
+		// TODO Auto-generated method stub
+		super.updateUI(data);
+		
+		getLastIE();
+		
+		mSignalAdapter.notifyDataSetChanged();
+		mEventAdapter.notifyDataSetChanged();
+	}
+
+	private void getLastIE() {
+		// TODO Auto-generated method stub
+		boolean newEvent = false;
+		boolean newSignal = false;
+		
+		String result = ProcessInterface.GetHoldLastIE();
+		
+		Log.i(TAG, "=============original string=============");
+		Log.i(TAG, result);
+		
+		//以分号分隔的多条信令或事件
+		String[] messages = result.split(";");
+		
+		for (String string : messages) {
+			//Log.i(TAG, "string = " + string);
+			String[] parts = string.split("\t");
+			
+			for (String s :parts) {
+				//Log.i(TAG, "=====section=====");
+				//Log.i(TAG, s);
+			}
+			
+			for (String s : parts) {
+
+				
+				if (s.startsWith("e000")) {
+					//事件
+					newEvent = true;
+					break;
+				}
+				
+				if (s.startsWith("s000")) {
+					//信令
+					newSignal = true;
+					break;
+				}
+			}
+			
+			if (newEvent || newSignal) {
+				
+				String lat = parts[0].substring(5);
+				//Log.i(TAG, "lat = " + lat);
+				String lon = parts[1].substring(5);
+				//Log.i(TAG, "lon = " + lon);
+				String type = parts[2].substring(5);
+				//Log.i(TAG, "type = " + type);
+				String content = parts[3].substring(5);
+				//Log.i(TAG, "content = " + content);
+				String hour = parts[4].substring(6);
+				//Log.i(TAG, "hour = " + hour);
+				String min = parts[5].substring(5);
+				//Log.i(TAG, "min = " + min);
+				String sec = parts[6].substring(5);
+				//Log.i(TAG, "sec = " + sec);
+				
+				if (newEvent) {
+					Event event = new Event();
+					event.setLat(lat);
+					event.setLon(lon);
+					event.setType(type);
+					event.setContent(content);
+					event.setHour(hour);
+					event.setMinute(min);
+					event.setSecond(sec);
+					mEvents.add(0, event);
+				} else if (newSignal) {
+					Signal signal = new Signal();
+					signal.setLat(lat);
+					signal.setLon(lon);
+					signal.setType(type);
+					signal.setContent(content);
+					signal.setHour(hour);
+					signal.setMinute(min);
+					signal.setSecond(sec);
+					mSignals.add(0, signal);
+				} 
+			}
 		}
-		return mEvents;
 	}
 }

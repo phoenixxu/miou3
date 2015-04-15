@@ -1,9 +1,5 @@
 package com.datang.miou.views.gen;
 
-import java.text.DecimalFormat;
-
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,27 +7,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.datang.miou.FragmentSupport;
 import com.datang.miou.R;
+import com.datang.miou.datastructure.Globals;
 import com.datang.miou.datastructure.RealData;
-import com.datang.miou.views.gen.params.GenParamsGsmDataFragment;
 import com.datang.miou.views.gen.params.GenParamsGsmFragment;
-import com.datang.miou.views.gen.params.GenParamsLteDataFragment;
 import com.datang.miou.views.gen.params.GenParamsLteFragment;
-import com.datang.miou.views.gen.params.GenParamsTdDataFragment;
 import com.datang.miou.views.gen.params.GenParamsTdFragment;
-import com.datang.miou.views.gen.params.GenParamsTripleIdleFragment;
-import com.datang.miou.views.gen.params.GenParamsVogsmFragment;
-import com.datang.miou.views.gen.params.GenParamsVolteFragment;
-import com.datang.miou.views.gen.params.GenParamsVotdFragment;
 
 /**
  * 参数
@@ -42,33 +31,21 @@ public class GenParamsFragment extends FragmentSupport {
 	public static final int PARAM_PAGES = 7;
 	private static final int MODE_PAGES = 3;
 	
+	private static final String TAG = "GenParamsFragment";
+	
 	private static final int ID_PARAM_VIEW_PAGER = 0;
 	private static final int ID_MODE_VIEW_PAGER = 1;
-	private static final int MAX_PARAMS = 128;
-	
 	private ViewPager mParamsViewPager;
 	private ImageView[] paramsImageViews;
 	private ImageView[] modeImageViews;
 	private ImageView indicator;
 	private View mView;
-	private TableLayout servingCellInfoTable;
 	public static boolean tableRowStyleFlag = true;
-	private TableLayout neighborCellInfoTable;
-	private TextView mmcMncTextView;
-	private TextView tmTextView;
-	private TextView ulDlFreqTextView;
-	private TextView ulDlBandwidthTextView;
-	private TextView workModeTextView;
-	private TextView bandTextView;
-	private TextView earfenTextView;
-	private TextView pciTextView;
-	private TextView ecgiTextView;
-	private TextView rrcStateTextView;
-	private TextView emmStateTextView;
 	private ViewPager mModeViewPager;
 	public TextView[] paramTextViews;
 	
 	public class ViewPageChangeListener implements OnPageChangeListener {
+		//这个Fragment上有两个ViewPager，用mId来识别
 		private int mId;
 		
 		public void setId(int id) {
@@ -150,22 +127,23 @@ public class GenParamsFragment extends FragmentSupport {
 
 			@Override
 			public Fragment getItem(int pos) {
-				// TODO 自动生成的方法存根			
+				// TODO 自动生成的方法存根		
+				Log.i(TAG, "down position = " + pos);	
 				switch (pos) {
 					case 0:
-						return new GenParamsVolteFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_VOICE_LTE);
 					case 1:
-						return new GenParamsLteDataFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_DATA_LTE);
 					case 2:
-						return new GenParamsVotdFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_VOICE_TD);
 					case 3:
-						return new GenParamsTdDataFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_DATA_TD);
 					case 4:
-						return new GenParamsVogsmFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_VOICE_GSM);
 					case 5:
-						return new GenParamsGsmDataFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_DATA_GSM);
 					case 6:
-						return new GenParamsTripleIdleFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_TRIPLE);
 					default:
 						return null;	
 				}
@@ -185,7 +163,7 @@ public class GenParamsFragment extends FragmentSupport {
 
 			@Override
 			public Fragment getItem(int pos) {
-				// TODO 自动生成的方法存根			
+				// TODO 自动生成的方法存根		
 				switch (pos) {
 					case 0:
 						return new GenParamsLteFragment();
@@ -208,6 +186,7 @@ public class GenParamsFragment extends FragmentSupport {
 		return mView;
 	}
 
+	/*
 	public static TextView[] addSevenColumnsForTable(Context context, TableLayout table, String name) {
 		TableRow row;
 		if (tableRowStyleFlag) {
@@ -248,9 +227,6 @@ public class GenParamsFragment extends FragmentSupport {
 		
 		table.addView(row);
 		
-		/* 
-		 * 返回该行对应数据域的TextView示例，以便数据更改
-		 */
 		return (TextView) row.findViewById(R.id.value_textView);
 	}
 	
@@ -275,6 +251,7 @@ public class GenParamsFragment extends FragmentSupport {
 		TextView[] views = { (TextView) row.findViewById(R.id.value1_textView), (TextView) row.findViewById(R.id.value2_textView) };	
 		return views;
 	}
+	*/
 	
 	private void AddPageViewrContents() {
 		// TODO 自动生成的方法存根

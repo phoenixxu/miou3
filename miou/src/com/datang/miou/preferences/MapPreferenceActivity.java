@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.datang.miou.ActivitySupport;
 import com.datang.miou.R;
-import com.datang.miou.widget.NextPrefrence;
 
 public class MapPreferenceActivity extends ActivitySupport {
 

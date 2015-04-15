@@ -14,13 +14,17 @@ import android.util.Xml;
 
 //import com.scott.xml.model.Book;
 import com.datang.miou.testplan.bean.*;
-import com.datang.miou.utils.SDCardUtils;
+import com.datang.miou.utils.*;
 
 
 import android.util.Log; 
 
 import java.io.FileInputStream;  
 import java.io.FileNotFoundException;
+
+import java.util.Collections;
+
+import java.util.Comparator;
 
 public class testplanparser {
 
@@ -32,14 +36,61 @@ public class testplanparser {
 	List<Ftp> ftps = null;
 	
 	
-	
+	public static List<File> getFileSort(String path) {
+		 
+        List<File> list = getFiles(path, new ArrayList<File>());
+ 
+        if (list != null && list.size() > 0) {
+ 
+            Collections.sort(list, new Comparator<File>() {
+                public int compare(File file, File newFile) {
+                    if (file.lastModified() < newFile.lastModified()) {
+                        return 1;
+                    } /*else if (file.lastModified() == newFile.lastModified()) {
+                        return 0;
+                    }*/
+                    else {
+                        return -1;
+                    }
+ 
+                }
+            });
+ 
+        }
+ 
+        return list;
+    }
+ 
+    /**
+     * 
+     * 获取目录下所有文件
+     * 
+     * @param realpath
+     * @param files
+     * @return
+     */
+    public static List<File> getFiles(String realpath, List<File> files) {
+ 
+        File realFile = new File(realpath);
+        if (realFile.isDirectory()) {
+            File[] subfiles = realFile.listFiles();
+            for (File file : subfiles) {
+                if (file.isDirectory()) {
+                    getFiles(file.getAbsolutePath(), files);
+                } else {
+                    files.add(file);
+                }
+            }
+        }
+        return files;
+    }
 	
 	
 	public  FileInputStream GetStream() throws Exception {
 		
 		FileInputStream inputStream = null;
 		//String filePath = SDCardUtils.getSystemLogPath();
-		String filePath = SDCardUtils.getSDPath();
+		String filePath = SDCardUtils.getTestPlanPath() ;
 		
 		
 		
@@ -57,7 +108,14 @@ public class testplanparser {
 		//String sdpath =mContext.getFilesDir().toString()+"/";
 		//String mSavePath = filePath + "/4GTest.xml";
 		
-		File xmlFile = new File(filePath, "4GTest.xml");
+		// String path = "d:\\test";
+		 
+	    List<File> list = getFileSort(filePath);
+		
+		//Log.v("abc",list.get(0));
+		//File xmlFile = new File(filePath, "4GTest.xml");
+	    File xmlFile = list.get(0);
+	    Log.v("abc*******",xmlFile.getName());
 		try{
 			if(xmlFile.exists()){
 				inputStream = new FileInputStream(xmlFile);	
@@ -101,6 +159,7 @@ public class testplanparser {
 	// @Override
 	//public List<Ftp> parse(InputStream is) throws Exception {
 	public List<Ftp> parse() throws Exception {
+		   int current_enable;
 		
 		   Ftp ftp = null;
  		
@@ -123,7 +182,24 @@ public class testplanparser {
 					ftps = new ArrayList<Ftp>();
 					break;
 				case XmlPullParser.START_TAG:
-					if (parser.getName().equals("Command")) {
+					if (parser.getName().equals("Enable")) {
+						current_enable = Integer.parseInt(parser.nextText());
+						while((current_enable == 0)&&(eventType != XmlPullParser.END_DOCUMENT))
+						{
+							
+							eventType = parser.next();									
+							currentnodename = parser.getName();	
+							if("Enable".equals(currentnodename))
+							{
+								current_enable = Integer.parseInt(parser.nextText());
+								
+							}
+							
+						}
+						Log.v("testplanparser","now get enable = 1,ye");
+						
+					}										
+					else if (parser.getName().equals("Command")) {
 							
 						repeatime = Integer.parseInt(parser.getAttributeValue(0));
 						
@@ -132,6 +208,7 @@ public class testplanparser {
 						
 						if(currentid.equalsIgnoreCase( "0x060C"))
 						{
+							Log.v("testplanparser","now get f");
 							
 							ftp = new Ftp();
 							ftp.setNum(repeatime);

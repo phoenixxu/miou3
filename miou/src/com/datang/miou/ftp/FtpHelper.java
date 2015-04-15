@@ -1,5 +1,5 @@
 package com.datang.miou.ftp;
-
+import com.datang.miou.nlog.msg.cmcc.LteEvtInfo;
 import java.io.IOException;
 import java.net.SocketException;
 
@@ -10,7 +10,11 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
 
+import com.datang.miou.ProcessInterface;
+
 import android.os.SystemClock;
+import android.util.Log;
+
 
 /*import com.datang.outum.nlog.LogType;
 import com.datang.outum.nlog.LogWriterHandler;
@@ -65,8 +69,10 @@ public abstract class FtpHelper {
 		if (!FTPReply.isPositiveCompletion(client.getReplyCode())) {
 			FHLog.error("FtpHelper link fail.");
 			disconnect(client);
+			Log.v("FtpHelper","FtpHelper link fail.****************************");
 			throw new IOException();
 		}
+		Log.v("FtpHelper","FtpHelper log ok*********************************************.");
 		logLogin(true);
 		
 		reLinkCount = 10;
@@ -76,7 +82,7 @@ public abstract class FtpHelper {
 	 * 登录事件
 	 */
 	protected void logLogin(boolean isLogin) {
-		/*LteEvtInfo logInfo = new LteEvtInfo();
+	     LteEvtInfo logInfo = new LteEvtInfo();
 		if (isLogin) {
 			logInfo.setTime(System.currentTimeMillis());
 			logInfo.setEvent("4100");
@@ -87,10 +93,12 @@ public abstract class FtpHelper {
 			logInfo.setEventInfo("FTP server logon fail");
 		}
 		try {
-			LogWriter.writeLog(LogType.CMCC, logInfo);
-		} catch (RuntimeException e) {
+			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
+			//ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent()), logInfo.getEventInfo());
+			//LogWriter.writeLog(LogType.CMCC, logInfo);
+		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 
 	/**
@@ -164,7 +172,7 @@ public abstract class FtpHelper {
 	 * 记录Attempt
 	 */
 	protected void writeAttempt(boolean isDown) {
-		/*LteEvtInfo lteEvtInfo = new LteEvtInfo();
+		LteEvtInfo lteEvtInfo = new LteEvtInfo();
 		if(isDown) {
 			lteEvtInfo.setEvent("4102");
 			lteEvtInfo.setEventInfo("FTP Download Attempt");
@@ -173,7 +181,13 @@ public abstract class FtpHelper {
 			lteEvtInfo.setEventInfo("FTP Upload Attempt");
 		}
 		lteEvtInfo.setTime(System.currentTimeMillis());
-		LogWriter.writeLog(LogType.CMCC, lteEvtInfo);*/
+		try {
+			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
+			//ProcessInterface.RpAppEVT(Integer.parseInt(lteEvtInfo.getEvent()), lteEvtInfo.getEventInfo());
+		//LogWriter.writeLog(LogType.CMCC, lteEvtInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -205,7 +219,7 @@ public abstract class FtpHelper {
 	 * @param isDown
 	 */
 	protected void writeTestFail(boolean isDown) {
-		/*LteEvtInfo logInfo = new LteEvtInfo();
+		LteEvtInfo logInfo = new LteEvtInfo();
 		logInfo.setTime(System.currentTimeMillis());
 		if(isDown) {
 			logInfo.setEvent("4013");
@@ -214,8 +228,13 @@ public abstract class FtpHelper {
 			logInfo.setEvent("4106");
 			logInfo.setEventInfo("FTP Upload Fail");
 		}
-		LogWriterHandler.getInstance().writeLog(
-				LogType.CMCC, logInfo);*/
+		try {
+			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
+			//ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent()), logInfo.getEventInfo());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//LogWriterHandler.getInstance().writeLog(LogType.CMCC, logInfo);
 	}
 	
 	/**
@@ -224,7 +243,7 @@ public abstract class FtpHelper {
 	 * @param isDown
 	 */
 	protected void writeTestDrop(boolean isDown) {
-		/*LteEvtInfo logInfo = new LteEvtInfo();
+		LteEvtInfo logInfo = new LteEvtInfo();
 		logInfo.setTime(System.currentTimeMillis());
 		if(isDown) {
 			logInfo.setEvent("4108");
@@ -233,7 +252,14 @@ public abstract class FtpHelper {
 			logInfo.setEvent("410A");
 			logInfo.setEventInfo("FTP Upload Drop");
 		}
-		LogWriterHandler.getInstance().writeLog(
-				LogType.CMCC, logInfo);*/
+		try {
+			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
+			//ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent()), logInfo.getEventInfo());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+			//LogWriterHandler.getInstance().writeLog(
+		//		LogType.CMCC, logInfo);
 	}
 }

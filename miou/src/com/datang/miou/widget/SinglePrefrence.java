@@ -12,7 +12,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +24,6 @@ public class SinglePrefrence extends RelativeLayout {
 	private Button[] mButton;
 	private int baseId;
 	private static final int MAX_OPTIONS = 4;
-	private static final String TAG = "SinglePreference";
 	private SharedPreferences sharedPreferences;
 	protected String mKey;
 	private int mSelected;

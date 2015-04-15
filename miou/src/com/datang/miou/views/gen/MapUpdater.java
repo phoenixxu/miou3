@@ -79,10 +79,10 @@ public class MapUpdater {
 		//对某一指标有相同范围值的点集
 		private ArrayList<LatLng> pointsList;
 		//指标范围类型
-		private int type;
+		private int level;
 		
 		public PointsWithColor(int type) {
-			this.type = type;
+			this.level = type;
 			this.pointsList = new ArrayList<LatLng>();
 		}
 		
@@ -102,8 +102,8 @@ public class MapUpdater {
 			this.overlay = overlay;
 		}
 		
-		public int getType() {
-			return type;
+		public int getLevel() {
+			return level;
 		}
 	}
 	//一组折线绘制配置，每次指标发生重要变化则启用一个新的绘制配置，绘制不同颜色的折线
@@ -173,8 +173,6 @@ public class MapUpdater {
 	
 	//当接收到测试数据时，结合当前位置更新地图
 	public void updateMapOnReceiveDataPacket(RealData data) {
-		LatLng ll = data.position;
-		
 		updateCoverTrace(data);
 		
 		updateQualityTrace(data);
@@ -189,10 +187,9 @@ public class MapUpdater {
 	}
 
 	private void addExceptionEvent(RealData data) {
-		// TODO 自动生成的方法存根
 		int type = getLastException();
 		if (type > 0) {
-			OverlayOptions oo = new MarkerOptions().position(data.position).icon(bdExceptions[type])
+			OverlayOptions oo = new MarkerOptions().position(data.getPosition()).icon(bdExceptions[type])
 					.zIndex(9).draggable(true);
 			Marker marker = (Marker) (mBaiduMap.addOverlay(oo));
 			Bundle args = new Bundle();
@@ -203,19 +200,16 @@ public class MapUpdater {
 
 	//测试函数
 	private int getLastException() {
-		// TODO 自动生成的方法存根
 		return -1;
 	}
 
 	//更新速率轨迹
 	private void updateSpeedTrace(RealData data) {
-		// TODO 自动生成的方法存根
 		updateTrace(data, TRACE_TYPE_SPEED, mMapLayerOptions.hasSpeedTraceLayer());
 	}
 
 	//更新质量轨迹
 	private void updateQualityTrace(RealData data) {
-		// TODO 自动生成的方法存根
 		updateTrace(data, TRACE_TYPE_QUALITY, mMapLayerOptions.hasQualityTraceLayer());
 	}
 
@@ -226,7 +220,6 @@ public class MapUpdater {
 	
 	//清除轨迹
 	public void clearTrace(int traceType) {
-		// TODO 自动生成的方法存根
 		ArrayList<PointsWithColor> pointsWithColorList = getPointsWithColorList(traceType);
 		for (PointsWithColor pointsWithColor : pointsWithColorList) {
 			pointsWithColor.getOverlay().remove();
@@ -242,33 +235,72 @@ public class MapUpdater {
 		 * 改变位置，若状态相同，则追加点，若状态不同，则新建Overlay
 		 */
 		ArrayList<PointsWithColor> pointsWithColorList = getPointsWithColorList(traceType);
-		LatLng ll = data.position;
-		int type = getRealIndex(traceType);
+		LatLng ll = data.getPosition();
+		//需要获得当前数据参数处于哪个LEVEL，据此选择颜色
+		int level = getDataLevel(traceType, data);
 		if (pointsWithColorList.size() > 0) {
-			if (type == pointsWithColorList.get(pointsWithColorList.size() - 1).type) {
+			if (level == pointsWithColorList.get(pointsWithColorList.size() - 1).level) {
+				//如果该点和上一个点参数在同一范围，则加入到同一个Overlay里，否则新建Overlay
 				PointsWithColor pointsWithColors = pointsWithColorList.get(pointsWithColorList.size() - 1);
 				ArrayList<LatLng> points = pointsWithColors.getPointsList();
 				points.add(ll);
 				if (isVisible) {
-					pointsWithColors.getOverlay().remove();
-					PolylineOptions options =  new PolylineOptions().width(5).color(Globals.mapLineColor[type]).points(pointsWithColors.getPointsList());
+					//如果该图层可见，则更新图层，否则什么都不做
+					pointsWithColors.getOverlay().remove();		
+					PolylineOptions options =  new PolylineOptions().width(5).color(getMapLineColor(traceType, level)).points(pointsWithColors.getPointsList());
 					Overlay overlay = mBaiduMap.addOverlay(options);
 					pointsWithColors.setOverlay(overlay);	
-				}
-				
+				}			
 			} else {
-				addNewOverlay(ll, traceType, type, isVisible);									
+				addNewOverlay(ll, traceType, level, isVisible);									
 			}
 		} else {
-			addNewOverlay(ll, traceType, type, isVisible);
+			//如果该图层还没有一个点集的Overlay则新建一个
+			addNewOverlay(ll, traceType, level, isVisible);
 		}
 	}
 
-	private void addNewOverlay(LatLng ll, int traceType, int type, boolean isVisible) {
-		// TODO 自动生成的方法存根
+	private int getMapLineColor(int traceType, int level) {
+		// TODO Auto-generated method stub
+		int netMode = Globals.getNetMode();
+		int result = -1;
+		if (netMode == Globals.MODE_LTE) {
+			if (traceType == TRACE_TYPE_COVER) {
+				//RSRP		
+				result = Globals.getMapLineColor(Globals.PARAM_RSRP, level);
+			} else if (traceType == TRACE_TYPE_QUALITY) {
+				//SINR	
+				result = Globals.getMapLineColor(Globals.PARAM_SINR, level);
+			} else if (traceType == TRACE_TYPE_SPEED) {
+				//Throughput-DL	
+				result = Globals.getMapLineColor(Globals.PARAM_THROUGHPUT_DL, level);
+			}
+		} else if (netMode == Globals.MODE_TD) {
+			if (traceType == TRACE_TYPE_COVER) {
+				//PCCPCH_RSCP
+				result = Globals.getMapLineColor(Globals.PARAM_PCCPCH_RSCP, level);
+			
+			} else if (traceType == TRACE_TYPE_QUALITY) {
+				//PCCPCH_SIR
+				result = Globals.getMapLineColor(Globals.PARAM_PCCPCH_SIR, level);
+			} 
+		} else if (netMode == Globals.MODE_GSM) {
+			if (traceType == TRACE_TYPE_COVER) {
+				//RXLEV_SUB
+				result = Globals.getMapLineColor(Globals.PARAM_RXLEV_SUB, level);
+			} else if (traceType == TRACE_TYPE_QUALITY) {
+				//RXQUAL_SUB
+				result = Globals.getMapLineColor(Globals.PARAM_RXQUAL_SUB, level);
+			} 
+		} 
+		Log.i(TAG, "pick up color " + result);
+		return result;
+	}
+
+	private void addNewOverlay(LatLng ll, int traceType, int level, boolean isVisible) {
 		ArrayList<PointsWithColor> pointsWithColorList = getPointsWithColorList(traceType);
-		PointsWithColor pointsWithColor = new PointsWithColor(type);
-		int color = Globals.mapLineColor[type];
+		PointsWithColor pointsWithColor = new PointsWithColor(level);
+		int color = getMapLineColor(traceType, level);
 		pointsWithColor.addPoint(mLastPoint);
 		pointsWithColor.addPoint(ll);
 		pointsWithColorList.add(pointsWithColor);
@@ -293,19 +325,150 @@ public class MapUpdater {
 		}
 	}
 
-	//测试函数
-	private int getRealIndex(int traceType) {
-		// TODO 自动生成的方法存根
-		switch (traceType) {
-			case TRACE_TYPE_COVER:
-				return (int) (Math.random() * 2);
-			case TRACE_TYPE_QUALITY:
-				return (int) (Math.random() * 4);
-			case TRACE_TYPE_SPEED:
-				return (int) (Math.random() * 6);
-			default:
-				return 0;
-	}
+	//根据网络类型和实时数据所处范围，决定该数据的LEVEL，最终确定画线颜色
+	private int getDataLevel(int traceType, RealData data) {
+		int netMode = Globals.getNetMode();
+		int result = -1;
+		if (netMode == Globals.MODE_LTE) {
+			if (traceType == TRACE_TYPE_COVER) {
+				//RSRP
+				//double param = data.params[Globals.PARAM_RSRP];
+				if (data.getParams().containsKey(Globals.PARAM_RSRP)) {
+					double param = data.getParams().get(Globals.PARAM_RSRP);
+					Log.i(TAG, "LTE, RSRP " + param);
+					if (param < Globals.MAP_PARAM_RSRP_LEVEL1_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_ONE;
+					} else if (param >= Globals.MAP_PARAM_RSRP_LEVEL1_MAX && param < Globals.MAP_PARAM_RSRP_LEVEL2_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_TWO;
+					} else if (param >= Globals.MAP_PARAM_RSRP_LEVEL2_MAX && param < Globals.MAP_PARAM_RSRP_LEVEL3_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_THREE;
+					} else if (param >= Globals.MAP_PARAM_RSRP_LEVEL3_MAX && param < Globals.MAP_PARAM_RSRP_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FOUR;
+					} else if (param >= Globals.MAP_PARAM_RSRP_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FIVE;
+					}
+				}
+			} else if (traceType == TRACE_TYPE_QUALITY) {
+				//SINR
+				if (data.getParams().containsKey(Globals.PARAM_SINR)) {
+					double param = data.getParams().get(Globals.PARAM_SINR);
+					//double param = data.params[Globals.PARAM_SINR];
+					if (param < Globals.MAP_PARAM_SINR_LEVEL1_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_ONE;
+					} else if (param >= Globals.MAP_PARAM_SINR_LEVEL1_MAX && param < Globals.MAP_PARAM_SINR_LEVEL2_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_TWO;
+					} else if (param >= Globals.MAP_PARAM_SINR_LEVEL2_MAX && param < Globals.MAP_PARAM_SINR_LEVEL3_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_THREE;
+					} else if (param >= Globals.MAP_PARAM_SINR_LEVEL3_MAX && param < Globals.MAP_PARAM_SINR_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FOUR;
+					} else if (param >= Globals.MAP_PARAM_SINR_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FIVE;
+					}
+				}
+			} else if (traceType == TRACE_TYPE_SPEED) {
+				//Throughput-DL
+				if (data.getParams().containsKey(Globals.PARAM_THROUGHPUT_DL)) {
+					double param = data.getParams().get(Globals.PARAM_THROUGHPUT_DL);
+					//double param = data.params[Globals.PARAM_THROUGHPUT_DL];
+					if (param < Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL1_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_ONE;
+					} else if (param >= Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL1_MAX && param < Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL2_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_TWO;
+					} else if (param >= Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL2_MAX && param < Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL3_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_THREE;
+					} else if (param >= Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL3_MAX && param < Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FOUR;
+					} else if (param >= Globals.MAP_PARAM_THROUGHPUT_DL_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FIVE;
+					} 
+				}
+			}
+		} else if (netMode == Globals.MODE_TD) {
+			if (traceType == TRACE_TYPE_COVER) {
+				//PCCPCH_RSCP
+				if (data.getParams().containsKey(Globals.PARAM_PCCPCH_RSCP)) {
+					double param = data.getParams().get(Globals.PARAM_PCCPCH_RSCP);
+					//double param = data.params[Globals.PARAM_PCCPCH_RSCP];
+					if (param >= Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL1_MIN && param < Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL1_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_ONE;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL1_MAX && param < Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL2_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_TWO;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL2_MAX && param < Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL3_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_THREE;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL3_MAX && param < Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FOUR;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL4_MAX && param < Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL5_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FIVE;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_RSCP_LEVEL5_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_SIX;
+					}
+				}
+			} else if (traceType == TRACE_TYPE_QUALITY) {
+				//PCCPCH_SIR
+				if (data.getParams().containsKey(Globals.PARAM_PCCPCH_SIR)) {
+					double param = data.getParams().get(Globals.PARAM_PCCPCH_SIR);
+					//double param = data.params[Globals.PARAM_PCCPCH_SIR];
+					if (param >= Globals.MAP_PARAM_PCCPCH_SIR_LEVEL1_MIN && param < Globals.MAP_PARAM_PCCPCH_SIR_LEVEL1_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_ONE;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_SIR_LEVEL1_MAX && param < Globals.MAP_PARAM_PCCPCH_SIR_LEVEL2_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_TWO;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_SIR_LEVEL2_MAX && param < Globals.MAP_PARAM_PCCPCH_SIR_LEVEL3_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_THREE;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_SIR_LEVEL3_MAX && param < Globals.MAP_PARAM_PCCPCH_SIR_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FOUR;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_SIR_LEVEL4_MAX && param < Globals.MAP_PARAM_PCCPCH_SIR_LEVEL5_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FIVE;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_SIR_LEVEL5_MAX && param < Globals.MAP_PARAM_PCCPCH_SIR_LEVEL6_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_SIX;
+					} else if (param >= Globals.MAP_PARAM_PCCPCH_SIR_LEVEL6_MAX && param < Globals.MAP_PARAM_PCCPCH_SIR_LEVEL7_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_SEVEN;
+					}
+				}
+			} 
+		} else if (netMode == Globals.MODE_GSM) {
+			if (traceType == TRACE_TYPE_COVER) {
+				//RXLEV_SUB
+				if (data.getParams().containsKey(Globals.PARAM_RXLEV_SUB)) {
+					double param = data.getParams().get(Globals.PARAM_RXLEV_SUB);
+					//double param = data.params[Globals.PARAM_RXLEV_SUB];
+					if (param >= Globals.MAP_PARAM_RXLEV_SUB_LEVEL1_MIN && param < Globals.MAP_PARAM_RXLEV_SUB_LEVEL1_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_ONE;
+					} else if (param >= Globals.MAP_PARAM_RXLEV_SUB_LEVEL1_MAX && param < Globals.MAP_PARAM_RXLEV_SUB_LEVEL2_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_TWO;
+					} else if (param >= Globals.MAP_PARAM_RXLEV_SUB_LEVEL2_MAX && param < Globals.MAP_PARAM_RXLEV_SUB_LEVEL3_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_THREE;
+					} else if (param >= Globals.MAP_PARAM_RXLEV_SUB_LEVEL3_MAX && param < Globals.MAP_PARAM_RXLEV_SUB_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FOUR;
+					} else if (param >= Globals.MAP_PARAM_RXLEV_SUB_LEVEL4_MAX && param < Globals.MAP_PARAM_RXLEV_SUB_LEVEL5_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FIVE;
+					} else if (param >= Globals.MAP_PARAM_RXLEV_SUB_LEVEL5_MAX && param < Globals.MAP_PARAM_RXLEV_SUB_LEVEL6_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_SIX;
+					}
+				}
+			} else if (traceType == TRACE_TYPE_QUALITY) {
+				//RXQUAL_SUB
+				if (data.getParams().containsKey(Globals.PARAM_RXQUAL_SUB)) {
+					double param = data.getParams().get(Globals.PARAM_RXQUAL_SUB);
+					//double param = data.params[Globals.PARAM_RXQUAL_SUB];
+					if (param >= Globals.MAP_PARAM_RXQUAL_SUB_LEVEL1_MIN && param < Globals.MAP_PARAM_RXQUAL_SUB_LEVEL1_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_ONE;
+					} else if (param >= Globals.MAP_PARAM_RXQUAL_SUB_LEVEL1_MAX && param < Globals.MAP_PARAM_RXQUAL_SUB_LEVEL2_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_TWO;
+					} else if (param >= Globals.MAP_PARAM_RXQUAL_SUB_LEVEL2_MAX && param < Globals.MAP_PARAM_RXQUAL_SUB_LEVEL3_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_THREE;
+					} else if (param >= Globals.MAP_PARAM_RXQUAL_SUB_LEVEL3_MAX && param < Globals.MAP_PARAM_RXQUAL_SUB_LEVEL4_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FOUR;
+					} else if (param >= Globals.MAP_PARAM_RXQUAL_SUB_LEVEL4_MAX && param < Globals.MAP_PARAM_RXQUAL_SUB_LEVEL5_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_FIVE;
+					} else if (param >= Globals.MAP_PARAM_RXQUAL_SUB_LEVEL5_MAX && param < Globals.MAP_PARAM_RXQUAL_SUB_LEVEL6_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_SIX;
+					} else if (param >= Globals.MAP_PARAM_RXQUAL_SUB_LEVEL6_MAX && param < Globals.MAP_PARAM_RXQUAL_SUB_LEVEL7_MAX) {
+						result = Globals.MAP_PARAM_LEVEL_SEVEN;
+					}
+				}
+			} 
+		} 
+		return result;
 	}
 	
 	public void reDrawTraces() {
@@ -328,7 +491,7 @@ public class MapUpdater {
 			}
 			PolylineOptions option = new PolylineOptions()
 			.width(5)
-			.color(Globals.mapLineColor[pointsWithColors.getType()])
+			.color(getMapLineColor(traceType, pointsWithColors.getLevel()))
 			.points(pointsWithColors.getPointsList());
 			Overlay overlay = mBaiduMap.addOverlay(option);
 			pointsWithColors.setOverlay(overlay);
@@ -336,7 +499,6 @@ public class MapUpdater {
 	}
 	
 	public void addBaseStationLayer() {
-		// TODO 自动生成的方法存根
 		if (mMapLayerOptions.hasStationLayer()) {
 			mStationOverlays = new ArrayList<Marker>(); 
 			ArrayList<LatLng> stations = new ArrayList<LatLng>();
@@ -365,7 +527,6 @@ public class MapUpdater {
 	}
 
 	public void addBaseStationInfoLayer() {
-		// TODO 自动生成的方法存根
 		if (mMapLayerOptions.hasStationInfoLayer()) {
 			mStationInfoOverlays = new ArrayList<Overlay>(); 
 			ArrayList<LatLng> stations = new ArrayList<LatLng>();
@@ -386,7 +547,6 @@ public class MapUpdater {
 	}
 
 	public void removeBaseStationInfoLayer() {
-		// TODO 自动生成的方法存根
 		for (int i = mStationInfoOverlays.size() - 1; i >= 0; i--) {
 			mStationInfoOverlays.get(i).remove();
 			mStationInfoOverlays.remove(i);
@@ -395,13 +555,12 @@ public class MapUpdater {
 	}
 
 	public void addLineToCellLayer(RealData data) {
-		// TODO 自动生成的方法存根
 		removeLineToCellLayer();
 		LatLng current;
 		if (data == null) {
 			current = mLastPoint;
 		} else {
-			current = data.position;
+			current = data.getPosition();
 		}
 		LatLng cell = getCellPosition();
 		ArrayList<LatLng> points = new ArrayList<LatLng>();
@@ -418,12 +577,10 @@ public class MapUpdater {
 
 	//测试函数
 	private LatLng getCellPosition() {
-		// TODO 自动生成的方法存根
 		return new LatLng(31.227, 121.481);
 	}
 
 	public void removeLineToCellLayer() {
-		// TODO 自动生成的方法存根
 		if (mLineToCellOverlay != null) {
 			mLineToCellOverlay.remove();
 		}

@@ -22,6 +22,7 @@ public class SignalDetailActivity extends FragmentActivity {
 		// TODO 自动生成的方法存根
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signal_detail);   
+		@SuppressWarnings("unused")
 		Signal signal = (Signal) getIntent().getExtras().getSerializable(GenSignalFragment.EXTRA_SIGNAL);
 		
         mTitleTextView = (TextView) findViewById(R.id.app_title_value);
@@ -53,8 +54,8 @@ public class SignalDetailActivity extends FragmentActivity {
 			}
 		});
 			
-		TextView tv = (TextView) findViewById(R.id.detail_textView);
-		tv.setText(signal.getContent());
+		//TextView tv = (TextView) findViewById(R.id.detail_textView);
+		//tv.setText(signal.getContent());
 	}
 
 }

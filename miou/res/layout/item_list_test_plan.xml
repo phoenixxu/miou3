@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50dp"
     android:orientation="horizontal"
-    android:gravity="center"
-    android:weightSum="1.0" >
+    android:gravity="center" >
     
     <CheckBox
         android:id="@+id/select_checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1" >
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleX="0.8"
+        android:scaleY="0.8" >
     </CheckBox>
 
 	<TextView
 	    android:id="@+id/id_textView"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="0.2"
+	    android:layout_width="40dp"
+	    android:layout_height="40dp"
 	    android:gravity="center" >
 	    
 	</TextView>
 
 	<TextView
 	    android:id="@+id/name_textView"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="0.3"
+	    android:layout_width="0dp"
+	    android:layout_height="40dp"
+	    android:layout_weight="1"
 	    android:gravity="center" >
 	    
 	</TextView>
@@ -34,27 +33,24 @@
 
 	<Button
 	    android:id="@+id/increase_button"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="@string/increase"
-	    android:layout_weight="0.1" >
+	    android:layout_width="40dp"
+	    android:layout_height="40dp"
+	    android:text="@string/increase" >
 	    
 	</Button>
 	
-	<TextView
+	<EditText
 	    android:id="@+id/times_textView"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="0.2"
+	    android:layout_width="40dp"
+	    android:layout_height="40dp"
 	    android:gravity="center" >
 	    
-	</TextView>
+	</EditText>
 	<Button
 	    android:id="@+id/decrease_button"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="@string/decrease"
-	    android:layout_weight="0.1" >
+	    android:layout_width="40dp"
+	    android:layout_height="40dp"
+	    android:text="@string/decrease" >
 	    
 	</Button>
 

@@ -1,6 +1,7 @@
 package com.datang.miou.views.gen;
 
-import android.graphics.Color;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import com.datang.miou.FragmentSupport;
 import com.datang.miou.R;
 import com.datang.miou.annotation.AutoView;
@@ -21,6 +21,7 @@ import com.datang.miou.datastructure.Chart;
 import com.datang.miou.datastructure.Chart.DataSet;
 import com.datang.miou.datastructure.Chart.Point;
 import com.datang.miou.datastructure.Globals;
+import com.datang.miou.datastructure.RealData;
 import com.datang.miou.views.gen.telstat.GenTelStatDataConnectionFragment;
 import com.datang.miou.views.gen.telstat.GenTelStatDataQualityFragment;
 import com.datang.miou.views.gen.telstat.GenTelStatMessageFragment;
@@ -113,6 +114,12 @@ public class GenTelStatFragment extends FragmentSupport implements Chart.mCallba
 		mViewPager.setOnPageChangeListener(new ViewPageChangeListener());		
 		AddPageViewrContents();
 
+		//设置画线颜色
+		SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Globals.PREFS, Activity.MODE_PRIVATE);
+		Globals.setChartLineColor(0, sharedPreferences.getInt("PREF_LINE_COLOR_1", R.color.black));
+		Globals.setChartLineColor(1, sharedPreferences.getInt("PREF_LINE_COLOR_2", R.color.black));
+		Globals.setChartLineColor(2, sharedPreferences.getInt("PREF_LINE_COLOR_3", R.color.black));
+		
 		mChart = (Chart) mView.findViewById(R.id.chart);
 		mChart.setHorizontalAxeNum(5);
 		mChart.setVerticalAxeNum(20);
@@ -163,5 +170,77 @@ public class GenTelStatFragment extends FragmentSupport implements Chart.mCallba
 		// TODO 自动生成的方法存根
 		//Toast.makeText(getApplication(), String.valueOf(p.data), Toast.LENGTH_SHORT);
 		addButton.setText(String.valueOf(p.data));
+	}
+
+	@Override
+	protected void updateUI(RealData data) {
+		// TODO Auto-generated method stub
+		super.updateUI(data);
+		DataSet dataSet = mChart.new DataSet();
+		
+		if (data.getParams().containsKey(Globals.PARAM_RXLEV_SUB)) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_RXLEVSUB] = data.getParams().get(Globals.PARAM_RXLEV_SUB);
+		}
+		
+		if (data.getParams().containsKey(Globals.PARAM_RSRP)) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_RSCP] = data.getParams().get(Globals.PARAM_RSRP);
+		}
+		
+		if (data.getParams().containsKey(Globals.PARAM_GTX_POWER)) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_GTXPOWER] = data.getParams().get(Globals.PARAM_GTX_POWER);
+		}
+		
+		if (data.getParams().containsKey(Globals.PARAM_BLER)) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_BLER] = data.getParams().get(Globals.PARAM_BLER);
+		}
+		
+		if (data.getParams().containsKey(Globals.PARAM_SINR)) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_SNR] = data.getParams().get(Globals.PARAM_SINR);
+		}
+		
+		if (data.getParams().containsKey(Globals.PARAM_SPEED)) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_SPEED] = data.getParams().get(Globals.PARAM_SPEED);
+		}
+		/*
+		 double number;
+		number = data.params[Globals.PARAM_RXLEV_SUB];
+		if (number != RealData.INVALID_VALUE) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_RXLEVSUB] = number;
+		}
+		
+		number = data.params[Globals.PARAM_RSRP];
+		if (number != RealData.INVALID_VALUE) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_RSCP] = number;
+		}
+		
+		number = data.params[Globals.PARAM_GTX_POWER];
+		if (number != RealData.INVALID_VALUE) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_GTXPOWER] = number;
+		}
+		
+		number = data.params[Globals.PARAM_BLER];
+		if (number != RealData.INVALID_VALUE) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_BLER] = number;
+		}
+		
+		number = data.params[Globals.PARAM_SINR];
+		if (number != RealData.INVALID_VALUE) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_SNR] = number;
+		}
+		
+		number = data.params[Globals.PARAM_RXLEV_SUB];
+		if (number != RealData.INVALID_VALUE) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_RXLEVSUB] = number;
+		}
+		
+		number = data.params[Globals.PARAM_SPEED];
+		if (number != RealData.INVALID_VALUE) {
+			dataSet.mParams[Globals.CHART_LINE_PARAM_SPEED] = number;
+		}
+		*/
+		
+		mChart.addPoint(dataSet);
 	}  
+	
+	
 }

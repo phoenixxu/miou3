@@ -3,6 +3,7 @@ package com.datang.miou.widget;
 import java.util.ArrayList;
 
 import com.datang.miou.R;
+import com.datang.miou.datastructure.EventType;
 import com.datang.miou.datastructure.Globals;
 import com.datang.miou.views.dialogs.ColorPickerDialogFragment;
 import com.datang.miou.views.dialogs.ColorPickerDialogFragment.Callbacks;
@@ -26,7 +27,7 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 
 	protected static final int REQUEST_OPTION = 0;
 	protected static final String DIALOG_COLOR_PICKER = "DIALOG_COLOR_PICKER";
-	private static final String TAG = "ColorPickerPrefrence";
+	private static final String TAg = null;
 	
 	private TextView mTitle;
 	private String mKey;
@@ -38,6 +39,8 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 	private Context mContext;
 	private RelativeLayout mLayout;
 	private String mId;
+	private Object mItem;
+	private String mType;
 	
 	@SuppressLint("Recycle")
 	public ColorPickerPrefrence(Context context, AttributeSet attrs) {
@@ -84,6 +87,8 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 				case R.styleable.ColorPickerPrefrence_id:
 					mId = array.getString(id);
 					break;
+				case R.styleable.ColorPickerPrefrence_type:
+					mType = array.getString(id);
 				case R.styleable.ColorPickerPrefrence_colors:
 					break;
 			}
@@ -112,10 +117,17 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 	
 	public void refreshOptionView() {
 		// TODO 自动生成的方法存根
-		mSelected = sharedPreferences.getInt(mKey, 0);
-		if (mSelected < mColorString.size()) {
-			mOptionTextView.setBackgroundResource(mColorResources.get(mSelected));
+		if (mType != null) {
+			if (mType.equals("event_type")) {
+				if (this.mItem != null) {
+					mSelected = ((EventType) this.mItem).getColor();
+					Log.i(TAg, "get color " + mSelected);
+				}
+			} 
+		}else {
+			mSelected = sharedPreferences.getInt(mKey, 0);
 		}
+		mOptionTextView.setBackgroundResource(mSelected);
 	}
 
 	public void addOption(String option) {
@@ -132,9 +144,17 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 	public void refreshActivity(int option, String id, ColorPickerDialogFragment fragment) {
 		// TODO 自动生成的方法存根
 		if (mId.equals(id)) {
+			if (mType != null) {
+				if (mType.equals("event_type")) {
+					if (this.mItem != null) {
+						((EventType) this.mItem).setColor( mColorResources.get(option));
+						Log.i(TAg, "set color" + mColorResources.get(option));
+					}
+				} 
+			}else {
+				sharedPreferences.edit().putInt(mKey, mColorResources.get(option)).apply();
+			}
 			mOptionTextView.setBackgroundResource(mColorResources.get(option));
-			sharedPreferences.edit().putInt(mKey, option).apply();
-			Log.i(TAG, "set color to " + mKey);
 			fragment.dismiss();
 		}
 	}
@@ -149,5 +169,9 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 	
 	public void setId(String id) {
 		this.mId = id;
+	}
+	
+	public void setItem(Object item) {
+		this.mItem = item;
 	}
 }

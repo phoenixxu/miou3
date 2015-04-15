@@ -3,21 +3,26 @@ package com.datang.miou.datastructure;
 import java.io.Serializable;
 import java.util.Date;
 
-@SuppressWarnings("serial")
+/*
+ * 事件
+ */
 public class Event implements Serializable {
-	//事件发生时间
-	Date mTime;
-	//事件内容
-	String mContent;
+
+	private static final long serialVersionUID = -2232374450076620889L;
+	
+	private String mHour;
+	private String mMinute;
+	private String mSecond;
+	private String mLat;
+	private String mLon;
+	private String mContent;
+
 	//事件附加信息
-	String mLabel;
+	private String mLabel;
 	//事件类型
-	int mType;
+	private String mType;
 	
 	public Event() {
-		mTime = new Date();
-		mContent = "Default event";
-		mLabel = "";
 	}
 	
 	public String getLabel() {
@@ -37,17 +42,51 @@ public class Event implements Serializable {
 	}
 	
 	
-	public int getType() {
+	public String getType() {
 		return mType;
 	}
 
-	public void setType(int mType) {
+	public void setType(String mType) {
 		this.mType = mType;
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public String toString() {
-		return mTime.toGMTString() + " : " + mContent + " " + mLabel;
+	public String getHour() {
+		return mHour;
+	}
+
+	public void setHour(String hour) {
+		mHour = hour;
+	}
+
+	public String getMinute() {
+		return mMinute;
+	}
+
+	public void setMinute(String minute) {
+		mMinute = minute;
+	}
+
+	public String getSecond() {
+		return mSecond;
+	}
+
+	public void setSecond(String second) {
+		mSecond = second;
+	}
+
+	public String getLat() {
+		return mLat;
+	}
+
+	public void setLat(String lat) {
+		mLat = lat;
+	}
+
+	public String getLon() {
+		return mLon;
+	}
+
+	public void setLon(String lon) {
+		mLon = lon;
 	}
 }

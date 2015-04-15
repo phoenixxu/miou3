@@ -2,6 +2,7 @@ package com.datang.miou.datastructure;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Building implements Serializable{
 	
 		private String mName;

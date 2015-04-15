@@ -6,8 +6,28 @@
 	<string name="gen_map_review">回放</string>
 	<string name="gen_map_is_logging">是否记录日志</string>
 	
-	<string name="gen_map_title">通用测试</string>
-	<string name="gen_innner_title">室内测试</string>
+	<string name="search_hint">搜索......</string>
+	<string name="dialog_station_picker">选择基站</string>
+	<string name="single_is_logging">记录日志</string>
+	<string name="single_review">回放日志</string>
+	<string name="single_new">新建站点</string>
+	<string name="single_current_hint">当前基站：</string>
+	<string name="single_assigned_test">小区测试</string>
+	<string name="single_normal_test">常规测试</string>
+	<string name="no_station_selected">没有选择基站</string>
+	<string name="station_select">选择基站</string>
+	<string name="single_point_test">定点测试</string>
+	<string name="single_end_test">结束测试</string>
+	
+	<string name="undo">撤销</string>
+	<string name="selected">已选</string>
+	<string name="all_show">全部显示</string>
+	<string name="ok">确定</string>
+	<string name="cancel">取消</string>
+	<string name="done">完成</string>
+	<string name="gen_title">通用测试</string>
+	<string name="innner_title">室内测试</string>
+	<string name="single_title">单验测试</string>
 	<string name="pref_title">设置</string>
 	<string name="pref_line_title">曲线设置</string>
 	<string name="pref_warning_title">告警设置</string>
@@ -46,4 +66,35 @@
     <string name="page_result">测试结果</string>
     <string name="page_signal">信令回溯</string>
 	
+    <string name="latitude">经度</string>
+    <string name="longitude">纬度</string>
+    <string name="friend_name">友好名</string>
+    <string name="s1">s1</string>
+    <string name="s2">s2</string>
+    <string name="s3">s3</string>
+    <string name="pci">PCI</string>
+    <string name="frequency">频点</string>
+    <string name="ci">CI</string>
+    
+    <string name="hint_latitude">请输入以小数表示的经度</string>
+    <string name="hint_longitude">请输入以小数表示的纬度</string>
+    <string name="hint_station_name">请输入基站名称</string>
+    <string name="warning_blank_name">基站名称为空！</string>
+    <string name="warning_blank_position">位置信息为空或无效！</string>
+    
+    <string name="list_header_station">站点名称</string>
+    <string name="list_header_time">测试时间</string>
+    <string name="list_header_rsrp">RSRP</string>
+    <string name="list_header_sinr">SINR</string>
+    <string name="list_header_ftp_dl">FTP下载</string>
+    <string name="list_header_ftp_ul">FTP上传</string>
+    <string name="list_header_ping">PING</string>
+    <string name="list_header_csfb">CSFB</string>
+    
+    <string name="cell_info_hint">服务小区与邻小区信息-</string>
+    <string name="lte">LTE</string>
+    <string name="td">TD</string>
+    <string name="gsm">GSM</string>
+    <string name="temp_value">-</string>
+    <string name="serving_cell_info">服务小区信息</string>
 </resources>

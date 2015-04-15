@@ -1,8 +1,6 @@
 package com.datang.miou.widget;
 
 import com.datang.miou.R;
-import com.datang.miou.preferences.LinePreferenceActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;

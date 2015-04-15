@@ -17,24 +17,36 @@
        <TextView 
            android:layout_marginRight="0.5dp"
            android:background="@color/table_background" 
-           android:layout_width="40dp" /> 
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value" /> 
 	   <TextView 
            android:layout_marginRight="0.5dp"
            android:background="@color/table_background"
-           android:layout_width="40dp" />
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value" />
 	   <TextView 
            android:layout_marginRight="0.5dp"
            android:background="@color/table_background"
-           android:layout_width="40dp" />
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value" />
 	   <TextView 
            android:layout_marginRight="0.5dp"
            android:background="@color/table_background"
-           android:layout_width="40dp" />
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value" />
 	   <TextView 
            android:layout_marginRight="0.5dp"
            android:background="@color/table_background"
-           android:layout_width="40dp" />
+           android:layout_width="40dp"
+           android:gravity="center" 
+           android:text="@string/temp_value" />
        <TextView 
            android:background="@color/table_background"
-           android:layout_width="40dp" />   
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value" />   
 </TableRow>

@@ -1,10 +1,14 @@
 package com.datang.miou.views.gen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
@@ -17,15 +21,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+import com.datang.miou.datastructure.Globals;
 import com.datang.miou.datastructure.TestLog;
+import com.datang.miou.ftp.FtpConfigParser;
 import com.datang.miou.ftp.FtpDownThread;
+import com.datang.miou.services.ResultService;
 import com.datang.miou.test.testplanparser;
 import com.datang.miou.testplan.bean.Ftp;
 import com.datang.miou.testplan.task.cases.AppThread;
 import com.datang.miou.views.dialogs.LogPickerDialogFragment;
 import com.datang.miou.views.gen.GenTelStatFragment;
+import com.datang.miou.FragmentSupport;
+import com.datang.miou.MiouApp;
 
+import com.datang.miou.ProcessInterface;
 import com.datang.miou.R;
 
 /**
@@ -33,7 +42,7 @@ import com.datang.miou.R;
  * 
  * @author suntongwei
  */
-public class GenActivity extends FragmentActivity implements LogPickerDialogFragment.Callbacks{
+public class GenActivity extends FragmentActivity implements LogPickerDialogFragment.Callbacks, FragmentSupport.Callbacks, GenMapFragment.Callbacks{
 
 	private static final String DIALOG_LOG_PICKER = "dialog_log_picker";
 
@@ -62,10 +71,12 @@ public class GenActivity extends FragmentActivity implements LogPickerDialogFrag
 
 	private Button mLogButton;
 
-	protected boolean isTesting;
 
 	protected boolean isLogging = false;
     
+	private Fragment mCurrentMapFragment;
+
+
 	public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
         setContentView(R.layout.gen);  
@@ -107,7 +118,7 @@ public class GenActivity extends FragmentActivity implements LogPickerDialogFrag
 		});
         
         mTitleTextView = (TextView) findViewById(R.id.app_title_value);
-		mTitleTextView.setText(R.string.gen_map_title);
+		mTitleTextView.setText(R.string.gen_title);
 		
 		mScriptButton = (TextView) findViewById(R.id.app_title_right_txt);
 		mScriptButton.setText(R.string.gen_map_title_script_button);
@@ -137,19 +148,18 @@ public class GenActivity extends FragmentActivity implements LogPickerDialogFrag
 			}
 		});
 		
+		//开始测试
 		mStartButton = (Button) findViewById(R.id.gen_map_start_button);
 		mStartButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (isTesting) {
-					mStartButton.setText(R.string.gen_map_start);
-					mReviewButton.setEnabled(true);
-					isTesting = false;
+				if (((MiouApp) getApplication()).isGenTesting()) {
+					updateUIOnTesting(false);
+					((MiouApp) getApplication()).setGenTesting(false);
 					stopTesting();
 				} else {
-					mStartButton.setText(R.string.gen_map_stop);
-					mReviewButton.setEnabled(false);
-					isTesting = true;
+					updateUIOnTesting(true);
+					((MiouApp) getApplication()).setGenTesting(true);
 					startTesting();
 				}
 			}
@@ -159,7 +169,14 @@ public class GenActivity extends FragmentActivity implements LogPickerDialogFrag
 		mReviewButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				reviewTesting();
+				if (((MiouApp) getApplication()).isGenReviewing()) {			
+					updateUIOnReviewing(false);
+					((MiouApp) getApplication()).setGenReviewing(false);
+					stopReviewing();
+				} else {
+					startReviewing();
+				}
+
 			}
 		});
 		
@@ -178,9 +195,53 @@ public class GenActivity extends FragmentActivity implements LogPickerDialogFrag
 				}
 			}
 		});
+		
+		updateUIOnTesting(((MiouApp) getApplication()).isGenTesting());
+		updateUIOnReviewing(((MiouApp) getApplication()).isGenReviewing());
+		if (((MiouApp) getApplication()).isGenReviewing()) {
+			if (mCurrentMapFragment != null) {
+				((GenMapFragment) mCurrentMapFragment).showMapController();
+			}
+		}
     }  
-          
-	private void reviewTesting() {
+         
+	private void updateUIOnTesting(boolean test) {
+		// TODO Auto-generated method stub
+		if (test) {
+			mStartButton.setText(R.string.gen_map_stop);
+			mReviewButton.setEnabled(false);
+		} else {
+			mStartButton.setText(R.string.gen_map_start);
+			mReviewButton.setEnabled(true);
+		}
+	}
+	
+	private void updateUIOnReviewing(boolean review) {
+		// TODO Auto-generated method stub
+		if (review) {
+			mReviewButton.setText(R.string.gen_map_stop);
+			mStartButton.setEnabled(false);
+		} else {
+			mReviewButton.setText(R.string.gen_map_review);
+			mStartButton.setEnabled(true);
+		}
+	}
+	
+	protected void stopReviewing() {
+		// TODO Auto-generated method stub
+		((GenMapFragment) mCurrentMapFragment).hideMapController();
+	}
+
+	@Override
+	public void startReceivingData() {
+	}
+	
+	@Override
+	public void stopReceivingData() {
+	}
+
+	
+	private void startReviewing() {
 		// TODO 自动生成的方法存根
 		FragmentManager fm = getSupportFragmentManager();
 		LogPickerDialogFragment dialog = LogPickerDialogFragment.newInstance(this);
@@ -189,23 +250,44 @@ public class GenActivity extends FragmentActivity implements LogPickerDialogFrag
 
 	private void stopTesting() {
 		// TODO 自动生成的方法存根
-		
+		ProcessInterface.StopLogWrite();//停止记录log
 	}
 
 	private void startTesting() {
 		// TODO 自动生成的方法存根
 		//add by yzy
 		
+		//设置网络模式，应是从什么地方获得
+		Globals.setNetMode(Globals.MODE_LTE);
+		
 		try
 		{
-		
-			testplanparser parser = new testplanparser();
-			List<Ftp> ftplist = parser.parse();
-			Ftp ftp = ftplist.get(0) ;
+			if (isLogging) 
+			{	
+				ProcessInterface.StartLogWrite();//开始记录log
+			}
+			FtpConfigParser configparser = new FtpConfigParser();
+			configparser.parse();
 			
-			FtpDownThread ftpDownThread = new FtpDownThread(this, ftp);						
-			AppThread thread = new AppThread(ftpDownThread);				
-			thread.start();
+			
+			testplanparser parser = new testplanparser();
+			//其实，这是个ArrayList，多态,这里其实用不用多态都无所谓了
+			List<Ftp> ftplist = parser.parse();
+			if(ftplist.size() > 0)
+			{
+				Ftp ftp = ftplist.get(0) ;
+				int threadnum = Integer.parseInt(configparser.getThreadNum());
+				if(threadnum  != 0)
+				{
+					ftp.setThreadNum(threadnum);
+				}
+				
+					
+			
+				FtpDownThread ftpDownThread = new FtpDownThread(this, ftp);						
+				AppThread thread = new AppThread(ftpDownThread);				
+				thread.start();
+			}
 		
 		}
 		catch(Exception e)
@@ -230,5 +312,32 @@ public class GenActivity extends FragmentActivity implements LogPickerDialogFrag
 
 	@Override
 	public void refreshActivity(TestLog log) {
+		((GenMapFragment) mCurrentMapFragment).showMapController();
+		updateUIOnReviewing(true);
+		((MiouApp) getApplication()).setGenReviewing(true);
 	}
+
+	@Override
+	public void setHandler(Fragment fragment) {
+		// TODO Auto-generated method stub
+		mCurrentMapFragment = fragment;
+		if (((MiouApp) getApplication()).isGenReviewing()) {
+			((GenMapFragment) mCurrentMapFragment).showMapController();
+		}
+	}
+
+	@Override
+	public void addDataReceiver(BroadcastReceiver r) {
+		// TODO Auto-generated method stub
+		
+		IntentFilter filter = new IntentFilter(ResultService.ACTION_SHOW_NOTIFICATION);
+		registerReceiver(r, filter);
+	}
+
+	@Override
+	public void removeDataReceiver(BroadcastReceiver r) {
+		// TODO Auto-generated method stub
+		unregisterReceiver(r);
+	}
+
 }

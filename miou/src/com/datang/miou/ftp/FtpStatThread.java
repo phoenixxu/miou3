@@ -3,18 +3,23 @@ package com.datang.miou.ftp;
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 
+import com.datang.miou.ProcessInterface;
 import com.datang.miou.testplan.bean.Ftp;
+
+import com.datang.miou.nlog.msg.cmcc.*;
+
 /*import com.datang.outum.nlog.LogType;
 import com.datang.outum.nlog.LogWriterHandler;
 import com.datang.outum.nlog.msg.cmcc.LteEvtInfo;
-import com.datang.outum.nlog.msg.cmcc.LteFtpInfo;
+import com.datang.miou.nlog.LteFtpInfo;
 */
 /**
  * FTP统计线程
@@ -24,8 +29,10 @@ import com.datang.outum.nlog.msg.cmcc.LteFtpInfo;
 public class FtpStatThread implements Runnable {
 
 	// LOG
-	private static final Logger Log = Logger.getLogger(FtpStatThread.class);
+	//private static final Logger Log = Logger.getLogger(FtpStatThread.class);
 	// DecimalFormat
+	private static LteFtpInfo outFtpInfo = new LteFtpInfo();
+	
 	private static final DecimalFormat DF = new DecimalFormat("######.##");
 	
 	// ctx
@@ -72,7 +79,26 @@ public class FtpStatThread implements Runnable {
 	@Override
 	public void run() {
 		
-		Log.error("FtpStatThread Run...");
+		//Log.error("FtpStatThread Run...");
+		Log.v("ftpstat","FtpStatThread Run...");
+		
+		
+		
+		
+		/*LteEvtInfo startLteEvtInfo = new LteEvtInfo();
+		startLteEvtInfo.setTime(System.currentTimeMillis());
+		if(ftpParams.getIsDown()) {
+			startLteEvtInfo.setEvent("4101");
+		} else {
+			startLteEvtInfo.setEvent("4102");
+		}
+		startLteEvtInfo.setEventInfo("FTP");
+		
+		ProcessInterface.RpAppEVT(Integer.parseInt(startLteEvtInfo.getEvent()), startLteEvtInfo.getEventInfo());
+		//stopLteEvtInfo.setFileSize(String.valueOf(len.get()));
+		
+		Log.v("ftpstat",startLteEvtInfo.getEventInfo());*/
+		
 		
 		Intent intent = new Intent("com.datang.action.data");
 		
@@ -138,7 +164,7 @@ public class FtpStatThread implements Runnable {
 	        
 	        // 记录日志
 	        if(curTotalLen != 0 || runTime > 1) {
-	        	/*LteFtpInfo lteFtpInfo = new LteFtpInfo();
+	        	LteFtpInfo lteFtpInfo = new LteFtpInfo();
 	 			lteFtpInfo.setTime(System.currentTimeMillis());
 	 			if(ftpParams.getIsDown()) {
 	 				lteFtpInfo.setApp_currentThroughputdl(DF.format((curTotalLen - lastLen) * 8 / 1024));
@@ -149,7 +175,9 @@ public class FtpStatThread implements Runnable {
 	 				lteFtpInfo.setAppBytesSendLTE(String.valueOf(curTotalLen / 1024));
 	 				lteFtpInfo.setAppBytesSendTotal(String.valueOf(curTotalLen / 1024));
 	 			}
-	 			LogWriterHandler.getInstance().writeLog(LogType.CMCC,lteFtpInfo);*/
+	 			//LogWriterHandler.getInstance().writeLog(LogType.CMCC,lteFtpInfo);
+	 			ProcessInterface.RpApplicationInfo(Integer.parseInt(lteFtpInfo.getAppBytesReceivedTotal()), Integer.parseInt(lteFtpInfo.getAppBytesSendTotal()), Integer.parseInt(lteFtpInfo.getApp_currentThroughputdl()), Integer.parseInt(lteFtpInfo.getApp_currentThroughputul()), "KEY");
+	 			Log.v("stat",lteFtpInfo.toString());
 	        }
 	        
 	        // 把当前总长度赋予上一次总长度，来统计当前速率
@@ -162,7 +190,7 @@ public class FtpStatThread implements Runnable {
 		if(isEnd()) {
 			// 写入最后次统计信息
 			// LTEEVT   FTP_(totalLen)
-			/*LteEvtInfo stopLteEvtInfo = new LteEvtInfo();
+			LteEvtInfo stopLteEvtInfo = new LteEvtInfo();
 			stopLteEvtInfo.setTime(System.currentTimeMillis());
 			if(ftpParams.getIsDown()) {
 				stopLteEvtInfo.setEvent("4104");
@@ -171,7 +199,13 @@ public class FtpStatThread implements Runnable {
 			}
 			stopLteEvtInfo.setEventInfo("FTP");
 			stopLteEvtInfo.setFileSize(String.valueOf(len.get()));
-			LogWriterHandler.getInstance().writeLog(LogType.CMCC, stopLteEvtInfo);
+			try {
+				//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
+				//ProcessInterface.RpAppEVT(Integer.parseInt(stopLteEvtInfo.getEvent()), stopLteEvtInfo.getEventInfo());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//LogWriterHandler.getInstance().writeLog(LogType.CMCC, stopLteEvtInfo);
 			
 			if(len.get() > 0) {
 				LteFtpInfo lteFtpInfo = new LteFtpInfo();
@@ -183,11 +217,16 @@ public class FtpStatThread implements Runnable {
 					lteFtpInfo.setAppBytesSendLTE(String.valueOf(len.get() / 1024));
 					lteFtpInfo.setAppBytesSendTotal(String.valueOf(len.get() / 1024));
 				}
-				LogWriterHandler.getInstance().writeLog(LogType.CMCC,lteFtpInfo);
-			}*/
+				//LogWriterHandler.getInstance().writeLog(LogType.CMCC,lteFtpInfo);
+				outFtpInfo = lteFtpInfo;
+			}
+			
+			
+			//ProcessInterface.StopLogWrite();//开始记录log
 		}
 		
-		Log.error("Ftp Stat Stop");
+		//Log.error("Ftp Stat Stop");
+		Log.v("ftpstat","Ftp Stat Stop");
 	}
 
 	/**
@@ -252,4 +291,14 @@ public class FtpStatThread implements Runnable {
         df = new DecimalFormat("#########");
         return df.format(kbps) + "KB";
     }
+	
+	
+	
+	public static LteFtpInfo getoutFtpInfo()
+	{
+		 
+		return outFtpInfo;
+		
+	}
+	
 }

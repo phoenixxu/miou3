@@ -28,18 +28,18 @@
         <attr name="title"></attr>
         <attr name="key"></attr>
         <attr name="id"></attr>
+        <attr name="type" format="string"></attr>
         <attr name="colors" format="reference"></attr>
     </declare-styleable>
     <declare-styleable name="DrawerPrefrence">
         <attr name="title"></attr>
         <attr name="key"></attr>
     </declare-styleable>
-
-
     <declare-styleable name="FlowLayout">
         <attr name="android:gravity" />
     </declare-styleable>
     <declare-styleable name="FlowLayout_Layout">
         <attr name="android:layout_gravity" />
     </declare-styleable>
+    
 </resources>

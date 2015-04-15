@@ -3,10 +3,7 @@ package com.datang.miou.views.inner;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +19,6 @@ import com.datang.miou.annotation.AutoView;
 import com.datang.miou.datastructure.Building;
 import com.datang.miou.datastructure.InnerMap;
 import com.datang.miou.datastructure.InnerOptions;
-import com.datang.miou.services.ResultService;
 import com.datang.miou.views.dialogs.BuildingPickerDialogFragment;
 import com.datang.miou.views.dialogs.InnerMapPickerDialogFragment;
 import com.datang.miou.views.dialogs.PhotoPickerDialogFragment;

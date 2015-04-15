@@ -13,9 +13,21 @@ import java.util.Stack;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TabHost.TabSpec;
+
+
+
 
 import com.zhy.bean.Bean;
 import com.zhy.bean.FileBean;
@@ -24,9 +36,18 @@ import com.zhy.tree.bean.TreeListViewAdapter;
 import com.zhy.tree.bean.TreeListViewAdapter.OnTreeNodeClickListener;
 import com.zhy.tree_view.*;
 
+
+
 import com.datang.miou.R;
-import com.datang.miou.utils.SDCardUtils;
+import com.datang.miou.utils.*;
+import com.datang.miou.views.gen.GenScriptSettingActivity;
 import com.datang.miou.views.gen.GenSignalFragment;
+
+
+
+
+
+
 
 public class TreeMainActivity extends Activity
 {
@@ -35,6 +56,9 @@ public class TreeMainActivity extends Activity
 	private ListView mTree;
 	private TreeListViewAdapter mAdapter;
 	
+	
+
+
 	 public ArrayList<String> readFile() throws IOException {
 		 
 		 String filePath = SDCardUtils.getSDPath();
@@ -46,7 +70,7 @@ public class TreeMainActivity extends Activity
 	        FileInputStream fis=new FileInputStream(filePath);
 	        InputStreamReader isr=new InputStreamReader(fis, "UTF-8");
 	        BufferedReader br = new BufferedReader(isr);
-	        //简写如下
+	        //绠€鍐欏涓?
 	        //BufferedReader br = new BufferedReader(new InputStreamReader(
 	        //        new FileInputStream("E:/phsftp/evdokey/evdokey_201103221556.txt"), "UTF-8"));
 	        String line="";
@@ -104,11 +128,37 @@ public class TreeMainActivity extends Activity
 		
 	}*/
 
+
+
+
+ 
+
+
+
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signal_detail);
+		
+		
+		ImageView mBackButton = (ImageView) findViewById(R.id.app_title_left);
+		mBackButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View view) {
+				// TODO 自动生成的方法存根
+				try {
+					if (NavUtils.getParentActivityName((Activity) getApplicationContext()) != null) {
+						NavUtils.navigateUpFromSameTask((Activity) getApplicationContext());
+					}
+				} catch (Exception e) {
+					finish();
+				}		
+			}
+		});
 		
 		Intent intent = getIntent();
 		String data = intent.getStringExtra(GenSignalFragment.EXTRA_SIGNAL);
@@ -160,10 +210,9 @@ public class TreeMainActivity extends Activity
 			
 		}*/
 		
-		
 		String[] dataarray = detaildata.split("\n");
 		
-		Stack ps = new Stack();
+		Stack<Integer> ps = new Stack<Integer>();
 		int number = 0;
 		int count = 0;
 		ps.push(count);
@@ -172,22 +221,24 @@ public class TreeMainActivity extends Activity
 		
 		for(String line : dataarray) {
             Log.d("TreeMainActivity",line);
-		    //line就是每一行
-			if(line.startsWith("{"))
+
+			//if(line.startsWith("{"))
+            if (line.contains("{"))
 			{
 				if(islastbrace == false)
 				{
 					count++;
 					int parent =  ((Integer)ps.peek()).intValue();
 					
-					mDatas2.add(new FileBean(count, parent, "nullvalue"));
+					mDatas2.add(new FileBean(count, parent, line.split(" ::=")[0].trim()));
 				}
 				
 				number++;
 				ps.push(count);
 				islastbrace = false;
 			}
-			else if(line.startsWith("}"))
+			//else if(line.startsWith("}"))
+            else if (line.contains("}"))
 				
 			{
 				islastbrace = false;
@@ -200,7 +251,7 @@ public class TreeMainActivity extends Activity
 				islastbrace = true;
 				count++;
 				int parent =  ((Integer)ps.peek()).intValue();
-				mDatas2.add(new FileBean(count, parent, line));
+				mDatas2.add(new FileBean(count, parent, line.trim()));
 			}
 				
 
@@ -214,9 +265,8 @@ public class TreeMainActivity extends Activity
 		
 		
 		
-		
-		
-		/*mDatas.add(new Bean(1, 0, "根目录1"));
+		/*
+		mDatas.add(new Bean(1, 0, "根目录1"));
 		mDatas.add(new Bean(2, 0, "根目录2"));
 		mDatas.add(new Bean(3, 0, "根目录3"));
 		mDatas.add(new Bean(4, 0, "根目录4"));
@@ -249,8 +299,8 @@ public class TreeMainActivity extends Activity
 		mDatas2.add(new FileBean(9, 7, "C++"));
 		mDatas2.add(new FileBean(10, 7, "JAVA"));
 		mDatas2.add(new FileBean(11, 7, "Javascript"));
-		mDatas2.add(new FileBean(12, 8, "C"));*/
-
+		mDatas2.add(new FileBean(12, 8, "C"));
+		*/
 	}
 	
 	

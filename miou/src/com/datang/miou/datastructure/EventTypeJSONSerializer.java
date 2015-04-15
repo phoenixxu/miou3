@@ -1,11 +1,11 @@
 package com.datang.miou.datastructure;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -17,11 +17,9 @@ import org.json.JSONTokener;
 import android.content.Context;
 
 public class EventTypeJSONSerializer {
-	private Context mContext;
 	private String mFilename;
 
 	public EventTypeJSONSerializer(Context context, String filename) {
-		mContext = context;
 		mFilename = filename;
 	}
 	
@@ -33,7 +31,7 @@ public class EventTypeJSONSerializer {
 		
 		Writer writer = null;
 		try {
-			OutputStream out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+			FileOutputStream out = new FileOutputStream(mFilename);
 			writer = new OutputStreamWriter(out);
 			writer.write(array.toString());
 		} finally {
@@ -47,7 +45,7 @@ public class EventTypeJSONSerializer {
 		ArrayList<EventType> types = new ArrayList<EventType>();
 		BufferedReader reader = null;
 		try {
-			InputStream in = mContext.openFileInput(mFilename);
+			FileInputStream in = new FileInputStream(mFilename);
 			reader = new BufferedReader(new InputStreamReader(in));
 			StringBuilder jsonString = new StringBuilder();
 			String line = null;
@@ -59,7 +57,7 @@ public class EventTypeJSONSerializer {
 				types.add(new EventType(array.getJSONObject(i)));
 			}
 		} catch (FileNotFoundException e) {
-			// TODO 自动生成的 catch 块
+
 		} finally {
 			if (reader != null) {
 				reader.close();

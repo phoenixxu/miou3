@@ -12,28 +12,41 @@
            android:id="@+id/name_textView"
            android:layout_marginRight="0.5dp" 
            android:layout_width="40dp" 
-           android:gravity="center"/>
+           android:gravity="center"
+           android:text="@string/temp_value"/>
        <TextView 
            android:layout_marginRight="0.5dp"
            android:id="@+id/value1_textView" 
-           android:layout_width="40dp" /> 
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value"/> 
        <TextView 
 		   android:layout_marginRight="0.5dp"
            android:id="@+id/value2_textView" 
-           android:layout_width="40dp" /> 
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value"/> 
 	   <TextView 
 		   android:layout_marginRight="0.5dp" 
            android:id="@+id/value3_textView"
-           android:layout_width="40dp" /> 
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value"/> 
 	   <TextView 
 		   android:layout_marginRight="0.5dp"
            android:id="@+id/value4_textView"
-           android:layout_width="40dp" /> 
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value"/> 
 	   <TextView 
 		   android:layout_marginRight="0.5dp"
            android:id="@+id/value5_textView"
-           android:layout_width="40dp" /> 
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value"/> 
        <TextView 
            android:id="@+id/value6_textView"
-           android:layout_width="40dp" />   
+           android:layout_width="40dp" 
+           android:gravity="center"
+           android:text="@string/temp_value"/>   
 </TableRow>

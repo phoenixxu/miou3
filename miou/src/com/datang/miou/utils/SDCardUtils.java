@@ -1,5 +1,6 @@
 package com.datang.miou.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.StatFs;
@@ -26,7 +27,7 @@ public class SDCardUtils {
     /**
      * SD卡项目顶级路径
      */
-    private static final String PROJECT_FILE_PATH = "/MIOU";
+    private static final String PROJECT_FILE_PATH = "/miou";
 
     /**
      * 系统子目录
@@ -57,6 +58,12 @@ public class SDCardUtils {
 
 
     public static final String TAG = "SDCardUtils";
+    
+    
+    private static final String LOG_TEST_LOG = "/testlog";
+    private static final String LOG_TEST_PLAN = "/testplan";
+    private static final String LOG_DEGUG_LOG = "/debuglog";
+    private static final String LOG_TEMPLATE_FILE = "/template";
 
     /**
      * 自动创建文件系统
@@ -66,12 +73,19 @@ public class SDCardUtils {
             String[] createFileNames = new String[]{
                     PROJECT_FILE_PATH,
                     PROJECT_FILE_PATH + CONFIG,
-                    PROJECT_FILE_PATH + SYSTEM_PATH,
+                     PROJECT_FILE_PATH + SYSTEM_PATH,
                     PROJECT_FILE_PATH + SYSTEM_LOG,
                     PROJECT_FILE_PATH + LOG_FILE,
                     PROJECT_FILE_PATH + LOG_DEL_FILE,
                     PROJECT_FILE_PATH + LOG_PROJECT_FILE,
-                    PROJECT_FILE_PATH + DEBUG_PATH
+                    PROJECT_FILE_PATH + DEBUG_PATH,
+                    
+                    
+                    //PROJECT_FILE_PATH + LOG_TEST_LOG,
+                    PROJECT_FILE_PATH + LOG_TEST_PLAN
+                    //PROJECT_FILE_PATH + LOG_DEGUG_LOG,
+                    //PROJECT_FILE_PATH + LOG_TEMPLATE_FILE
+                    
                   };
             for (String filePath : createFileNames) {
                 File file = new File(getSDPath() + filePath);
@@ -80,9 +94,86 @@ public class SDCardUtils {
                     file.mkdir();
                 }
             }
+            
+            /*try{
+                File f=new File(getTemplePath()+"/TestPlanTemplate.xml");
+                if(f.exists()){
+                	
+                	 Log.d(TAG, "target file is  exist");
+                        //return ;
+                }
+                else
+                {
+                	Log.d(TAG, "aaaaa ");
+                	
+                	//
+                	//Context.getAssets().open
+                	
+                	
+                	File a = new File("android_asset/TestPlanTemplate.xml");
+                	Log.d(TAG, "bbbbb ");
+                	if(a.exists())
+                	{
+                	
+                		Log.d(TAG, "src file is  exist");
+                		copy(a,f);
+                	}
+                	else
+                	{
+                		Log.d(TAG, "a  isnot   exist");
+                		
+                	}
+                }
+                
+            }catch (Exception e) {
+                // TODO: handle exception
+                //return ;
+            	Log.d(TAG, "error*****************");
+            	e.printStackTrace();
+            }*/
+            
+            
+            
         }
+        
+        
+        
+        //File file = new File(getTemplePath()+"/TestPlanTemplate.xml");
+        //if(file)
+        
+        
+        /*if(!hasFile(getTemplePath()+"/TestPlanTemplate.xml"))
+        {
+        	Log.d("success","****************success********************");
+        	copy(new File("android_asset/TestPlanTemplate.xml"),new File(getTemplePath()+"/TestPlanTemplate.xml"));
+        
+        }
+        else
+        {
+        	Log.d("has file","****************has file********************");
+        }*/
     }
 
+    
+    public static String getTemplePath() {
+        if (getSDCardExist()) {
+            return getSDPath() + PROJECT_FILE_PATH + LOG_TEMPLATE_FILE;
+        }
+        return null;
+    }
+    
+    
+    public static String getTestPlanPath() {
+        if (getSDCardExist()) {
+            return getSDPath() + PROJECT_FILE_PATH + LOG_TEST_PLAN;
+        }
+        return null;
+    }
+    
+    
+    
+    
+    
     /**
      * 返回工程目录路径
      *

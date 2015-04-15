@@ -3,6 +3,7 @@ package com.datang.miou;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,48 @@ public class FragmentSupport extends Fragment {
 	protected Context mContext;
 	// Intent
 	protected Intent mIntent;
+
+	public interface Callbacks {
+		public void addDataReceiver(BroadcastReceiver r);
+		public void removeDataReceiver(BroadcastReceiver r);
+		public void startReceivingData();
+		public void stopReceivingData();
+	}
+	private Callbacks mCb;
+	
+	
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		mCb = (Callbacks) activity;
+	}
+
+
+	@Override
+	public void onDetach() {
+		// TODO Auto-generated method stub
+		super.onDetach();
+		mCb = null;
+	}
+
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		//mCb.addDataReceiver(mReceiver);
+	}
+
+
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		//mCb.removeDataReceiver(mReceiver);
+	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -118,11 +161,12 @@ public class FragmentSupport extends Fragment {
 	}
 	
 	//这个receiver用来接收实时数据，更新各继承FragmentSupport的Fragment
-	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+	public BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO 自动生成的方法存根
+			Log.i(TAG, "received an intent");
 			RealData data = (RealData) intent.getExtras().getSerializable(ResultService.EXTRA_REAL_DATA);
 			updateUI(data);
 		}	
@@ -137,14 +181,20 @@ public class FragmentSupport extends Fragment {
 	public void onPause() {
 		// TODO 自动生成的方法存根
 		super.onPause();
-		getActivity().unregisterReceiver(mReceiver);
+		//mCb.stopReceivingData();
+		//getActivity().unregisterReceiver(mReceiver);
+		mCb.removeDataReceiver(mReceiver);
 	}
 
 	@Override
 	public void onResume() {
 		// TODO 自动生成的方法存根
 		super.onResume();
-		IntentFilter filter = new IntentFilter(ResultService.ACTION_SHOW_NOTIFICATION);
-		getActivity().registerReceiver(mReceiver, filter);
+		//mCb.startReceivingData();
+		//IntentFilter filter = new IntentFilter(ResultService.ACTION_SHOW_NOTIFICATION);
+		//getActivity().registerReceiver(mReceiver, filter);
+		mCb.addDataReceiver(mReceiver);
 	}
+	
+
 }

@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import android.content.Context;
 import android.os.SystemClock;
 
+import com.datang.miou.ProcessInterface;
 import com.datang.miou.testplan.bean.Ftp;
 
 /**
@@ -68,9 +69,10 @@ public class FtpDownThread extends FtpHelper implements Runnable {
 	
 	@Override
 	public void run() {
-		
+		android.util.Log.v("FtpDownThread","FtpDownThread Run...1");
+		//ProcessInterface.StartHdConnect();
 		Log.error("FtpDownThread Run...");
-		
+		android.util.Log.v("FtpDownThread","FtpDownThread Run...");
 		// 创建一个FTP连接
 		FTPClient client = new FTPClient();
 		
@@ -83,7 +85,7 @@ public class FtpDownThread extends FtpHelper implements Runnable {
 		while (curNum < ftpParams.getNum()) {
 			
 			Log.error("FtpDownNum: " + curNum);
-			
+			android.util.Log.v("FtpDownThread","FtpDownThread FtpDownNum...");
 			/**
 			 * 判断线程是否还在执行
 			 * 停止子线程
@@ -127,11 +129,14 @@ public class FtpDownThread extends FtpHelper implements Runnable {
 						+ "," + ftpParams.getUsername() + "," + ftpParams.getPassword());
 				
 				// 登录,如果不成功，则启用重连，重连次数为10
+				android.util.Log.v("FtpDownThread","Begin login...");
+				
 				login(client, ftpParams.getHostname(), ftpParams.getPort(),
 						ftpParams.getUsername(), ftpParams.getPassword());
 				
+				android.util.Log.v("FtpDownThread","end login...");
 				Log.error("FtpDownLogin");
-				
+				android.util.Log.v("FtpDownThread","FtpDownLogin...");
 				// 记录Attempt时间
 				// 在FTP登录成功之后
 				writeAttempt(true);
@@ -236,7 +241,7 @@ public class FtpDownThread extends FtpHelper implements Runnable {
 			}
 			
 			Log.error("FtpDownEnd");
-			
+			android.util.Log.v("FtpDownThread","FtpDownEnd");
 			// 终止子线程
 			stopChildThread();
 			

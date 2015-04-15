@@ -1,5 +1,9 @@
 package com.datang.miou.services;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.datang.miou.ProcessInterface;
 import com.datang.miou.datastructure.Globals;
 import com.datang.miou.datastructure.RealData;
 
@@ -8,12 +12,11 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public class ResultService extends IntentService{
 
 	private static final String TAG = "ResultService";
-	private static final long POLL_INTERVAL = 1000 * 5;
+	private static final long POLL_INTERVAL = 1000 * 1;
 	public static final String ACTION_SHOW_NOTIFICATION = "show_notification";
 	public static final String EXTRA_REAL_DATA = "extra_real_data";
 
@@ -29,15 +32,11 @@ public class ResultService extends IntentService{
 		// TODO 自动生成的方法存根
 		Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
 		RealData data = new RealData();
-		data.params[Globals.PARAM_BANDWIDTH] = 5 + Math.random() * 10;
-		data.params[Globals.PARAM_ECGI] = 10 + Math.random() * 10;
-		data.params[Globals.PARAM_EMM] = 15 + Math.random() * 10;
-		data.params[Globals.PARAM_FREQ] = 20 + Math.random() * 10;
-		data.params[Globals.PARAM_MMC] = 25 + Math.random() * 10;
-		data.params[Globals.PARAM_MODE] = 30 + Math.random() * 10;
-		data.params[Globals.PARAM_PCI] = 35 + Math.random() * 10;
-		data.params[Globals.PARAM_RRC] = 40 + Math.random() * 10;
-		data.params[Globals.PARAM_TM] = 45 + Math.random() * 10;
+		
+		for (int j = 0; j < 6; j++) {
+			data.getParams().put(Globals.PARAM_NEIGHBOR_LTE_EARFCN + j, Math.random() * 10);
+		}
+		
 		i.putExtra(EXTRA_REAL_DATA, data);
 		sendBroadcast(i);
 	}

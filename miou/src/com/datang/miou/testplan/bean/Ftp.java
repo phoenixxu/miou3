@@ -26,7 +26,7 @@ public class Ftp implements java.io.Serializable {
 	// 公共参数_测试次数
 	private Integer num = 2;
 	// 公共参数_线程数
-	private Integer threadNum = 2;
+	private Integer threadNum = 5;
 	// 公共参数_超时时间
 	private Integer timeout = 30;
 	// 公共参数_间隔时间

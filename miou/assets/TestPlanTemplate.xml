@@ -15,20 +15,22 @@
 		<ID>0x0501</ID>
 		<TestMOS>1</TestMOS>
 		<MOSLimit>2.0</MOSLimit>
+	</TestScheme>
 	<TestScheme>
 		<ID>0x0502</ID>
 		<WaitTimes>60</WaitTimes>
   </TestScheme>
-	</TestScheme>
+  <TestScheme>
 		<ID>0x0602</ID>
 		<Keeptime>10</Keeptime>
 		<Interval>10</Interval>
-	<TestScheme>
   </TestScheme>
+  <TestScheme>
 		<ID>0x0603</ID>
 		<APN>1</APN>
 		<Interval>10</Interval>
 		<Keeptime>60</Keeptime>
+	</TestScheme>
 	<TestScheme>
     <ID>0x0604</ID>
     <IP>192.168.1.13</IP>
@@ -37,6 +39,7 @@
     <TimeOut>200</TimeOut>
     <APN>1</APN>
 	</TestScheme>
+	<TestScheme>
 		<ID>0x0608</ID>
 		<Interval>5</Interval>
 		<TimeOut>180</TimeOut>
@@ -46,6 +49,7 @@
 		<ConnectionMode>10</ConnectionMode>
 		<Gateway></Gateway>
 		<Port>80</Port>
+	</TestScheme>
 	<TestScheme>
 		<ID>0x0609</ID>
 		<ServerCenterAddress>10086</ServerCenterAddress>
@@ -57,6 +61,7 @@
 		<Content>SDADAD</Content>
 		<Interval>100</Interval>
 	</TestScheme>
+	<TestScheme>
     <ID>0x060A</ID>
     <Gateway>202.101.224.68</Gateway>
     <Agent>aa</Agent>
@@ -72,6 +77,7 @@
     <MediaFileSize>10</MediaFileSize>
     <Interval>100</Interval>
     <APN>1</APN>
+	</TestScheme>
 	<TestScheme>
 		<ID>0x060B</ID>
 		<SyncMSNOs>0</SyncMSNOs>
@@ -84,6 +90,7 @@
 		<Gateway>202.101.224.68</Gateway>
 		<Port>23</Port>
 	</TestScheme>
+	<TestScheme>
 		<ID>0x060C</ID>
 		<RemoteHost>222.68.172.16</RemoteHost>
 		<Port>23</Port>
@@ -96,6 +103,7 @@
 		<RemoteFile>/ADTDOWNFILE/2M.rar</RemoteFile>
 		<Interval>60</Interval>
 		<APN>2</APN>
+	</TestScheme>
 	<TestScheme>
 		<ID>0x0611</ID>
 		<Interval>100</Interval>
