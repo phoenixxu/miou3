@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent" 
+	android:orientation="vertical" >
+    
+	<com.datang.miou.widget.AppTitle
+	    android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+	
+	<TableLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginRight="30dp"
+	    android:stretchColumns="*" >
+	    
+	    <TableRow >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:gravity="center" 
+	            android:text="@string/latitude" />
+	        <EditText 
+	            android:id="@+id/latitude_edit_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:layout_span="3" 
+	            android:hint="@string/hint_latitude"/>
+	    </TableRow>
+	    <TableRow >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:gravity="center" 
+	            android:text="@string/longitude" />
+	        <EditText 
+	            android:id="@+id/longitude_edit_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:layout_span="3" 
+	            android:hint="@string/hint_longitude"/>
+	    </TableRow>
+	    <TableRow >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:gravity="center" 
+	            android:text="@string/friend_name" />
+	        <EditText 
+	            android:id="@+id/name_edit_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:layout_span="3" 
+	            android:hint="@string/hint_station_name"/>
+	    </TableRow>
+	    <TableRow >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:gravity="center" 
+	            android:text="@string/s1" />
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:gravity="center" 
+	            android:text="@string/s2" />
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:gravity="center" 
+	            android:text="@string/s3" />
+	    </TableRow>
+	    <TableRow >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp"
+	            android:gravity="center"  
+	            android:text="@string/pci"/>
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	    </TableRow>
+	    <TableRow >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" 
+	            android:gravity="center" 
+	            android:text="@string/frequency"/>
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	    </TableRow>
+	    <TableRow >
+	        <TextView 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" 
+	            android:gravity="center" 
+	            android:text="@string/ci" />
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	        <EditText 
+	            android:layout_width="wrap_content"
+	            android:layout_height="40dp" />
+	    </TableRow>
+	
+	</TableLayout>
+</LinearLayout>

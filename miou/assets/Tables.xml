@@ -1,0 +1,333 @@
+<tables>
+	<table id="0" name="LTE服务小区">
+	    <row color="blue">
+	        <column text="MMC"></column>
+	        <column id="i617"></column>
+	        <column text="MNC"></column>
+	        <column id="i618"></column>
+	    </row>
+	    <row color="white">
+	        <column text="TM"></column>
+	        <column id="i652"></column>
+	        <column text="Frequency"></column>
+	        <column id="i627"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="DL Bandwidth"></column>
+	        <column id="i629"></column>
+	        <column text="UL Bandwidth"></column>
+	        <column id="i632"></column>
+	    </row>
+	    <row color="white">
+	        <column text="WorkMode"></column>
+	        <column id="i633"></column>
+	        <column text="Band"></column>
+	        <column id="i628"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="EARFEN"></column>
+	        <column id="i626"></column>
+	        <column text="PCI"></column>
+	        <column id="i624"></column>
+	    </row>
+	    <row color="white">
+	        <column text="RRC State"></column>
+	        <column id="i1065"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="EMM State"></column>
+	        <column id="i1063"></column>
+	    </row>
+	    <row color="white">
+	        <column text="EMM SubState"></column>
+	        <column id="i1064"></column>
+	    </row>
+	</table>
+	
+	<table id="1" name="TD服务小区">
+	    <row color="blue">
+	        <column text="CellBarred"></column>
+	        <column id="i96"></column>
+	        <column weight="30" text="CellParameterID"></column>
+	        <column weight="20" id="187"></column>
+	    </row>
+	    <row color="white">
+	        <column text="CI"></column>
+	        <column id="i85"></column>
+	        <column weight="30" text="LAC"></column>
+	        <column weight="20" id="i83"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="MCC"></column>
+	        <column id="i81"></column>
+	        <column weight="30" text="MNC"></column>
+	        <column weight="20" id="i82"></column>
+	    </row>
+	    <row color="white">
+	        <column text="NMO"></column>
+	        <column id="i92"></column>
+	        <column weight="30" text="UARFCN"></column>
+	        <column weight="20" id="i86"></column>
+	    </row>
+	</table>
+	<table id="2" name="GSM服务小区">
+	    <row color="blue">
+	        <column text="BCCH"></column>
+	        <column id="i433"></column>
+	        <column text="BSIC"></column>
+	        <column id="i434"></column>
+	    </row>
+	    <row color="white">
+	        <column text="ServCI"></column>
+	        <column id="i431"></column>
+	        <column text="LAC"></column>
+	        <column id="i430"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="MCC"></column>
+	        <column id="i428"></column>
+	        <column text="MNC"></column>
+	        <column id="i429"></column>
+	    </row>
+	    <row color="white">
+	        <column text="GPRS Support"></column>
+	        <column id="i435"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="EGPRS Support"></column>
+	        <column id="i436"></column>
+	    </row>
+	</table>
+	<table id="3" name="LTE邻小区">
+	    <row color="blue">
+	        <column weight="22" text="Freqency"></column>
+	        <column weight="13" id="i668" sub_id="0"></column>
+	        <column weight="13" id="i668" sub_id="1"></column>
+	        <column weight="13" id="i668" sub_id="2"></column>
+	        <column weight="13" id="i668" sub_id="3"></column>
+	        <column weight="13" id="i668" sub_id="4"></column>
+	        <column weight="13" id="i668" sub_id="5"></column>
+	    </row>
+	    <row color="white">
+	        <column weight="22" text="PCI"></column>
+	        <column weight="13" id="i670" sub_id="0"></column>
+	        <column weight="13" id="i670" sub_id="1"></column>
+	        <column weight="13" id="i670" sub_id="2"></column>
+	        <column weight="13" id="i670" sub_id="3"></column>
+	        <column weight="13" id="i670" sub_id="4"></column>
+	        <column weight="13" id="i670" sub_id="5"></column>
+	    </row>
+	    <row color="blue">
+	        <column weight="22" text="EARFCN"></column>
+	        <column weight="13" id="i669" sub_id="0"></column>
+	        <column weight="13" id="i669" sub_id="1"></column>
+	        <column weight="13" id="i669" sub_id="2"></column>
+	        <column weight="13" id="i669" sub_id="3"></column>
+	        <column weight="13" id="i669" sub_id="4"></column>
+	        <column weight="13" id="i669" sub_id="5"></column>
+	    </row>
+	</table>
+	<table id="4" name="TD邻小区">
+	    <row color="blue">
+	        <column weight="22" text="RSCP"></column>
+	        <column weight="13" id="i174" sub_id="0"></column>
+	        <column weight="13" id="i174" sub_id="1"></column>
+	        <column weight="13" id="i174" sub_id="2"></column>
+	        <column weight="13" id="i174" sub_id="3"></column>
+	        <column weight="13" id="i174" sub_id="4"></column>
+	        <column weight="13" id="i174" sub_id="5"></column>
+	    </row>
+	    <row color="white">
+	        <column weight="22" text="UARFCN"></column>
+	        <column weight="13" id="i172" sub_id="0"></column>
+	        <column weight="13" id="i172" sub_id="1"></column>
+	        <column weight="13" id="i172" sub_id="2"></column>
+	        <column weight="13" id="i172" sub_id="3"></column>
+	        <column weight="13" id="i172" sub_id="4"></column>
+	        <column weight="13" id="i172" sub_id="5"></column>
+	    </row>
+	    <row color="blue">
+	        <column weight="22" text="ParamID"></column>
+	        <column weight="13" id="i173" sub_id="0"></column>
+	        <column weight="13" id="i173" sub_id="1"></column>
+	        <column weight="13" id="i173" sub_id="2"></column>
+	        <column weight="13" id="i173" sub_id="3"></column>
+	        <column weight="13" id="i173" sub_id="4"></column>
+	        <column weight="13" id="i173" sub_id="5"></column>
+	    </row>
+	</table>
+	<table id="5" name="GSM邻小区">
+	    <row color="blue">
+	        <column weight="22" text="BCCH"></column>
+	        <column weight="13" id="i464" sub_id="0"></column>
+	        <column weight="13" id="i464" sub_id="1"></column>
+	        <column weight="13" id="i464" sub_id="2"></column>
+	        <column weight="13" id="i464" sub_id="3"></column>
+	        <column weight="13" id="i464" sub_id="4"></column>
+	        <column weight="13" id="i464" sub_id="5"></column>
+	    </row>
+	    <row color="white">
+	        <column weight="22" text="BSIC"></column>
+	        <column weight="13" id="i463" sub_id="0"></column>
+	        <column weight="13" id="i463" sub_id="1"></column>
+	        <column weight="13" id="i463" sub_id="2"></column>
+	        <column weight="13" id="i463" sub_id="3"></column>
+	        <column weight="13" id="i463" sub_id="4"></column>
+	        <column weight="13" id="i463" sub_id="5"></column>
+	    </row>
+	    <row color="blue">
+	        <column weight="22" text="RxlevSub"></column>
+	        <column weight="13" id="i465" sub_id="0"></column>
+	        <column weight="13" id="i465" sub_id="1"></column>
+	        <column weight="13" id="i465" sub_id="2"></column>
+	        <column weight="13" id="i465" sub_id="3"></column>
+	        <column weight="13" id="i465" sub_id="4"></column>
+	        <column weight="13" id="i465" sub_id="5"></column>
+	    </row>
+	</table>
+	<table id="6" name="LTE语音业务">
+	    <row color="blue">
+	        <column text="上行RB数"></column>
+	        <column id="i825"></column>
+	        <column text="下行RB数"></column>
+	        <column id="i824"></column>
+	    </row>
+	    <row color="white">
+	        <column text="上行MCS"></column>
+	        <column id="i838"></column>
+	        <column text="下行MCS"></column>
+	        <column id="i837"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="BLER"></column>
+	        <column id="i882"></column>
+	        <column text="呼叫建立时延"></column>
+	        <column id="interface1"></column>
+	    </row>
+	    <row color="white">
+	        <column text="切换中断时延"></column>
+	        <column id="interface2"></column>
+	        <column text="语音挂机时延"></column>
+	        <column id="interface3"></column>
+	    </row>
+	</table>
+	<table id="7" name="LTE数据业务">
+	    <row color="blue">
+	        <column text="RSRP"></column>
+	        <column id="i637"></column>
+	        <column text="SINR"></column>
+	        <column id="i651"></column>
+	    </row>
+	    <row color="white">
+	        <column text="FTP下载速率"></column>
+	        <column id="interface4"></column>
+	        <column text="FTP上传速率"></column>
+	        <column id="interface5"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="UE发射功率"></column>
+	        <column id="i932"></column>
+	    </row>
+	</table>
+	<table id="8" name="TD语音数据">
+	    <row color="blue">
+	        <column text="PCCPCH_RSCP"></column>
+	        <column id="i168"></column>
+	    </row>
+	    <row color="white">
+	        <column text="PCCPCH_SIR"></column>
+	        <column id="i1238"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="UE发射功率"></column>
+	        <column id="i162"></column>
+	    </row>
+	    <row color="white">
+	        <column text="UE_VOICE_FER"></column>
+	        <column id="i1266"></column>
+	    </row>
+	</table>
+	<table id="9" name="TD数据业务">
+	    <row color="blue">
+	        <column text="PCCPCH_RSCP"></column>
+	        <column id="i168"></column>
+	    </row>
+	    <row color="white">
+	        <column text="UE发射功率"></column>
+	        <column id="i162"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="上传应用平均吞吐量"></column>
+	        <column id="interface6"></column>
+	    </row>
+	    <row color="white">
+	        <column text="下载应用平均吞吐量"></column>
+	        <column id="interface7"></column>
+	    </row>
+	</table>
+	<table id="10" name="GSM语音业务">
+	    <row color="blue">
+	        <column text="RxQual Full"></column>
+	        <column id="i499"></column>
+	        <column text="RxQual Sub"></column>
+	        <column id="i498"></column>
+	    </row>
+	    <row color="white">
+	        <column text="RxLev Full"></column>
+	        <column id="i497"></column>
+	        <column text="RxLex Sub"></column>
+	        <column id="i496"></column>
+	    </row>
+	    <row color="blue">
+	        <column text="MS TxPower"></column>
+	        <column id="i501"></column>
+	    </row>
+	    <row color="white">
+	        <column text="FER"></column>
+	        <column id="i500"></column>
+	    </row>
+	</table>
+	<table id="11" name="GSM数据业务">
+	    <row color="blue">
+	        <column weight="30" text="RxLev Full"></column>
+	        <column weight="20" id="i497"></column>
+	        <column weight="30" text="RxLev Sub"></column>
+	        <column weight="20" id="i496"></column>
+	    </row>
+	    <row color="white">
+	        <column weight="30" text="throughput[UL]"></column>
+	        <column weight="20" id="i556"></column>
+	        <column weight="30" text="throughput[DL]"></column>
+	        <column weight="20" id="i566"></column>
+	    </row>
+	    <row color="blue">
+	        <column weight="30" text="RLC BLER"></column>
+	        <column weight="20" id="i572"></column>
+	    </row>
+	    <row color="white">
+	        <column weight="30" text="RLC retrans rate"></column>
+	        <column weight="20" id="i560"></column>
+	        
+	    </row>
+	    <row color="blue">
+	        <column weight="30" text="Ms TxPower"></column>
+	        <column weight="20" id="i501"></column>
+	        
+	    </row>
+	</table>
+	<table id="12" name="空闲时三网覆盖">
+	    <row color="blue">
+	        <column text="LTE RSRP"></column>
+	        <column id="i637"></column>
+	    </row>
+	    <row color="white">
+	        <column text="TD RSRP"></column>
+	        <column id="i168"></column>
+	        
+	    </row>
+	    <row color="blue">
+	        <column text="GSM RxLev"></column>
+	        <column id="i451"></column>
+	    </row>
+	</table>
+</tables>

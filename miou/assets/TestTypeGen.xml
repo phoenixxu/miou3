@@ -1,0 +1,17 @@
+<root>
+    <type id="0x0500" description="语音主叫"></type>
+    <type id="0x0501" description="语音被叫"></type>
+    <type id="0x0502" description="空闲测试"></type>
+    <type id="0x0602" description="Attach测试"></type>
+    <type id="0x0603" description="PDP测试"></type>
+    <type id="0x0604" description="PING测试"></type>
+    <type id="0x0608" description="WAP下载"></type>
+    <type id="0x0609" description="接收/发送短消息"></type>
+    <type id="0x060A" description="发送彩信"></type>
+    <type id="0x060B" description="接收彩信"></type>
+    <type id="0x060C" description="FTP上传/下载测试"></type>
+    <type id="0x0611" description="流媒体测试"></type>
+    <type id="0x0612" description="接收POP3邮件测试"></type>
+    <type id="0x0613" description="发送SMTP邮件测试"></type>
+</root>
+
