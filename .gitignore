@@ -21,6 +21,7 @@
 # Generated files
 bin/
 gen/
+out/
 */bin/
 */gen/
 .out
