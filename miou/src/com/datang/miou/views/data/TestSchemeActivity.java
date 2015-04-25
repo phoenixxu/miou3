@@ -49,6 +49,10 @@ public class TestSchemeActivity extends ActivitySupport {
 
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         ITestScheme scheme = TestSchemeCache.getScheme(intent.getStringExtra(TestSchemeId.ID));
+        if(scheme==null) {
+            mTitleTextView.setText("没有放入SchemeCache");
+            return;
+        }
         mTitleTextView.setText(scheme.name());
 
         TableLayout tl = (TableLayout) this.findViewById(R.id.tl_test_scheme);

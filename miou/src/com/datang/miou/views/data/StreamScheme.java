@@ -41,7 +41,7 @@ public class StreamScheme extends AbstractScheme {
 
 
     protected StreamScheme() {
-        id = "0x0604";
+        id = "0x0611";
         name = "流媒体测试";
     }
 

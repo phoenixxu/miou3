@@ -39,24 +39,22 @@ public class PlanManagerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mContext = this.getActivity();
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        if (!sharedPref.contains(TestSchemeId.x0500)) {
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(TestSchemeId.x0500, "0x0500");
-            editor.putString(TestSchemeId.x0501, "0x0501");
-            editor.putString(TestSchemeId.x0502, "0x0502");
-            editor.putString(TestSchemeId.x0602, "0x0602");
-            editor.putString(TestSchemeId.x0603, "0x0603");
-            editor.putString(TestSchemeId.x0604, "0x0604");
-            editor.putString(TestSchemeId.x0608, "0x0608");
-            editor.putString(TestSchemeId.x0609, "0x0609");
-            editor.putString(TestSchemeId.x060A, "0x060A");
-            editor.putString(TestSchemeId.x060B, "0x060B");
-            editor.putString(TestSchemeId.x060C, "0x060C");
-            editor.putString(TestSchemeId.x0611, "0x0611");
-            editor.putString(TestSchemeId.x0612, "0x0612");
-            editor.putString(TestSchemeId.x0613, "0x0613");
-            editor.commit();
-        }
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(TestSchemeId.x0500, "0x0500");
+        editor.putString(TestSchemeId.x0501, "0x0501");
+        editor.putString(TestSchemeId.x0502, "0x0502");
+        editor.putString(TestSchemeId.x0602, "0x0602");
+        editor.putString(TestSchemeId.x0603, "0x0603");
+        editor.putString(TestSchemeId.x0604, "0x0604");
+        editor.putString(TestSchemeId.x0608, "0x0608");
+        editor.putString(TestSchemeId.x0609, "0x0609");
+        editor.putString(TestSchemeId.x060A, "0x060A");
+        editor.putString(TestSchemeId.x060B, "0x060B");
+        editor.putString(TestSchemeId.x060C, "0x060C");
+        editor.putString(TestSchemeId.x0611, "0x0611");
+        editor.putString(TestSchemeId.x0612, "0x0612");
+        editor.putString(TestSchemeId.x0613, "0x0613");
+        editor.commit();
         TestSchemeCache.read(null);
 
     }

@@ -21,6 +21,9 @@ public class TestSchemeCache {
         PingScheme pingScheme = new PingScheme();
         pingScheme.read(path);
         schemeMap.put(pingScheme.id(), pingScheme);
+        StreamScheme streamScheme = new StreamScheme();
+        streamScheme.read(path);
+        schemeMap.put(streamScheme.id(), streamScheme);
 
     }
 
