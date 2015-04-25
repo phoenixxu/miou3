@@ -193,7 +193,9 @@
         <activity
             android:name=".views.percept.task.NewTaskActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-
+        <activity
+            android:name=".views.data.TestSchemeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
     </application>
 
