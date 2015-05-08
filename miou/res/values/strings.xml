@@ -97,4 +97,26 @@
     <string name="gsm">GSM</string>
     <string name="temp_value">-</string>
     <string name="serving_cell_info">服务小区信息</string>
+    <string name="resumeMessage">test is running.</string>
+    <string name="pauseMessage">test is paused.</string>
+    <string name="httpMethodLabel">HTTP Method</string>
+    <string name="httpGetRadioText">Get</string>
+    <string name="httpHeadRadioText">Head</string>
+    <string name="httpUrlHint">www.google.com</string>
+    <string name="httpUrlLabel">URL Address</string>
+    <string name="checkinIntervalPrefKey">KEY_CHEKCEDIN_INTERVAL</string>
+    <string name="measureWhenPluggedPrefKey">KEY_MEASURE_WHEN_PLUGGED</string>
+    <string name="batteryMinThresPrefKey">KEY_BATTERY_THRES</string>
+    <string name="startOnBootPrefKey">KEY_START_ON_BOOT</string>
+    <string name="notificationSchedulerStarted">Speedometer service has started</string>
+    <string name="notificatioContent">Speedometer service is running</string>
+    <string name="userMeasurementSuccessToast">Measurement is running. Results will show up shortly.</string>
+    <string name="userMeasurementFailureToast">The scheduler is busy, please run the measurement later</string>
+    <string name="userMeasurementBusySchedulerToast">The scheduler is busy, your measurement will start shortly</string>
+    <string name="invalidUserMeasurementInputToast">Some parameters are not correct. Please make sure all measurement parameters are set properly.</string>
+    <string name="invalidCheckinIntervalToast">Invalid setting! Please choose an interval between 1 and 24 hours</string>
+    <string name="invalidBatteryToast">Invalid setting! Please choose a battery level between 0 and 100 percent</string>
+    <string name="menuInitializationExceptionToast">Exception occurs during menu initialization.</string>
+    <string name="idleTextForUserConsoleStatusBar">There is no measurement running.</string>
+    <string name="powerThreasholdReachedMsg">Measurement paused - below battery threshold</string>
 </resources>

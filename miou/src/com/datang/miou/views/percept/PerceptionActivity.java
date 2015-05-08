@@ -1,7 +1,12 @@
 package com.datang.miou.views.percept;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
@@ -10,6 +15,9 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.datang.business.MeasurementScheduler;
+import com.datang.business.UpdateIntent;
+import com.datang.business.util.Logger;
 import com.datang.miou.R;
 
 
@@ -18,15 +26,18 @@ import com.datang.miou.R;
  */
 public class PerceptionActivity extends FragmentActivity implements CompoundButton.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
 
+    public static PerceptionActivity Perception;
     private MainTabView mView = null;
 
     private int mCurrentPageIndex = MainTabView.TAB_INDEX_HOME;
     private TextView mTitleTextView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Perception=this;
         mView = new MainTabView(this);
         if (savedInstanceState == null) {
             mCurrentPageIndex = MainTabView.TAB_INDEX_HOME;
@@ -72,8 +83,6 @@ public class PerceptionActivity extends FragmentActivity implements CompoundButt
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
     }
-
-    ;
 
 
 }

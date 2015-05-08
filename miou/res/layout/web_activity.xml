@@ -16,12 +16,12 @@
         android:orientation="vertical"
         android:padding="15dp">
 
-        <TextView
+        <TextView android:id="@+id/tv_web_test_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="HTTP 测试开始" />
 
-        <TextView
+        <TextView android:id="@+id/tv_web_test_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="http://www.baidu.com" />

@@ -13,13 +13,19 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 
+import com.datang.business.MeasurementScheduler;
+import com.datang.business.UpdateIntent;
+import com.datang.business.util.Logger;
 import com.datang.miou.ActivitySupport;
 import com.datang.miou.R;
 import com.datang.miou.annotation.AfterView;
@@ -371,5 +377,6 @@ public class MainActivity extends ActivitySupport {
             }
         }
     }
+
 	
 }
