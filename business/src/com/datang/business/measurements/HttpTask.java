@@ -302,7 +302,8 @@ public class HttpTask extends MeasurementTask {
   
   @Override
   public String getDescriptor() {
-    return DESCRIPTOR;
+      HttpDesc desc = (HttpDesc) measurementDesc;
+      return desc.url;
   }
   
   @Override

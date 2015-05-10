@@ -170,6 +170,7 @@ public abstract class MeasurementTask implements Callable<MeasurementResult>, Co
     if (measurementDesc.priority == MeasurementTask.USER_PRIORITY) {
       Intent intent = new Intent();
       intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
+      intent.putExtra(UpdateIntent.TASK_KEY,measurementDesc.key);
       intent.putExtra(UpdateIntent.PROGRESS_PAYLOAD, progress);
       intent.putExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD, MeasurementTask.USER_PRIORITY);
       parent.sendBroadcast(intent);

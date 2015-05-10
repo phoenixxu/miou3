@@ -54,7 +54,7 @@ public interface Config {
   // default minimum battery percentage to run com.datang.business.measurements
   public static final int DEFAULT_BATTERY_THRESH_PRECENT = 80;
   public static final boolean DEFAULT_MEASURE_WHEN_CHARGE = true;
-  public static final long MIN_TIME_BETWEEN_MEASUREMENT_ALARM_MSEC = 3 * 1000L;
+  public static final long MIN_TIME_BETWEEN_MEASUREMENT_ALARM_MSEC = 5 * 1000L;
   
   /** Constants used in BatteryCapPowerManager.java */
   /** The default battery level if we cannot read it from the system */

@@ -2,15 +2,12 @@ package com.datang.miou.views.percept.web;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.SystemClock;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,14 +22,17 @@ import com.datang.business.UpdateIntent;
 import com.datang.business.measurements.HttpTask;
 import com.datang.business.util.Logger;
 import com.datang.miou.ActivitySupport;
-import com.datang.miou.MiouApp;
 import com.datang.miou.R;
 import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
 import com.datang.miou.views.percept.PerceptionActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -42,14 +42,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @AutoView(R.layout.web_activity)
 public class WebActivity extends ActivitySupport {
 
-    AtomicBoolean isStop = new AtomicBoolean(false);
-    private Button webCtl;  BroadcastReceiver receiver;
-
-    private String[] array=new String[]{"www.baidu.com","www.sina.com",};
+    public static final String TAG = "WebActivity";
+    AtomicBoolean isStop = new AtomicBoolean(true);
+    BroadcastReceiver receiver;
+    private Button webCtl;
+    private HashMap<String, ProgressBar> barHashMap = new LinkedHashMap<String, ProgressBar>();
+    private HashMap<String, TextView> tHashMap = new LinkedHashMap<String, TextView>();
+    private HashMap<String, TextView> vHashMap = new LinkedHashMap<String, TextView>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PerceptionActivity.Perception.getScheduler();
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("网页测试");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
@@ -74,19 +78,40 @@ public class WebActivity extends ActivitySupport {
                 startActivity(new Intent(mContext, EditWebActivity.class));
             }
         });
-        final TextView testStatus = (TextView) findViewById(R.id.tv_web_test_status);
-
         IntentFilter filter = new IntentFilter();
         filter.addAction(UpdateIntent.SCHEDULER_CONNECTED_ACTION);
         filter.addAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
+        filter.addAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
 
 
         final TextView textResult = (TextView) this.findViewById(R.id.tv_web_test_result);
         final ProgressBar baidu = (ProgressBar) this.f(R.id.pb_baidu);
-        final ProgressBar sina = (ProgressBar) this.f(R.id.pb_sina);
+        baidu.setTag("www.baidu.com");
+        barHashMap.put("baidu", baidu);
+        tHashMap.put("baidu", (TextView) this.f(R.id.baidu_t));
+        vHashMap.put("baidu", (TextView) this.f(R.id.baidu_v));
         final ProgressBar mobile = (ProgressBar) this.f(R.id.pb_mobile);
-        final ProgressBar tengxu = (ProgressBar) this.f(R.id.pb_tengxu);
+        mobile.setTag("www.10086.cn/sh/");
+        barHashMap.put("mobile", mobile);
+        tHashMap.put("mobile", (TextView) this.f(R.id.mobile_t));
+        vHashMap.put("mobile", (TextView) this.f(R.id.mobile_v));
         final ProgressBar youku = (ProgressBar) this.f(R.id.pb_youku);
+        youku.setTag("www.youku.com");
+        barHashMap.put("youku", youku);
+        tHashMap.put("youku", (TextView) this.f(R.id.youku_t));
+        vHashMap.put("youku", (TextView) this.f(R.id.youku_v));
+        final ProgressBar qq = (ProgressBar) this.f(R.id.pb_tengxu);
+        qq.setTag("www.qq.com");
+        barHashMap.put("qq", qq);
+        tHashMap.put("qq", (TextView) this.f(R.id.tengxu_t));
+        vHashMap.put("qq", (TextView) this.f(R.id.tengxu_v));
+        final ProgressBar sina = (ProgressBar) this.f(R.id.pb_sina);
+        sina.setTag("sina.cn");
+        barHashMap.put("sina", sina);
+        tHashMap.put("sina", (TextView) this.f(R.id.sina_t));
+        vHashMap.put("sina", (TextView) this.f(R.id.sina_v));
+
+
         this.receiver = new BroadcastReceiver() {
             @Override
             // All onXyz() callbacks are single threaded
@@ -94,30 +119,12 @@ public class WebActivity extends ActivitySupport {
                 if (intent.getAction().equals(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION)) {
                     int progress = intent.getIntExtra(UpdateIntent.PROGRESS_PAYLOAD,
                             Config.INVALID_PROGRESS);
-                    int priority = intent.getIntExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD,
-                            MeasurementTask.INVALID_PRIORITY);
-                    // Show user results if we there is currently a user measurement running
-                    if (priority == MeasurementTask.USER_PRIORITY) {
-                        textResult.setText(MiouApp.APP.getScheduler().getUserResults().toString());
-                    }
-                    upgradeProgress(baidu,progress, Config.MAX_PROGRESS_BAR_VALUE);
+                    String key = intent.getStringExtra(UpdateIntent.TASK_KEY);
+                    upgradeProgress(key, progress, intent.getStringExtra(UpdateIntent.STRING_PAYLOAD));
+                    textResult.setText(intent.getStringExtra(UpdateIntent.STATUS_MSG_PAYLOAD));
 
-                    if (MiouApp.APP.getScheduler().isPauseRequested()) {
-                        testStatus.setText(WebActivity.this.getString(R.string.pauseMessage));
-                    } else if (!MiouApp.APP.getScheduler().hasBatteryToScheduleExperiment()) {
-                        testStatus.setText(WebActivity.this.getString(R.string.powerThreasholdReachedMsg));
-                    } else {
-                        MeasurementTask currentTask = MiouApp.APP.getScheduler().getCurrentTask();
-                        if (currentTask != null) {
-                            if (currentTask.getDescription().priority == MeasurementTask.USER_PRIORITY) {
-                                testStatus.setText("User task " + currentTask.getDescriptor() + " is running");
-                            } else {
-                                testStatus.setText("System task " + currentTask.getDescriptor() + " is running");
-                            }
-                        } else {
-                            testStatus.setText(WebActivity.this.getString(R.string.resumeMessage));
-                        }
-                    }
+                } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
+                    textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
                 }
             }
         };
@@ -133,34 +140,6 @@ public class WebActivity extends ActivitySupport {
             @Override
             public void onClick(View v) {
                 ctl();
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("url", "www.baidu.com");
-                params.put("method", "get");
-                HttpTask.HttpDesc desc = new HttpTask.HttpDesc(null,
-                        Calendar.getInstance().getTime(),
-                        null,
-                        Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
-                        Config.DEFAULT_USER_MEASUREMENT_COUNT,
-                        MeasurementTask.USER_PRIORITY,
-                        params);
-                HttpTask newTask = new HttpTask(desc, WebActivity.this.getApplicationContext());
-                MeasurementScheduler scheduler = MiouApp.APP.getScheduler();
-                if (scheduler != null && scheduler.submitTask(newTask)) {
-                    /*
-                     * Broadcast an intent with MEASUREMENT_ACTION so that the scheduler will immediately
-                     * handles the user measurement
-                     */
-                    WebActivity.this.sendBroadcast(
-                            new UpdateIntent("", UpdateIntent.MEASUREMENT_ACTION));
-                    Toast.makeText(WebActivity.this, "MeasurementSuccess", Toast.LENGTH_LONG).show();
-
-                    if (scheduler.getCurrentTask() != null) {
-                        showBusySchedulerStatus();
-                    }
-                } else {
-                    Toast.makeText(WebActivity.this, "MeasurementFailure", Toast.LENGTH_LONG).show();
-                }
-                scheduler.submitTask(newTask);
             }
         });
     }
@@ -174,32 +153,28 @@ public class WebActivity extends ActivitySupport {
     }
 
     /**
-     *  Upgrades the progress bar in the UI.
-     *  */
-    private void upgradeProgress(ProgressBar progressBar,int progress, int max) {
-        Logger.d("Progress is " + progress);
-        if (progress >= 0 && progress <= max) {
-            progressBar.setProgress(progress);
+     * Upgrades the progress bar in the UI.
+     */
+    private void upgradeProgress(String key, int progress, String msg) {
+        Logger.d("Progress is " + key + ":" + progress + "--" + msg);
+        if (!barHashMap.containsKey(key)) return;
+        if (progress >= 0 && progress <= Config.MAX_PROGRESS_BAR_VALUE) {
+            barHashMap.get(key).setProgress(progress);
         } else {
       /* UserMeasurementTask broadcast a progress greater than max to indicate the
        * termination of the measurement
        */
-            progressBar.setProgress(100);
+            if (msg != null) {
+                try {
+                    JSONObject json = new JSONObject(msg);
+                    tHashMap.get(key).setText("耗时:" + json.getString("T"));
+                    vHashMap.get(key).setText("速率:" + json.getString("V"));
+                } catch (JSONException e) {
+                    Log.w(TAG, e.getMessage(), e);
+                }
+            }
+            barHashMap.get(key).setProgress(100);
         }
-    }
-    @Override
-    protected void onResume() {
-        isStop.set(false);
-        webCtl.setText("停止测试");
-        super.onResume();
-
-    }
-
-    @Override
-    protected void onPause() {
-        isStop.set(true);
-        webCtl.setText("开始测试");
-        super.onPause();
     }
 
     @Override
@@ -210,11 +185,53 @@ public class WebActivity extends ActivitySupport {
 
     private void ctl() {
         if (!isStop.get()) {
+            for (String key : barHashMap.keySet()) {
+                barHashMap.get(key).setProgress(0);
+            }
             isStop.set(true);
             webCtl.setText("开始测试");
+            PerceptionActivity.Perception.getScheduler().clean();
+
         } else {
             isStop.set(false);
             webCtl.setText("停止测试");
+            startTest();
+
         }
+    }
+
+    private void startTest() {
+        for (String key : barHashMap.keySet()) {
+//            if(!key.equals("sina")) continue;
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("url", barHashMap.get(key).getTag().toString());
+            params.put("method", "get");
+            HttpTask.HttpDesc desc = new HttpTask.HttpDesc(key,
+                    Calendar.getInstance().getTime(),
+                    Calendar.getInstance().getTime(),
+                    Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
+                    Config.DEFAULT_USER_MEASUREMENT_COUNT,
+                    MeasurementTask.USER_PRIORITY,
+                    params);
+            HttpTask newTask = new HttpTask(desc, WebActivity.this.getApplicationContext());
+            MeasurementScheduler scheduler = PerceptionActivity.Perception.getScheduler();
+            if (scheduler != null && scheduler.submitTask(newTask)) {
+//                Toast.makeText(WebActivity.this, "开始测试 " + key, Toast.LENGTH_SHORT).show();
+                /*
+                 * Broadcast an intent with MEASUREMENT_ACTION so that the scheduler will immediately
+                 * handles the user measurement
+                 */
+                WebActivity.this.sendBroadcast(
+                        new UpdateIntent(newTask.getDescriptor(), UpdateIntent.MEASUREMENT_ACTION));
+
+
+                if (scheduler.getCurrentTask() != null) {
+                    showBusySchedulerStatus();
+                }
+            } else {
+                Toast.makeText(WebActivity.this, "测试 " + key + " 失败", Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 }

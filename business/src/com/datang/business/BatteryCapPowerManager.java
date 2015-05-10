@@ -99,8 +99,8 @@ public class BatteryCapPowerManager {
       if (!(error instanceof MeasurementSkippedException)) {
         Intent intent = new Intent();
         intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
-        intent.putExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD, 
-            (int) realTask.getDescription().priority);
+//        intent.putExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD,
+//            (int) realTask.getDescription().priority);
         // A progress value MEASUREMENT_END_PROGRESS indicates the end of an measurement
         intent.putExtra(UpdateIntent.PROGRESS_PAYLOAD, Config.MEASUREMENT_END_PROGRESS);
         if (result != null) {

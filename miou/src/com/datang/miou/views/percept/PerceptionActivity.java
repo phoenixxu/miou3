@@ -32,12 +32,59 @@ public class PerceptionActivity extends FragmentActivity implements CompoundButt
     private int mCurrentPageIndex = MainTabView.TAB_INDEX_HOME;
     private TextView mTitleTextView;
 
+    private MeasurementScheduler scheduler;
+    private boolean isBound = false;
+    private boolean isBindingToService = false;
+    /**
+     * Defines callbacks for service binding, passed to bindService()
+     */
+    private ServiceConnection serviceConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            Logger.d("onServiceConnected called");
+            // We've bound to LocalService, cast the IBinder and get LocalService
+            // instance
+            MeasurementScheduler.SchedulerBinder binder = (MeasurementScheduler.SchedulerBinder) service;
+            scheduler = binder.getService();
+            isBound = true;
+            isBindingToService = false;
+            PerceptionActivity.this.sendBroadcast(new UpdateIntent("",
+                    UpdateIntent.SCHEDULER_CONNECTED_ACTION));
+        }
 
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            Logger.d("onServiceDisconnected called");
+            isBound = false;
+        }
+    };
+
+    /**
+     * Returns the scheduler singleton instance. Should only be called from the UI thread.
+     */
+    public MeasurementScheduler getScheduler() {
+        if (isBound) {
+            return this.scheduler;
+        } else {
+            bindToService();
+            return null;
+        }
+    }
+
+
+    private void bindToService() {
+        if (!isBindingToService && !isBound) {
+            // Bind to the scheduler service if it is not bounded
+            Intent intent = new Intent(this, MeasurementScheduler.class);
+            bindService(intent, serviceConn, Context.BIND_AUTO_CREATE);
+            isBindingToService = true;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Perception=this;
+        Perception = this;
         mView = new MainTabView(this);
         if (savedInstanceState == null) {
             mCurrentPageIndex = MainTabView.TAB_INDEX_HOME;
@@ -85,4 +132,9 @@ public class PerceptionActivity extends FragmentActivity implements CompoundButt
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isBound) unbindService(serviceConn);
+    }
 }

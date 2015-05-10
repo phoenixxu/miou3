@@ -23,8 +23,11 @@ import com.datang.business.util.Logger;
 import com.datang.business.util.MeasurementJsonConvertor;
 import com.datang.business.util.Util;
 
+import org.json.JSONObject;
+
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * POJO that represents the result of a measurement
@@ -97,6 +100,7 @@ public class MeasurementResult {
         return "Measurement has failed";
     }
 
+
     private void getPingResult(StringBuilderPrinter printer, HashMap<String, String> values) {
         PingDesc desc = (PingDesc) parameters;
         printer.println("[Ping]");
@@ -126,6 +130,25 @@ public class MeasurementResult {
         }
     }
 
+    public String getResult() {
+        Map<String, String> r = new HashMap<String, String>();
+        if (success) {
+            Formatter format = new Formatter();
+            int headerLen = Integer.parseInt(values.get("headers_len"));
+            int bodyLen = Integer.parseInt(values.get("body_len"));
+            int time = Integer.parseInt(values.get("time_ms"));
+            r.put("T", time / 1000.0 + "s");
+            r.put("V", format.format("%.2fM/s", (headerLen + bodyLen) * 8 / (1000.0 * time)).toString());
+        } else {
+            r.put("T", "0s");
+            r.put("V", "0M/s");
+        }
+
+        return new JSONObject(r).toString();
+
+
+    }
+
     private void getHttpResult(StringBuilderPrinter printer, HashMap<String, String> values) {
         HttpDesc desc = (HttpDesc) parameters;
         printer.println("[HTTP]");
@@ -143,6 +166,9 @@ public class MeasurementResult {
         }
     }
 
+    public String getTaskKey() {
+        return taskKey;
+    }
 
     /**
      * Removes the quotes surrounding the string. If the string is less than 2 in length,
@@ -154,6 +180,10 @@ public class MeasurementResult {
         } else {
             return null;
         }
+    }
+
+    public boolean isSuccess() {
+        return success;
     }
 }
  
