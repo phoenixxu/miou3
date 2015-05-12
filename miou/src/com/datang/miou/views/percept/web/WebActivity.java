@@ -191,6 +191,13 @@ public class WebActivity extends ActivitySupport {
             isStop.set(true);
             webCtl.setText("开始测试");
             PerceptionActivity.Perception.getScheduler().clean();
+            for(String key : tHashMap.keySet()){
+                tHashMap.get(key).setText("耗时:-s");
+            }
+            for(String key:vHashMap.keySet()){
+                vHashMap.get(key).setText("速率:-M/s");
+            }
+
 
         } else {
             isStop.set(false);

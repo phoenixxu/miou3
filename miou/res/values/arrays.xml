@@ -31,4 +31,18 @@
         <item>@color/green</item>
         <item>@color/red</item>
     </integer-array>
+    <string-array name="web_urls">
+        <item>www.baidu.com</item>
+        <item>www.10086.com</item>
+        <item>www.youku.com</item>
+        <item>www.qq.com</item>
+        <item>www.sina.cn</item>
+    </string-array>
+    <string-array name="web_names">
+        <item>百度</item>
+        <item>移动</item>
+        <item>优酷</item>
+        <item>腾讯</item>
+        <item>新浪</item>
+    </string-array>
 </resources>
