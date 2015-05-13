@@ -220,43 +220,64 @@ public class TreeMainActivity extends Activity
 		
 		
 		for(String line : dataarray) {
-            Log.d("TreeMainActivity",line);
-
+            Log.i("TreeMainActivity",line);
+            
 			//if(line.startsWith("{"))
-            if (line.contains("{"))
+            // IMSI DETACH INDICATION这个消息结构有点不一样 做个特殊处理
+            if (line.contains("{") || line.trim().endsWith(":"))
 			{
-				if(islastbrace == false)
-				{
+            	if (line.trim().equals("{")) {
+            		continue;
+            	}
+            	
+            	Log.i("TreeMainActivity", "it is a branch, islastbrace = " + islastbrace);
+            	
+				//if(islastbrace == false)
+				//{
 					count++;
 					int parent =  ((Integer)ps.peek()).intValue();
 					
-					mDatas2.add(new FileBean(count, parent, line.split(" ::=")[0].trim()));
-				}
+					Log.i("TreeMainActivity", "add " + line.split(" ::=")[0].trim());
+					
+					String text = "";
+					
+					if (line.trim().endsWith(":")) {
+						text = line.trim().split(":")[0];
+					} else {
+						text = line.split(" ::=")[0].trim();
+					}
+					mDatas2.add(new FileBean(count, parent, text));
+				//}
+				
+				
 				
 				number++;
 				ps.push(count);
-				islastbrace = false;
+				//islastbrace = false;
 			}
 			//else if(line.startsWith("}"))
             else if (line.contains("}"))
 				
 			{
-				islastbrace = false;
+				//islastbrace = false;
 				number--;
 				ps.pop();
 				
 			}
 			else
 			{
-				islastbrace = true;
+				//islastbrace = true;
 				count++;
 				int parent =  ((Integer)ps.peek()).intValue();
+				Log.i("TreeMainActivity", "it is a leaf");
+				Log.i("TreeMainActivity", "add " + line.trim());
+
 				mDatas2.add(new FileBean(count, parent, line.trim()));
+				
 			}
 				
 
 		}
-		
 		
 		
 		

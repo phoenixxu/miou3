@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.telephony.TelephonyManager;
 
 public class ProcessInterface {
+	public static HoldLastRecieverServer mHoldLastServer = new HoldLastRecieverServer();
+	
 	private static ITelephony m_iTelephony = null;
 	public static native void RpGPS(double dbLon,double dbLat,int nAltitude,int nSpeed);
 	public static native void RpMOS(float fMosValue);
@@ -45,6 +47,7 @@ public class ProcessInterface {
 	{
 		System.out.println("call back "+strValue);
 	}
+	public static native void Close();
 	public static native String hello();
 	
 	public static void getTelephony(Context context) {
@@ -103,6 +106,9 @@ public class ProcessInterface {
 	static {
 		System.loadLibrary("datadecoder");
 		System.loadLibrary("ltel3decoder");
+		System.loadLibrary("tdsl3decoder");
+		System.loadLibrary("umdecoder");
+		System.loadLibrary("nasdecoder");
 		System.loadLibrary("miouinterface");
 	}
 }

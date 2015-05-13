@@ -1,9 +1,14 @@
 package com.datang.miou.views.dialogs;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.datang.miou.R;
 import com.datang.miou.datastructure.TestLog;
+import com.datang.miou.utils.MiscUtils;
+import com.datang.miou.utils.SDCardUtils;
+import com.datang.miou.xml.XmlRW;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,6 +33,7 @@ public class LogPickerDialogFragment extends DialogFragment {
 	}
 	private static Callbacks cb;
 	private TestLog mSelectedTestLog;
+	protected View mCurrentItem;
 	
 	private class TestLogAdapter extends ArrayAdapter<TestLog> {
 		private Context mAppContext;
@@ -41,20 +47,20 @@ public class LogPickerDialogFragment extends DialogFragment {
 			
 			TestLog log = this.getItem(position);
 
-			TextView mName = (TextView) convertView.findViewById(R.id.name_textView);
-			mName.setText(log.getName().toString());
+			//TextView mName = (TextView) convertView.findViewById(R.id.name_textView);
+			//mName.setText(log.getName().toString());
 			
 			TextView mPath = (TextView) convertView.findViewById(R.id.path_textView);
 			mPath.setText(log.getPath().toString());
 			
-			TextView mSize = (TextView) convertView.findViewById(R.id.size_textView);
-			mSize.setText(String.valueOf(log.getSize()));
+			//TextView mSize = (TextView) convertView.findViewById(R.id.size_textView);
+			//mSize.setText(String.valueOf(log.getSize()));
 			
-			TextView mTime = (TextView) convertView.findViewById(R.id.time_textView);
-			mTime.setText(String.valueOf(log.getTimeCost()));
+			//TextView mTime = (TextView) convertView.findViewById(R.id.time_textView);
+			//mTime.setText(String.valueOf(log.getTimeCost()));
 			
-			TextView mException = (TextView) convertView.findViewById(R.id.exception_textView);
-			mException.setText(String.valueOf(log.HasException()));
+			//TextView mException = (TextView) convertView.findViewById(R.id.exception_textView);
+			//mException.setText(String.valueOf(log.HasException()));
 
 			return convertView;
 		}
@@ -70,6 +76,7 @@ public class LogPickerDialogFragment extends DialogFragment {
 		mAppContext = context;
 		cb = (Callbacks) context;
 		mLogs = new ArrayList<TestLog>();
+		/*
 		for (int i = 0; i < 50; i++) {
 			TestLog log = new TestLog("Log #" + i);
 			log.setPath("/Application");
@@ -78,6 +85,7 @@ public class LogPickerDialogFragment extends DialogFragment {
 			log.setHasException(true);
 			mLogs.add(log);
 		}
+		*/
 		LogPickerDialogFragment fragment = new LogPickerDialogFragment();
 		return fragment;
 	}
@@ -90,6 +98,19 @@ public class LogPickerDialogFragment extends DialogFragment {
 		View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_log_picker, null);
 		ListView listView = (ListView) view.findViewById(R.id.log_picker_listView);
 		
+		File file = new File(SDCardUtils.getLogFilePath());
+		
+		File[] names = file.listFiles();
+
+		for (int i = 0; i < names.length; i++) {
+			TestLog log = new TestLog("Log #" + i);
+			log.setPath(names[i].getAbsolutePath());
+			log.setSize(1000);
+			log.setTimeCost(1000);
+			log.setHasException(true);
+			mLogs.add(log);
+		}
+		
 		TestLogAdapter adapter = new TestLogAdapter(mAppContext, mLogs);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -98,6 +119,11 @@ public class LogPickerDialogFragment extends DialogFragment {
 			public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
 				// TODO 自动生成的方法存根
 				mSelectedTestLog = (TestLog) listView.getAdapter().getItem(position);
+				if (mCurrentItem != null) {
+					mCurrentItem.setBackgroundResource(R.color.white);
+				}
+				mCurrentItem = view;
+				mCurrentItem.setBackgroundResource(R.color.candy_blue);
 			}
 		});
 		return new AlertDialog.Builder(getActivity())

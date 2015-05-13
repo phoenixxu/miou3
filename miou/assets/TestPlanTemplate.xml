@@ -105,6 +105,17 @@
 		<APN>2</APN>
 	</TestScheme>
 	<TestScheme>
+		<ID>0x060F</ID> 
+		<Interval>100</Interval> 
+		<TimeOut>30</TimeOut> 
+		<APN>1</APN> 
+		<Port>80</Port> 
+		<URL>www.baidu.com</URL>
+		<Proxy>0</Proxy> 
+		<Address>0</Address> 
+		<ProxyType>0</ProxyType> 
+	</TestScheme>
+	<TestScheme>
 		<ID>0x0611</ID>
 		<Interval>100</Interval>
 		<APN>1</APN>

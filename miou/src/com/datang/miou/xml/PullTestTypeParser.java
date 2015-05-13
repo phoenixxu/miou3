@@ -11,16 +11,12 @@ import com.datang.miou.datastructure.TestType;
 import android.util.Log;
 import android.util.Xml;
 
-public class PullTestTypeParser implements TestTypeParser {
+public class PullTestTypeParser {
 
 	private static final String TAG = "PullTestTypeParser";
 	private TestType mTestType;
 	private List<TestType> mTestTypes;
-
-	public PullTestTypeParser() {
-	}
 	
-	@Override
 	public List<TestType> parse(InputStream is) throws Exception {
 		
 		XmlPullParser parser = Xml.newPullParser();
@@ -37,8 +33,12 @@ public class PullTestTypeParser implements TestTypeParser {
 						mTestType = new TestType();
 						String id = parser.getAttributeValue(null, "id");
 						String description = parser.getAttributeValue(null, "description");
+						String note = parser.getAttributeValue(null, "note");
 						mTestType.setId(id);
 						mTestType.setDescription(description);
+						if (note != null) {
+							mTestType.setNote(note);
+						}
 					}
 					
 					break;
@@ -53,7 +53,6 @@ public class PullTestTypeParser implements TestTypeParser {
 		return mTestTypes;
 	}
 	
-	@Override
 	public String serialize(List<TestType> tables) throws Exception {
 		return null;
 	}

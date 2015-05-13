@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:id="@+id/fragmentContainer" >
+    
+	<com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+	
+	<LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:background="@color/title_background_gray" >
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+	    	<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="URL" 
+			    android:gravity="center"/>
+			<EditText 
+			    android:id="@+id/url_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="60dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+		</LinearLayout>
+    
+	   <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="下载超时" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/timeout_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+	
+		</LinearLayout>
+			
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="测试间隔" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/interval_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+	
+		</LinearLayout>
+			
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="线程数" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/thread_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+			
+		</LinearLayout>
+		
+	   	<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="WAP协议" 
+			    android:gravity="center"/>
+			<LinearLayout 
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp" >
+				<Button 
+				    android:id="@+id/wap_1.0_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.4"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="WAP1.0"
+				    android:background="@color/blue"/>
+				<Button 
+				    android:id="@+id/wap_2.0_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.4"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="WAP2.0"
+				    android:background="@color/white"/>
+			</LinearLayout>
+			
+		</LinearLayout>
+		
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="是否使用网关" 
+			    android:gravity="center"/>
+			<CheckBox 
+			    android:id="@+id/gate_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+			
+		</LinearLayout>	
+			
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="网关IP" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.IPEditText 
+			    android:id="@+id/ip_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+			
+		</LinearLayout>	
+	
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="端口" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/port_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+			
+		</LinearLayout>	
+	</LinearLayout>
+</LinearLayout>

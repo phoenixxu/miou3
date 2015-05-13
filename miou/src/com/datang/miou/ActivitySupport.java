@@ -36,6 +36,7 @@ public abstract class ActivitySupport extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		// 添加该视图进入集合
 		activityList.add(this);
 		

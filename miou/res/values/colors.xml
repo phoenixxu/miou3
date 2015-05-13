@@ -33,6 +33,8 @@
     <color name="gray">#c8c8c8</color>
     <color name="gray_half">#e0c8c8c8</color>
     
+    <color name="candy_blue">#bcedf2</color>
+    
         <!--字体颜色-->
     <color name="black_text">#ff4c4c4c</color>
 

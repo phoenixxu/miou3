@@ -2,6 +2,7 @@ package com.datang.miou.views.inner;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -21,13 +22,13 @@ import com.datang.miou.views.gen.GenParamsFragment;
 import com.datang.miou.views.gen.GenScriptSettingActivity;
 
 import com.datang.miou.R;
-
+import com.datang.miou.FragmentSupport;
 /**
  * 
  * 
  * @author suntongwei
  */
-public class InnerActivity extends FragmentActivity {
+public class InnerActivity extends FragmentActivity implements FragmentSupport.Callbacks{
 
 	private static final String DIALOG_LOG_PICKER = "log_picker";
 
@@ -207,5 +208,29 @@ public class InnerActivity extends FragmentActivity {
         }
         return view;  
     }
+
+	@Override
+	public void addDataReceiver(BroadcastReceiver r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeDataReceiver(BroadcastReceiver r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startReceivingData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopReceivingData() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

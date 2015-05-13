@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
 		android:layout_height="wrap_content" 
 		drawerprefrence:title="RSRP"
+		drawerprefrence:items="5"
 		drawerprefrence:key="PREF_RSRP_COLOR" >
         
     </com.datang.miou.widget.DrawerPreference>
@@ -24,28 +25,60 @@
         android:layout_width="match_parent"
 		android:layout_height="wrap_content" 
 		drawerprefrence:title="SINR"
-		drawerprefrence:key="PREF_SINR_COLOR" >
+		drawerprefrence:key="PREF_SINR_COLOR" 
+		drawerprefrence:items="5" >
         
     </com.datang.miou.widget.DrawerPreference>   
      <com.datang.miou.widget.DrawerPreference 
         android:layout_width="match_parent"
 		android:layout_height="wrap_content" 
-		drawerprefrence:title="UE发射功率"
-		drawerprefrence:key="PREF_UE_TX_POWER" >
+		drawerprefrence:title="PCCPCH_RSCP"
+		drawerprefrence:items="6"
+		drawerprefrence:key="PREF_PCCPCH_RSCP_COLOR" >
         
     </com.datang.miou.widget.DrawerPreference>
+    
+     <com.datang.miou.widget.DrawerPreference 
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content" 
+		drawerprefrence:title="PCCPCH_SIR"
+		drawerprefrence:items="7"
+		drawerprefrence:key="PREF_PCCPCH_SIR_COLOR" >
+        
+    </com.datang.miou.widget.DrawerPreference>
+    
+     <com.datang.miou.widget.DrawerPreference 
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content" 
+		drawerprefrence:title="RxLev Sub"
+		drawerprefrence:items="6"
+		drawerprefrence:key="PREF_RXLEV_SUB_COLOR" >
+        
+    </com.datang.miou.widget.DrawerPreference>
+    
+     <com.datang.miou.widget.DrawerPreference 
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content" 
+		drawerprefrence:title="RxQual Sub"
+		drawerprefrence:items="7"
+		drawerprefrence:key="PREF_RXQUAL_SUB_COLOR" >
+        
+    </com.datang.miou.widget.DrawerPreference>
+    
     <com.datang.miou.widget.DrawerPreference 
         android:layout_width="match_parent"
 		android:layout_height="wrap_content" 
-		drawerprefrence:title="FTP下载速率"
-		drawerprefrence:key="PREF_FTP_DOWNLOAD_SPEED" >
+		drawerprefrence:title="THROUGHPUT_DL"
+		drawerprefrence:items="5"
+		drawerprefrence:key="PREF_THROUGHPUT_DL_COLOR" >
         
     </com.datang.miou.widget.DrawerPreference>
      <com.datang.miou.widget.DrawerPreference 
         android:layout_width="match_parent"
 		android:layout_height="wrap_content" 
-		drawerprefrence:title="FTP上传速率"
-		drawerprefrence:key="PREF_FTP_UPLOAD_SPEED" >
+		drawerprefrence:title="THROUGHPUT_UL"
+		drawerprefrence:items="5"
+		drawerprefrence:key="PREF_THROUGHPUT_UL_COLOR" >
         
     </com.datang.miou.widget.DrawerPreference>
     </LinearLayout>

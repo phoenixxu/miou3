@@ -27,7 +27,7 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 
 	protected static final int REQUEST_OPTION = 0;
 	protected static final String DIALOG_COLOR_PICKER = "DIALOG_COLOR_PICKER";
-	private static final String TAg = null;
+	private static final String TAG = "ColorPickerPrefrence";
 	
 	private TextView mTitle;
 	private String mKey;
@@ -121,7 +121,7 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 			if (mType.equals("event_type")) {
 				if (this.mItem != null) {
 					mSelected = ((EventType) this.mItem).getColor();
-					Log.i(TAg, "get color " + mSelected);
+					Log.i(TAG, "get color " + mSelected);
 				}
 			} 
 		}else {
@@ -148,7 +148,7 @@ public class ColorPickerPrefrence extends RelativeLayout implements ColorPickerD
 				if (mType.equals("event_type")) {
 					if (this.mItem != null) {
 						((EventType) this.mItem).setColor( mColorResources.get(option));
-						Log.i(TAg, "set color" + mColorResources.get(option));
+						Log.i(TAG, "set color" + mColorResources.get(option));
 					}
 				} 
 			}else {

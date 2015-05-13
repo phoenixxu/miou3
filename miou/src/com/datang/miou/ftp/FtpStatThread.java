@@ -34,6 +34,8 @@ public class FtpStatThread implements Runnable {
 	private static LteFtpInfo outFtpInfo = new LteFtpInfo();
 	
 	private static final DecimalFormat DF = new DecimalFormat("######.##");
+
+	private static final String TAG = "FtpHelper";
 	
 	// ctx
 	private Context mContext;
@@ -109,6 +111,16 @@ public class FtpStatThread implements Runnable {
 		
 		boolean isRun = true;
 		
+		//上报速率定义
+		String strReceivedTotal;
+		String strSendTotal;
+		String strCurrentThroughputdl;
+		String strCurrentThroughputul;
+		int nReceivedTotal = 0;
+		int nSendTotal = 0;
+		int nCurrentThroughputdl = 0;
+		int nCurrentThroughputul = 0;
+		
 		// 开始统计
 		while(!Thread.currentThread().isInterrupted() || isRun) {
 			
@@ -118,6 +130,7 @@ public class FtpStatThread implements Runnable {
 			 * 以下代码保证了当下载或上传完成时，进行最后一次统计
 			 */
 			if(Thread.currentThread().isInterrupted()) {
+				Log.i(TAG,"Report out");
 				isRun = false;
 			}
 			
@@ -176,7 +189,34 @@ public class FtpStatThread implements Runnable {
 	 				lteFtpInfo.setAppBytesSendTotal(String.valueOf(curTotalLen / 1024));
 	 			}
 	 			//LogWriterHandler.getInstance().writeLog(LogType.CMCC,lteFtpInfo);
-	 			ProcessInterface.RpApplicationInfo(Integer.parseInt(lteFtpInfo.getAppBytesReceivedTotal()), Integer.parseInt(lteFtpInfo.getAppBytesSendTotal()), Integer.parseInt(lteFtpInfo.getApp_currentThroughputdl()), Integer.parseInt(lteFtpInfo.getApp_currentThroughputul()), "KEY");
+	 			//ProcessInterface.RpApplicationInfo(Integer.parseInt(lteFtpInfo.getAppBytesReceivedTotal()), Integer.parseInt(lteFtpInfo.getAppBytesSendTotal()), Integer.parseInt(lteFtpInfo.getApp_currentThroughputdl()), Integer.parseInt(lteFtpInfo.getApp_currentThroughputul()), "FTP");
+	 			strReceivedTotal = lteFtpInfo.getAppBytesReceivedTotal();
+	 			if(!strReceivedTotal.isEmpty())
+	 			{
+	 				nReceivedTotal = Integer.parseInt(strReceivedTotal);
+	 			}
+
+	 			strSendTotal = lteFtpInfo.getAppBytesSendTotal();
+	 			if(!strSendTotal.isEmpty())
+	 			{
+	 				nSendTotal = Integer.parseInt(strSendTotal);
+	 			}
+
+	 			strCurrentThroughputdl = lteFtpInfo.getApp_currentThroughputdl();
+	 			if(!strCurrentThroughputdl.isEmpty())
+	 			{
+	 				nCurrentThroughputdl = Integer.parseInt(strCurrentThroughputdl);
+	 			}
+
+	 			strCurrentThroughputul = lteFtpInfo.getApp_currentThroughputul();
+	 			if(!strCurrentThroughputul.isEmpty())
+	 			{
+	 				nCurrentThroughputul = Integer.parseInt(strCurrentThroughputul);
+	 			}
+	 			
+	 			Log.i(TAG, "Start RpApplicationInfo");
+	 			ProcessInterface.RpApplicationInfo(nReceivedTotal, nSendTotal, nCurrentThroughputdl, nCurrentThroughputul, "FTP");
+	 			Log.i(TAG, "End RpApplicationInfo");
 	 			Log.v("stat",lteFtpInfo.toString());
 	        }
 	        
@@ -194,14 +234,16 @@ public class FtpStatThread implements Runnable {
 			stopLteEvtInfo.setTime(System.currentTimeMillis());
 			if(ftpParams.getIsDown()) {
 				stopLteEvtInfo.setEvent("4104");
+				stopLteEvtInfo.setEventInfo("FTP Download Success");
 			} else {
 				stopLteEvtInfo.setEvent("4107");
+				stopLteEvtInfo.setEventInfo("FTP Upload Suess");
 			}
-			stopLteEvtInfo.setEventInfo("FTP");
 			stopLteEvtInfo.setFileSize(String.valueOf(len.get()));
 			try {
-				//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
-				//ProcessInterface.RpAppEVT(Integer.parseInt(stopLteEvtInfo.getEvent()), stopLteEvtInfo.getEventInfo());
+				Log.i(TAG, "Start Report");
+				ProcessInterface.RpAppEVT(Integer.parseInt(stopLteEvtInfo.getEvent(), 16), stopLteEvtInfo.getEventInfo());
+				Log.i(TAG, "End Report" + Integer.parseInt(stopLteEvtInfo.getEvent(), 16) + stopLteEvtInfo.getEventInfo());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

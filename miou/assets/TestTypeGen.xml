@@ -9,7 +9,9 @@
     <type id="0x0609" description="接收/发送短消息"></type>
     <type id="0x060A" description="发送彩信"></type>
     <type id="0x060B" description="接收彩信"></type>
-    <type id="0x060C" description="FTP上传/下载测试"></type>
+    <type id="0x060C" description="FTP上传测试" note="upload"></type>
+    <type id="0x060C" description="FTP下载测试" note="download"></type>
+    <type id="0x060F" description="HTTP测试"></type>
     <type id="0x0611" description="流媒体测试"></type>
     <type id="0x0612" description="接收POP3邮件测试"></type>
     <type id="0x0613" description="发送SMTP邮件测试"></type>

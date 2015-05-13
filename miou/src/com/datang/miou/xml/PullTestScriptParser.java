@@ -22,7 +22,7 @@ import com.datang.miou.datastructure.Time;
 import android.util.Log;
 import android.util.Xml;
 
-public class PullTestScriptParser implements TestScriptParser {
+public class PullTestScriptParser {
 
 
 	private static final String TAG = "PullTestScriptParser";
@@ -41,10 +41,7 @@ public class PullTestScriptParser implements TestScriptParser {
 	private boolean parseNetWork;
 	private boolean parseLogProcess;
 
-	public PullTestScriptParser() {
-	}
 	
-	@Override
 	public TestScript parse(InputStream is) throws Exception {
 		mTestScript = null;
 		
@@ -350,6 +347,12 @@ public class PullTestScriptParser implements TestScriptParser {
 					} else if (parser.getName().equals("HTML")) {
 						eventType = parser.next();
 						mCommand.setHtml(parser.getText());		
+					} else if (parser.getName().equals("Proxy")) {
+						eventType = parser.next();
+						mCommand.setProxy(parser.getText());
+					} else if (parser.getName().equals("ProxyType")) {
+						eventType = parser.next();
+						mCommand.setProxyType(parser.getText());
 					}
 					
 					break;
@@ -851,6 +854,18 @@ public class PullTestScriptParser implements TestScriptParser {
 			s.endTag(null, "Address");
 		}
 		
+		if (command.getProxy() != null) {
+			s.startTag(null, "Proxy");
+			s.text(command.getProxy());
+			s.endTag(null, "Proxy");
+		}
+		
+		if (command.getProxyType() != null) {
+			s.startTag(null, "ProxyType");
+			s.text(command.getProxyType());
+			s.endTag(null, "ProxyType");
+		}
+		
 		s.endTag(null, "Command");
 	}
 
@@ -983,7 +998,6 @@ public class PullTestScriptParser implements TestScriptParser {
 		s.endTag(null, "Network");
 	}
 
-	@Override
 	public String serialize(TestScript testScript) throws Exception {
 		return null;
 	}

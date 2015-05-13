@@ -7,6 +7,7 @@ public class TestType {
 
 	private String mId;
 	private String mDescription;
+	private String mNote;
 	
 	public String getId() {
 		return this.mId;
@@ -19,6 +20,12 @@ public class TestType {
 	}
 	public void setDescription(String description) {
 		this.mDescription = description;
+	}
+	public String getNote() {
+		return mNote;
+	}
+	public void setNote(String note) {
+		mNote = note;
 	}
 	
 }

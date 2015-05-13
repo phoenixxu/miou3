@@ -39,7 +39,6 @@ public class GenParamsIndexFragment extends FragmentSupport {
 		// TODO 自动生成的方法存根
 		super.updateUI(data);
 		if (mTable != null) {
-			Log.i(TAG, "updateTable, id = " + mTableId);
 			TableManager.updateTable(mTable);
 		}
 	}

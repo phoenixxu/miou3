@@ -34,6 +34,7 @@
     <declare-styleable name="DrawerPrefrence">
         <attr name="title"></attr>
         <attr name="key"></attr>
+        <attr name="items" format="string"></attr>
     </declare-styleable>
     <declare-styleable name="FlowLayout">
         <attr name="android:gravity" />

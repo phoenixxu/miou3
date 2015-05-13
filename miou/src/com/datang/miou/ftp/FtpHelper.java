@@ -34,6 +34,8 @@ public abstract class FtpHelper {
 	// LOG记录
 	//protected LogWriterHandler LogWriter = LogWriterHandler.getInstance();
 	
+	private static final String TAG = "FtpHelper";
+	
 	// 重连次数10
 	protected int reLinkCount = 5;
 	
@@ -93,8 +95,9 @@ public abstract class FtpHelper {
 			logInfo.setEventInfo("FTP server logon fail");
 		}
 		try {
-			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
-			//ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent()), logInfo.getEventInfo());
+			Log.i(TAG, "start Report" + 0);
+			ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent(),16), logInfo.getEventInfo());
+			Log.i(TAG, "End Report" + Integer.parseInt(logInfo.getEvent(),16) + logInfo.getEventInfo());
 			//LogWriter.writeLog(LogType.CMCC, logInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,9 +185,10 @@ public abstract class FtpHelper {
 		}
 		lteEvtInfo.setTime(System.currentTimeMillis());
 		try {
-			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
-			//ProcessInterface.RpAppEVT(Integer.parseInt(lteEvtInfo.getEvent()), lteEvtInfo.getEventInfo());
-		//LogWriter.writeLog(LogType.CMCC, lteEvtInfo);
+			Log.i(TAG, "start Report");
+			ProcessInterface.RpAppEVT(Integer.parseInt(lteEvtInfo.getEvent(), 16), lteEvtInfo.getEventInfo());
+			Log.i(TAG, "End Report" + Integer.parseInt(lteEvtInfo.getEvent(), 16) + lteEvtInfo.getEventInfo());
+			//LogWriter.writeLog(LogType.CMCC, lteEvtInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -229,8 +233,9 @@ public abstract class FtpHelper {
 			logInfo.setEventInfo("FTP Upload Fail");
 		}
 		try {
-			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
-			//ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent()), logInfo.getEventInfo());
+			Log.i(TAG, "Start Report");
+			ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent(),16), logInfo.getEventInfo());
+			Log.i(TAG, "End Report" + Integer.parseInt(logInfo.getEvent(),16) + logInfo.getEventInfo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -253,8 +258,9 @@ public abstract class FtpHelper {
 			logInfo.setEventInfo("FTP Upload Drop");
 		}
 		try {
-			//ProcessInterface.RpAppEVT(1112, "abcdeeddd");
-			//ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent()), logInfo.getEventInfo());
+			Log.i(TAG, "Start Report");
+			ProcessInterface.RpAppEVT(Integer.parseInt(logInfo.getEvent(), 16), logInfo.getEventInfo());
+			Log.i(TAG, "End Report" + Integer.parseInt(logInfo.getEvent(), 16) + logInfo.getEventInfo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

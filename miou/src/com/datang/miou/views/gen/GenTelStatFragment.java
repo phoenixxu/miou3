@@ -98,13 +98,14 @@ public class GenTelStatFragment extends FragmentSupport implements Chart.mCallba
 				// TODO 自动生成的方法存根			
 				switch (pos) {
 					case 0:
-						return new GenTelStatVoiceFragment();
+						//return new GenTelStatVoiceFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_VOICE);
 					case 1:
-						return new GenTelStatMessageFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_SMS);
 					case 2:
-						return new GenTelStatDataConnectionFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_DATA_CONNECTION);
 					case 3:
-						return new GenTelStatDataQualityFragment();
+						return new GenParamsIndexFragment(Globals.TABLE_INDEX_DATA_QUALITY);
 					default:
 						return null;	
 				}

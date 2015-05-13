@@ -1,6 +1,13 @@
 package com.datang.miou.datastructure;
 
-public class TestCommand {
+import java.io.Serializable;
+
+public class TestCommand implements Serializable, Cloneable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2325410432458371801L;
 
 	private String mId;
 	
@@ -78,6 +85,9 @@ public class TestCommand {
 	private String mHtml;
 
 	private String mRepeat;
+	
+	private String mProxy;
+	private String mProxyType;
 	
 	public String getId() {
 		return mId;
@@ -448,7 +458,7 @@ public class TestCommand {
 	
 	@Override
 	public String toString() {
-		return "[" + this.mId + ", " + this.mAddress + ", " + this.mInterval + "]";
+		return "[" + this.mId + ", " + this.mDownload + ", " + this.mRepeat + "]";
 	}
 	
 	public void setRepeat(String repeat) {
@@ -457,5 +467,27 @@ public class TestCommand {
 	}
 	public String getRepeat() {
 		return this.mRepeat;
+	}
+	
+	public Object clone() {
+		Object o = null;
+		try {
+			o = (TestCommand) super.clone();
+		} catch (CloneNotSupportedException e) {
+			;
+		}
+		return o;
+	}
+	public String getProxy() {
+		return mProxy;
+	}
+	public void setProxy(String proxy) {
+		mProxy = proxy;
+	}
+	public String getProxyType() {
+		return mProxyType;
+	}
+	public void setProxyType(String proxyType) {
+		mProxyType = proxyType;
 	}
 }

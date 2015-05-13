@@ -41,11 +41,9 @@ public class GenParamsLteFragment extends FragmentSupport {
 		// TODO 自动生成的方法存根
 		super.updateUI(data);
 		if (mServingCellTable != null) {
-			Log.i(TAG, "LTE service updateTable");
 			TableManager.updateTable(mServingCellTable);
 		}
 		if (mNeighborCellTable != null) {
-			Log.i(TAG, "LTE neighbor updateTable");
 			TableManager.updateTable(mNeighborCellTable);
 		}
 	}

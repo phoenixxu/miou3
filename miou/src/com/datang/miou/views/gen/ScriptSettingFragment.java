@@ -76,13 +76,15 @@ public class ScriptSettingFragment extends Fragment {
 	public static final int TEST_SCRIPT_TYPE_TRACE = 1;
 	public static final int TEST_SCRIPT_TYPE_GEN = 2;
 	private static final String XML_FILE_TEST_SCHEME = "TestPlanTemplate.xml";
-	private static final String XML_FILE_TEST_PLAN = "20150331142958.xml";
+	private static final String XML_FILE_TEST_PLAN = "TemplateTestScript.xml";
 	private static final String XML_FILE_TEST_TYPE_DOT = "TestTypeDot.xml";
 	private static final String XML_FILE_TEST_TYPE_TRACE = "TestTypeTrace.xml";
 	private static final String XML_FILE_TEST_TYPE_GEN = "TestTypeGen.xml";
 	private static final String XML_FILE_NEW_TEST_SCRIPT = "TestScript.xml";
 	
 	private static final String TAG = "ScriptSettingFragment";
+	
+	private static final int MAX_VALUE = 9999;
 	
 	public ScriptSettingFragment(int type) {
 		this.mTestScriptType = type;
@@ -149,14 +151,14 @@ public class ScriptSettingFragment extends Fragment {
 			
 			TestPlan plan = this.getItem(position);
 			
-			TextView mId = (TextView) convertView.findViewById(R.id.id_textView);
-			String idString = null;
-			if (plan.getId() < 10) {
-				idString = "0" + String.valueOf(plan.getId());
-			} else {
-				idString = String.valueOf(plan.getId());
-			}
-			mId.setText(idString);
+			//TextView mId = (TextView) convertView.findViewById(R.id.id_textView);
+			//String idString = null;
+			//if (plan.getId() < 10) {
+			//	idString = "0" + String.valueOf(plan.getId());
+			//} else {
+			//	idString = String.valueOf(plan.getId());
+			//}
+			//mId.setText(idString);
 			
 			TextView mName = (TextView) convertView.findViewById(R.id.name_textView);
 			mName.setText(plan.getName().toString());
@@ -174,9 +176,10 @@ public class ScriptSettingFragment extends Fragment {
 			mTimes.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 				@Override
-				public void onFocusChange(View view, boolean hasFocus) {
+				public void onFocusChange(final View view, boolean hasFocus) {
 					// TODO Auto-generated method stub
 					TextWatcher watcher = new TextWatcher() {
+
 
 						@Override
 						public void beforeTextChanged(CharSequence s, int start,
@@ -199,7 +202,14 @@ public class ScriptSettingFragment extends Fragment {
 							if (!s.toString().equals("")) {
 								String number = s.toString();
 								String newNumber = number.replaceAll("^(0+)", "");
-								plan.setTimes(Integer.parseInt(newNumber));
+								try {
+									plan.setTimes(Integer.parseInt(newNumber));
+								} catch (NumberFormatException e) {
+									//EditText数值超出上界
+									plan.setTimes(MAX_VALUE);
+									Toast.makeText(getActivity(), "重复次数不应超过9999!", Toast.LENGTH_SHORT);
+									((EditText) view).setText(String.valueOf(MAX_VALUE));
+								}
 							}
 						}	
 					};
@@ -378,16 +388,15 @@ public class ScriptSettingFragment extends Fragment {
 	 * 获取测试计划模板
 	 */
 	private void getTemplateTestScript() {
-
-		try {
-			File file = MiscUtils.getExternalFileForRead(getActivity(), SDCardUtils.getConfigPath(), XML_FILE_TEST_PLAN);			
+		File file = MiscUtils.getExternalFileForRead(getActivity(), SDCardUtils.getConfigPath(), XML_FILE_TEST_PLAN);
+		try {					
 			InputStream is = new FileInputStream(file);
 			//InputStream is = getActivity().getAssets().open(XML_FILE_TEST_PLAN);
 			PullTestScriptParser parser = new PullTestScriptParser();
 			mTestScript = parser.parse(is);
 		} catch (Exception e) {
 			// TODO 自动生成的 catch 块
-			Toast.makeText(getActivity(), "Parse Xml Error!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Parse Xml Error: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 	}
@@ -404,7 +413,7 @@ public class ScriptSettingFragment extends Fragment {
 			return script;
 		} catch (Exception e) {
 			// TODO 自动生成的 catch 块
-			Toast.makeText(getActivity(), "Parse Xml Error!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Parse Xml Error: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 			return null;
 		}
 	}
@@ -413,15 +422,15 @@ public class ScriptSettingFragment extends Fragment {
 	 * 获取测试类型
 	 */
 	private void getTestSchemes() {
+		File file = MiscUtils.getExternalFileForRead(getActivity(), SDCardUtils.getConfigPath(), XML_FILE_TEST_SCHEME);	
 		try {
-			File file = MiscUtils.getExternalFileForRead(getActivity(), SDCardUtils.getConfigPath(), XML_FILE_TEST_SCHEME);			
 			InputStream is = new FileInputStream(file);
 			//InputStream is = getActivity().getAssets().open(XML_FILE_TEST_SCHEME);
 			PullTestCommandParser parser = new PullTestCommandParser();
 			mTestCommands = parser.parse(is);
 		} catch (Exception e) {
 			// TODO 自动生成的 catch 块
-			Toast.makeText(getActivity(), "parse xml error!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Parse Xml Error: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 	}
@@ -445,18 +454,22 @@ public class ScriptSettingFragment extends Fragment {
 				break;
 		}
 		
+		File file = MiscUtils.getExternalFileForRead(getActivity(), SDCardUtils.getConfigPath(), name);;
 		try {
 			//TODO:改为从应用文件目录读取
 			//InputStream is = getActivity().getAssets().open(file);
-			File file = MiscUtils.getExternalFileForRead(getActivity(), SDCardUtils.getConfigPath(), name);	
 			InputStream is = new FileInputStream(file);
 			PullTestTypeParser parser = new PullTestTypeParser();
 			mTestTypes = parser.parse(is);
 		} catch (Exception e) {
-			Toast.makeText(getActivity(), "Parse Xml Error!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Parse Xml Error: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 		
+		if (mTestTypes == null) {
+			// 后续很多操作依赖这个, 不能为null
+			mTestTypes = new ArrayList<TestType>();
+		} 
 		TestTypeAdapter adapter = new TestTypeAdapter(getActivity(), mTestTypes);
 		mTypeSpinner.setAdapter(adapter);
 	}
@@ -480,9 +493,11 @@ public class ScriptSettingFragment extends Fragment {
 	 */
 	private void addTestPlan() {
 		
-		TestPlan plan = new TestPlan(mTestType);
-		mTestPlans.add(plan);
-		mAdapter.notifyDataSetChanged();
+		if (mTestType != null) {
+			TestPlan plan = new TestPlan(mTestType);
+			mTestPlans.add(plan);
+			mAdapter.notifyDataSetChanged();
+		}
 	}
 
 	/*
@@ -517,19 +532,43 @@ public class ScriptSettingFragment extends Fragment {
 				
 				for (TestScheme ts : script.getTestUnit()) {
 					TestType currentType = null;
+					// 防止测试类型文件找不到的情况
 					for (TestType type : mTestTypes) {
 						if (type.getId().equals(ts.getCommandList().getCommand().getId())) {
-							currentType = type;
-							break;
+							
+							if (type.getId().equals("0x060C")) {
+								//如果是FTP测试
+								if (ts.getCommandList().getCommand().getDownload().equals("1")) {
+									//下载
+									if (type.getNote().equals("download")) {
+										currentType = type;
+										break;
+									}
+								} else if (ts.getCommandList().getCommand().getDownload().equals("0")) {
+									//上传
+									if (type.getNote().equals("upload")) {
+										currentType = type;
+										break;
+									}
+								}
+							} else {
+								currentType = type;
+								break;
+							}
+							
 						}
 					}
-					TestPlan plan = new TestPlan(currentType);
-					plan.setTimes(Integer.parseInt(ts.getCommandList().getCommand().getRepeat()));
 					
-					mTestPlans.add(plan);
+					if (currentType != null) {
+						TestPlan plan = new TestPlan(currentType);
+						plan.setTimes(Integer.parseInt(ts.getCommandList().getCommand().getRepeat()));
+						
+						mTestPlans.add(plan);
+					}
 				}
 			}
 		}
+		
 		
 		mAdapter = new TestPlanAdapter(mAppContext, (ArrayList<TestPlan>) mTestPlans);
 		this.mTestPlanListView.setAdapter(mAdapter);
@@ -556,14 +595,24 @@ public class ScriptSettingFragment extends Fragment {
 			for (TestCommand command : mTestCommands) {
 				//对比命令的ID和当前测试计划类型的ID，相同则作为当前命令
 				if (command.getId().equals(plan.getType().getId())){
-					currentCommand = command;
+					//必须使用clone深度复制，因为FTP上传和下载命令会用到同一个command，浅复制
+					//会使得setDownload覆盖前一次
+					currentCommand = (TestCommand) command.clone();
+					if (command.getId().equals("0x060C")) {
+						//FTP测试
+						//FTP测试这个命令比较特殊，上传和下载都对应0x060C，区别只是download参数为1还是0
+						if (plan.getType().getNote().equals("upload")) {
+							currentCommand.setDownload("0");
+						} else if (plan.getType().getNote().equals("download")){
+							currentCommand.setDownload("1");
+						}
+					}
 					break;
 				}
 			}
-			
 			//设置重复次数
 			currentCommand.setRepeat(String.valueOf(plan.getTimes()));
-			
+
 			//填写scheme的命令部分
 			scheme.getCommandList().setCommand(currentCommand);
 			
@@ -573,15 +622,20 @@ public class ScriptSettingFragment extends Fragment {
 		
 		script.setTestUnit(schemes);
 		
-		writeToXml(script);
+		if (writeToXml(script)) {
+			Toast.makeText(getActivity(), getResources().getString(R.string.save_ok), Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	/*
 	 * 将测试计划写入XML文件
 	 */
+	@SuppressWarnings("finally")
 	@SuppressLint("SimpleDateFormat")
-	private void writeToXml(TestScript script) {
+	private boolean writeToXml(TestScript script) {
 
+		boolean success = true;
+		
 		String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		File file = MiscUtils.getExternalFileForWrite(getActivity(), SDCardUtils.getTestPlanPath(), "TestScript_" + timeStamp + ".xml");
 		
@@ -591,6 +645,7 @@ public class ScriptSettingFragment extends Fragment {
 			writer = new OutputStreamWriter(out);
 			PullTestScriptParser.writeXml(script, writer);
 		} catch (Exception e) {
+			success = false;
 			Toast.makeText(getActivity(), "Xml Write Error : " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 		} finally {
 			if (writer != null) {
@@ -600,6 +655,7 @@ public class ScriptSettingFragment extends Fragment {
 					Toast.makeText(getActivity(), "File Close Error : " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
 				}
 			}
+			return success;
 		}
 	}
 }

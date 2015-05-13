@@ -41,11 +41,9 @@ public class GenParamsTdFragment extends FragmentSupport {
 		// TODO 自动生成的方法存根
 		super.updateUI(data);
 		if (mServingCellTable != null) {
-			Log.i(TAG, "TD service updateTable");
 			TableManager.updateTable(mServingCellTable);
 		}
 		if (mNeighborCellTable != null) {
-			Log.i(TAG, "TD service updateTable");
 			TableManager.updateTable(mNeighborCellTable);
 		}
 	}

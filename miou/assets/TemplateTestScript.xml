@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <AutoTestUnit>
+        <Version>213</Version>
+        <Network>
+            <PortalIP>221.176.65.13</PortalIP>
+            <PortalPort>8080</PortalPort>
+            <User>gprs</User>
+            <Password>gprs</Password>
+            <UseLAN>0</UseLAN>
+            <SendData>0</SendData>
+            <DialNumber>*99#</DialNumber>
+            <APN>CMNET</APN>
+            <DialUpUser>gprs</DialUpUser>
+            <DialUpPassword>gprs</DialUpPassword>
+        </Network>
+        <LogProcess>
+            <SwitchLog>
+                <Enable>1</Enable>
+                <Type>0</Type>
+                <TestTime>60</TestTime>
+                <Condition>1</Condition>
+            </SwitchLog>
+        </LogProcess>
+        <GeneralItem>
+            <SpeedCondition>0</SpeedCondition>
+            <GPSCondition>0</GPSCondition>
+        </GeneralItem>
+    </AutoTestUnit>
+    <TestUnit>
+			<TestScheme>
+		            <Enable>1</Enable>
+		            <ModelLock>2</ModelLock>
+		            <DESC>缺省测试命令组</DESC>
+		            <EXNO>8</EXNO>
+		            <TimeCondition>0</TimeCondition>
+		            <ExecutiveDate>2014-05-05</ExecutiveDate>
+		            <Time>
+		                <BeginTime>00:00</BeginTime>
+		                <EndTime>23:59</EndTime>
+		            </Time>
+		            <CommandList Repeat="1">
+		                <Synchronize type="0">
+		                    <Command Repeat="3">
+		                        <ID>0x060C</ID>
+		                        <RemoteHost>222.68.172.16</RemoteHost>
+		                        <Port>23</Port>
+		                        <Account>test</Account>
+		                        <Password>test</Password>
+		                        <TimeOut>60</TimeOut>
+		                        <Passive>0</Passive>
+		                        <Binary>1</Binary>
+		                        <Download>1</Download>
+		                        <RemoteFile>/ADTDOWNFILE/2M.rar</RemoteFile>
+		                        <Interval>60</Interval>
+		                        <APN>2</APN>
+		                    </Command>
+		                </Synchronize>
+		            </CommandList>
+		        </TestScheme>
+						<TestScheme>
+			            <Enable>0</Enable>
+			            <ModelLock>2</ModelLock>
+			            <DESC>缺省测试命令组</DESC>
+			            <EXNO>1</EXNO>
+			            <TimeCondition>0</TimeCondition>
+			            <ExecutiveDate>2014-05-05</ExecutiveDate>
+			            <Time>
+			                <BeginTime>00:00</BeginTime>
+			                <EndTime>23:59</EndTime>
+			            </Time>
+			             <CommandList Repeat="999">
+			                <Synchronize type="0">
+			                    <Command Repeat="1">
+			                        <ID>0x0500</ID>
+			                        <CallNumber>13611832704</CallNumber>
+			                        <RandomCall>0</RandomCall>
+			                        <Duration>180</Duration>
+			                        <Interval>20</Interval>
+			                        <MaxTime>10</MaxTime>
+			                        <TestMOS>1</TestMOS>
+			                        <CallMOSServer>0</CallMOSServer>
+			                        <MOSLimit>2.0</MOSLimit>
+			                    </Command>
+			                </Synchronize>
+			            </CommandList>
+			        </TestScheme>
+							<TestScheme>
+						            <Enable>0</Enable>
+						            <ModelLock>2</ModelLock>
+						            <DESC>缺省测试命令组</DESC>
+						            <EXNO>2</EXNO>
+						            <TimeCondition>0</TimeCondition>
+						            <ExecutiveDate>2014-05-05</ExecutiveDate>
+						            <Time>
+						                <BeginTime>00:00</BeginTime>
+						                <EndTime>23:59</EndTime>
+						            </Time>
+						            <CommandList Repeat="1">
+						                <Synchronize type="0">
+						                    <Command Repeat="999">
+						                        <ID>0x0501</ID>
+						                        <TestMOS>1</TestMOS>
+						                        <MOSLimit>2.0</MOSLimit>
+						                    </Command>
+						                </Synchronize>
+						            </CommandList>
+						        </TestScheme>
+    </TestUnit>
+</root>
+

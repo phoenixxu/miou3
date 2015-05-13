@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:id="@+id/fragmentContainer" >
+    
+	<com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+	
+	<LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:background="@color/title_background_gray" >
+    	
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="视频类型" 
+			    android:gravity="center"/>
+			<Spinner 
+			    android:id="@+id/stream_type_spinner"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+		</LinearLayout>
+    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="视频质量" 
+			    android:gravity="center"/>
+			<Spinner 
+			    android:id="@+id/stream_quality_spinner"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+			
+		</LinearLayout>
+		
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="URL" 
+			    android:gravity="center"/>
+			<EditText 
+			    android:id="@+id/url_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+	
+		</LinearLayout>
+	
+	   	<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="播放模式" 
+			    android:gravity="center"/>
+			<LinearLayout 
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp" >
+				<Button 
+				    android:id="@+id/time_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.4"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="时间"
+				    android:background="@color/blue"/>
+				<Button 
+				    android:id="@+id/file_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.4"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="文件"
+				    android:background="@color/white"/>
+			</LinearLayout>
+		</LinearLayout>
+	
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+	   		<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="播放超时" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/play_timeout_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+			
+		</LinearLayout>	
+		
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="间隔时长" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/interval_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+			
+		</LinearLayout>	
+	
+
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="无流量超时" 
+			    android:gravity="center"/>
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/nostream_timeout_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+			
+		</LinearLayout>	
+	</LinearLayout>
+</LinearLayout>

@@ -11,7 +11,7 @@ import com.datang.miou.datastructure.TestCommand;
 import android.util.Log;
 import android.util.Xml;
 
-public class PullTestCommandParser implements TestCommandParser {
+public class PullTestCommandParser {
 
 	private static final String TAG = "PullTestCommandParser";
 	private TestCommand mTestScheme;
@@ -20,7 +20,6 @@ public class PullTestCommandParser implements TestCommandParser {
 	public PullTestCommandParser() {
 	}
 	
-	@Override
 	public List<TestCommand> parse(InputStream is) throws Exception {
 		mTestScheme = null;
 		
@@ -221,6 +220,12 @@ public class PullTestCommandParser implements TestCommandParser {
 					} else if (parser.getName().equals("HTML")) {
 						eventType = parser.next();
 						mTestScheme.setHtml(parser.getText());		
+					} else if (parser.getName().equals("Proxy")) {
+						eventType = parser.next();
+						mTestScheme.setProxy(parser.getText());
+					} else if (parser.getName().equals("ProxyType")) {
+						eventType = parser.next();
+						mTestScheme.setProxyType(parser.getText());
 					}
 					break;
 					
@@ -236,7 +241,6 @@ public class PullTestCommandParser implements TestCommandParser {
 		return mTestSchemes;
 	}
 	
-	@Override
 	public String serialize(List<TestCommand> tables) throws Exception {
 		return null;
 	}

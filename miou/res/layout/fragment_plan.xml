@@ -1,15 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nextprefrence="http://schemas.android.com/apk/res/com.datang.miou"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <ListView
-        android:id="@+id/plan_listView"
+    android:orientation="vertical" 
+    android:background="@color/white">
+    
+    <LinearLayout 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:cacheColorHint="@color/white" />
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:background="@color/title_background_gray" >
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="空闲测试" 
+	  	android:id="@+id/idle_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="语音测试" 
+	  	android:id="@+id/voice_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="VOLTE测试" 
+	  	android:id="@+id/volte_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="视频测试" 
+	  	android:id="@+id/video_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="PING测试" 
+	  	android:id="@+id/ping_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="PDP测试" 
+	  	android:id="@+id/pdp_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="ATTACH测试" 
+	  	android:id="@+id/attach_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="FTP测试" 
+	  	android:id="@+id/ftp_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="邮件测试" 
+	  	android:id="@+id/mail_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="短信测试" 
+	  	android:id="@+id/sms_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="WAP测试" 
+	  	android:id="@+id/wap_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="流媒体测试" 
+	  	android:id="@+id/stream_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	<com.datang.miou.widget.NextPrefrence
+	    android:layout_width="match_parent"
+	  	android:layout_height="wrap_content"
+	  	nextprefrence:title="HTTP测试" 
+	  	android:id="@+id/http_next_preference"
+	  	android:layout_marginBottom="0.5dp" >
+	    
+	</com.datang.miou.widget.NextPrefrence>
+	</LinearLayout>
+    
 
 </LinearLayout>

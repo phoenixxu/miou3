@@ -7,6 +7,23 @@ import com.datang.miou.R;
 
 public class Globals {
 	public static final String PREFS = "MIOU_PREFS";
+
+	//测试命令
+	public static final String TEST_COMMAND_VOICE_MASTER = "0x0500";
+	public static final String TEST_COMMAND_VOICE_SLAVE = "0x0501";
+	public static final String TEST_COMMAND_IDLE = "0x0502";
+	public static final String TEST_COMMAND_ATTACH = "0x0602";
+	public static final String TEST_COMMAND_PDP = "0x0603";
+	public static final String TEST_COMMAND_PING = "0x0604";
+	public static final String TEST_COMMAND_WAP = "0x0608";
+	public static final String TEST_COMMAND_SMS = "0x0609";
+	public static final String TEST_COMMAND_SEND_SMS = "0x060A";
+	public static final String TEST_COMMAND_RECV_SMS = "0x060B";
+	public static final String TEST_COMMAND_FTP = "0x060C";
+	public static final String TEST_COMMAND_HTTP = "0x060F";
+	public static final String TEST_COMMAND_STREAM = "0x0611";
+	public static final String TEST_COMMAND_POP3 = "0x0612";
+	public static final String TEST_COMMAND_SMTP = "0x0613";
 	
 	//地图参数等级
 	public static final int MAP_PARAM_LEVEL_NUM = 7;
@@ -39,6 +56,11 @@ public class Globals {
 	public static final int MAP_PARAM_THROUGHPUT_DL_LEVEL2_MAX = 20;
 	public static final int MAP_PARAM_THROUGHPUT_DL_LEVEL3_MAX = 40;
 	public static final int MAP_PARAM_THROUGHPUT_DL_LEVEL4_MAX = 50;
+	
+	public static final double MAP_PARAM_THROUGHPUT_UL_LEVEL1_MAX = 0.5;
+	public static final double MAP_PARAM_THROUGHPUT_UL_LEVEL2_MAX = 5;
+	public static final double MAP_PARAM_THROUGHPUT_UL_LEVEL3_MAX = 10;
+	public static final double MAP_PARAM_THROUGHPUT_UL_LEVEL4_MAX = 15;
 	
 	public static final double MAP_PARAM_PCCPCH_RSCP_LEVEL1_MIN = -116.0;
 	public static final double MAP_PARAM_PCCPCH_RSCP_LEVEL1_MAX = -100.0;
@@ -167,6 +189,7 @@ public class Globals {
 	public static final String PARAM_RXQUAL_SUB = "i0006";
 	public static final String PARAM_THROUGHPUT_DL = "i0007";
 	public static final String PARAM_THROUGHPUT_UL = "i0008";
+	
 	public static final String PARAM_GTX_POWER = "i0009";
 	public static final String PARAM_BLER = "i0010";
 	public static final String PARAM_SPEED = "i0011";
@@ -186,6 +209,11 @@ public class Globals {
 	public static final String TABLE_INDEX_VOICE_GSM = "10";
 	public static final String TABLE_INDEX_DATA_GSM = "11";
 	public static final String TABLE_INDEX_TRIPLE = "12";
+	
+	public static final String TABLE_INDEX_VOICE = "13";
+	public static final String TABLE_INDEX_SMS = "14";
+	public static final String TABLE_INDEX_DATA_CONNECTION = "15";
+	public static final String TABLE_INDEX_DATA_QUALITY = "16";
 	
 	public static void setMapLineColor(String type, int level, int color) {
 		//mapParamColor[type * 10 + level] = color;
@@ -221,7 +249,13 @@ public class Globals {
 	public static final int MODE_LTE = 0;
 	public static final int MODE_TD = 1;
 	public static final int MODE_GSM = 2;
+	public static final int MODE_UPLOAD = 3;
+	public static final int MODE_DOWNLOAD = 4;
 
+
+
+	
+	
 	private static int netMode;
 
 	public static int getNetMode() {

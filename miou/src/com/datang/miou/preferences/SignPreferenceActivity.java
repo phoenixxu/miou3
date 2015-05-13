@@ -1,6 +1,9 @@
 package com.datang.miou.preferences;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+
+import com.datang.miou.FragmentSupport;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -15,7 +18,7 @@ import android.widget.TabHost.TabSpec;
 
 import com.datang.miou.R;
 
-public class SignPreferenceActivity extends FragmentActivity {
+public class SignPreferenceActivity extends FragmentActivity implements FragmentSupport.Callbacks{
 
 	private TextView mTitleTextView;
 	private ImageView mBackButton;
@@ -96,4 +99,28 @@ public class SignPreferenceActivity extends FragmentActivity {
         }
         return view;  
     }
+
+	@Override
+	public void addDataReceiver(BroadcastReceiver r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeDataReceiver(BroadcastReceiver r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startReceivingData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopReceivingData() {
+		// TODO Auto-generated method stub
+		
+	}
 }

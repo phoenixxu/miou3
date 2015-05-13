@@ -22,21 +22,34 @@
 		
 		  <RelativeLayout 
 		      android:layout_width="match_parent"
-		      android:layout_height="wrap_content"
+		      android:layout_height="32dp"
 		      android:layout_below="@id/event_textView"
       	      android:id="@+id/search_event_layout" 
       	      android:layout_margin="10dp" >
 		      <EditText 
-		          android:layout_toLeftOf="@+id/search_event_ImageButton"    
+		          android:layout_toLeftOf="@+id/clear_event_button"    
 		      	  android:layout_width="match_parent"
-		      	  android:layout_height="wrap_content" 
-		      	  android:id="@+id/search_event_editText" ></EditText>
-		      <ImageButton
-		          android:id="@id/search_event_ImageButton"
-		          android:layout_width="wrap_content"
-		          android:layout_height="wrap_content"
+		      	  android:layout_height="match_parent" 
+		      	  android:id="@+id/search_event_editText"
+		      	  android:layout_marginRight="10dp"  >
+		        
+		      </EditText>
+		      <Button
+		          android:id="@id/clear_event_button"
+		          android:layout_width="64dp"
+		          android:layout_height="32dp"
+		          android:layout_toLeftOf="@+id/search_event_button"
+		          android:text="清除"
+		          android:layout_marginRight="10dp"
+		          style="@style/button" />
+		      
+		      <Button
+		          android:id="@id/search_event_button"
+		          android:layout_width="64dp"
+		          android:layout_height="32dp"
 		          android:layout_alignParentRight="true"
-		          android:src="@android:drawable/ic_menu_search"/>
+		          android:text="搜索" 
+		          style="@style/button" />
 		  </RelativeLayout>
 		
 		  <ListView
@@ -65,23 +78,33 @@
       style="@style/little_title" />
   	<RelativeLayout 
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="32dp"
       android:layout_below="@id/signal_textView"
       android:id="@+id/search_signal_layout"
       android:layout_margin="10dp" >
       <EditText 
-          android:layout_toLeftOf="@+id/search_signal_ImageButton"    
+          android:layout_toLeftOf="@+id/clear_signal_button"    
       	  android:layout_width="match_parent"
-      	  android:layout_height="wrap_content"
-      	  android:id="@+id/search_signal_editText" >
+      	  android:layout_height="match_parent"
+      	  android:id="@+id/search_signal_editText" 
+      	  android:layout_marginRight="10dp" >
           
       </EditText>
-      <ImageButton
-          android:id="@id/search_signal_ImageButton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+      <Button
+          android:id="@id/clear_signal_button"
+          android:layout_width="64dp"
+          android:layout_height="32dp"
+          android:layout_toLeftOf="@+id/search_signal_button"
+          android:layout_marginRight="10dp"
+          android:text="清除" 
+          style="@style/button"/>
+      <Button
+          android:id="@id/search_signal_button"
+          android:layout_width="64dp"
+          android:layout_height="32dp"
           android:layout_alignParentRight="true"
-          android:src="@android:drawable/ic_menu_search"/>
+          android:text="搜索" 
+          style="@style/button"/>
   	</RelativeLayout>
 
   <ListView

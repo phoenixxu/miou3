@@ -25,7 +25,7 @@ import com.datang.miou.ActivitySupport;
 import com.datang.miou.R;
 import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
-import com.datang.miou.views.percept.PerceptionActivity;
+import com.datang.miou.views.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +53,6 @@ public class WebActivity extends ActivitySupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PerceptionActivity.Perception.getScheduler();
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("网页测试");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
@@ -190,11 +189,12 @@ public class WebActivity extends ActivitySupport {
             }
             isStop.set(true);
             webCtl.setText("开始测试");
-            PerceptionActivity.Perception.getScheduler().clean();
-            for(String key : tHashMap.keySet()){
+            if (MainActivity.App.getScheduler() != null)
+                MainActivity.App.getScheduler().clean();
+            for (String key : tHashMap.keySet()) {
                 tHashMap.get(key).setText("耗时:-s");
             }
-            for(String key:vHashMap.keySet()){
+            for (String key : vHashMap.keySet()) {
                 vHashMap.get(key).setText("速率:-M/s");
             }
 
@@ -221,7 +221,7 @@ public class WebActivity extends ActivitySupport {
                     MeasurementTask.USER_PRIORITY,
                     params);
             HttpTask newTask = new HttpTask(desc, WebActivity.this.getApplicationContext());
-            MeasurementScheduler scheduler = PerceptionActivity.Perception.getScheduler();
+            MeasurementScheduler scheduler = MainActivity.App.getScheduler();
             if (scheduler != null && scheduler.submitTask(newTask)) {
 //                Toast.makeText(WebActivity.this, "开始测试 " + key, Toast.LENGTH_SHORT).show();
                 /*

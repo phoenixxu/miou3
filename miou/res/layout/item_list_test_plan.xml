@@ -14,14 +14,6 @@
     </CheckBox>
 
 	<TextView
-	    android:id="@+id/id_textView"
-	    android:layout_width="40dp"
-	    android:layout_height="40dp"
-	    android:gravity="center" >
-	    
-	</TextView>
-
-	<TextView
 	    android:id="@+id/name_textView"
 	    android:layout_width="0dp"
 	    android:layout_height="40dp"
@@ -41,9 +33,10 @@
 	
 	<EditText
 	    android:id="@+id/times_textView"
-	    android:layout_width="40dp"
+	    android:layout_width="80dp"
 	    android:layout_height="40dp"
-	    android:gravity="center" >
+	    android:gravity="center"
+	    android:textSize="14sp" >
 	    
 	</EditText>
 	<Button

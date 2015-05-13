@@ -35,6 +35,22 @@
 	<string name="pref_filter_title">信令筛选设置</string>
 	<string name="pref_map_title">地图设置</string>
 	
+	<string name="pref_idle_title">空闲测试</string>
+	<string name="pref_voice_title">语音测试</string>
+	<string name="pref_volte_title">VOLTE测试</string>
+	<string name="pref_video_title">视频测试</string>
+	<string name="pref_ping_title">PING测试</string>
+	<string name="pref_pdp_title">PDP测试</string>
+	<string name="pref_attach_title">ATTACH测试</string>
+	<string name="pref_ftp_title">FTP测试</string>
+	<string name="pref_server_title">FTP服务器设置</string>
+	<string name="pref_mail_title">邮件测试</string>
+	<string name="pref_sms_title">短信测试</string>
+	<string name="pref_wap_title">WAP测试</string>
+	<string name="pref_stream_title">流媒体测试</string>
+	<string name="pref_file_select_title">文件选择</string>
+	<string name="pref_http_title">HTTP测试</string>
+	
 	<string name="gen_map_signal_detail_title">层三详细解码</string>
 	<string name="gen_map_title_script_button">脚本</string>
 	<string name="gen_map_title_export_button">导出</string>
@@ -97,6 +113,15 @@
     <string name="gsm">GSM</string>
     <string name="temp_value">-</string>
     <string name="serving_cell_info">服务小区信息</string>
+    
+    <string name="warning_input">输入的信息有误!</string>
+    <string name="warning_no_negative">输入的数值不能为负值!</string>
+    <string name="warning_no_number">输入的内容无效!</string>
+    <string name="warning_no_telephone">输入的内容不是一个有效的手机号码!</string>
+    <string name="warning_no_ip">输入的内容不是一个有效的IP地址</string>
+    <string name="warning_no_email">输入的内容不是一个有效的EMAIL地址</string>
+    
+    <string name="save_ok">保存成功!</string>
     <string name="resumeMessage">test is running.</string>
     <string name="pauseMessage">test is paused.</string>
     <string name="httpMethodLabel">HTTP Method</string>

@@ -3,6 +3,8 @@ package com.datang.miou.datastructure;
 import java.io.Serializable;
 import java.util.Date;
 
+import android.util.Log;
+
 /*
  * 事件
  */
@@ -54,24 +56,72 @@ public class Event implements Serializable {
 		return mHour;
 	}
 
-	public void setHour(String hour) {
-		mHour = hour;
+	/*
+	 * 这个设置时间的函数保证了字段的设置顺序
+	 */
+	public void setTime(String hour, String minute, String second) {
+		this.setHour(hour);
+		this.setMinute(minute);
+		this.setSecond(second);
 	}
+	
+	private void setHour(String hour) {
+
+		int h = Integer.parseInt(hour);
+		if (h < 10) {
+			mHour = "0" + h;
+		} else {
+			mHour = hour;
+		}
+		
+		if (h == 24) {
+			mHour = "00";
+		}
+	}
+
 
 	public String getMinute() {
 		return mMinute;
 	}
 
-	public void setMinute(String minute) {
-		mMinute = minute;
+
+	private void setMinute(String minute) {
+		
+
+		int m = Integer.parseInt(minute);
+		if (m < 10) {
+			mMinute = "0" + m;
+		} else {
+			mMinute = minute;
+		}
+		
+		if (m == 60) {
+			mMinute = "00";
+			setHour(String.valueOf(Integer.parseInt(getHour()) + 1));
+		}
 	}
+
 
 	public String getSecond() {
 		return mSecond;
 	}
 
-	public void setSecond(String second) {
-		mSecond = second;
+
+	private void setSecond(String second) {
+		Float doubleS = Float.parseFloat(second);
+		
+		int s = Math.round(doubleS);
+		if (s < 10) {
+			mSecond = "0" + s;
+		} else {
+			mSecond = "" + s;
+		}
+		
+		if (s == 60) {
+			mSecond = "00";
+			setMinute(String.valueOf(Integer.parseInt(getMinute()) + 1));
+		}
+		
 	}
 
 	public String getLat() {

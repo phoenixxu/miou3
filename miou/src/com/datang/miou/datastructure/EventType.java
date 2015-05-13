@@ -17,7 +17,7 @@ public class EventType implements Serializable{
 	private static final String JSON_COLOR = "color";
 	
 	//事件ID
-	private int mId;
+	private String mId;
 	//事件描述
 	private String mDescription;
 	//事件对应条目背景色
@@ -27,26 +27,15 @@ public class EventType implements Serializable{
 	//在已选事件列表中，该事件是否将要被移除
 	private boolean mWillRemove;
 	
-	public EventType(String des, int id) {
-		this.mId = id;
-		this.mDescription = des;
-		this.mSelected = false;
-		this.mWillRemove = false;
+	public EventType() {
+		// TODO Auto-generated constructor stub
 	}
-	
-	public EventType(JSONObject json) throws JSONException {
-		this.mId = json.getInt(JSON_ID);
-		this.mColor = json.getInt(JSON_COLOR);
-		this.mDescription = json.getString(JSON_DESCRIPTION);
-		this.mSelected = false;
-		this.mWillRemove = false;
-	}
-	
-	public int getId() {
+
+	public String getId() {
 		return mId;
 	}
 	
-	public void setId(int mId) {
+	public void setId(String mId) {
 		this.mId = mId;
 	}
 	
@@ -80,13 +69,5 @@ public class EventType implements Serializable{
 	
 	public void setWillRemove(boolean mWillRemove) {
 		this.mWillRemove = mWillRemove;
-	}
-
-	public JSONObject toJSON() throws JSONException {
-		JSONObject json = new JSONObject();
-		json.put(JSON_ID, this.mId);
-		json.put(JSON_DESCRIPTION, this.mDescription);
-		json.put(JSON_COLOR, this.mColor);
-		return json;
 	}
 }

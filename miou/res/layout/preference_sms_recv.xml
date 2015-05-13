@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:id="@+id/fragmentContainer" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="@color/white"
+    	android:layout_marginBottom="0.5dp" 
+    	android:gravity="center" >
+		<TextView
+		    android:layout_width="0dp"
+		    android:layout_height="40dp"
+		    android:layout_weight="0.3"
+		    android:text="任务名称" 
+		    android:gravity="center"/>
+		<LinearLayout 
+	        android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_weight="0.7"
+	    	android:gravity="center" >
+			<EditText 
+			    android:id="@+id/task_name_edit_text"
+			    android:layout_width="0dp"
+			    android:layout_height="40dp" 
+			    android:layout_weight="0.7"
+			    android:gravity="center" />
+			<Button 
+			    android:layout_width="30dp"
+			    android:layout_height="30dp" 
+			    android:gravity="center" 
+			    android:layout_margin="5dp"
+			    android:scaleX="0.8"
+			    android:scaleY="0.8"
+			    android:visibility="invisible"/>
+		</LinearLayout>
+	</LinearLayout>
+    
+   
+		
+   	<LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="@color/white"
+    	android:layout_marginBottom="0.5dp" 
+    	android:gravity="center" >
+		<TextView
+		    android:layout_width="0dp"
+		    android:layout_height="40dp"
+		    android:layout_weight="0.3"
+		    android:text="短信中心号码" 
+		    android:gravity="center"/>
+		<LinearLayout 
+	        android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_weight="0.7"
+	    	android:gravity="center" >
+			<com.datang.miou.widget.TelephoneNumberEditText 
+			    android:id="@+id/server_center_edit_text"
+			    android:layout_width="0dp"
+			    android:layout_height="40dp" 
+			    android:layout_weight="0.7"
+			    android:gravity="center" />
+			<Button 
+			    android:layout_width="30dp"
+			    android:layout_height="30dp" 
+			    android:gravity="center" 
+			    android:layout_margin="5dp"
+			    android:scaleX="0.8"
+			    android:scaleY="0.8"
+			    android:visibility="invisible"/>
+		</LinearLayout>
+	</LinearLayout>
+		
+
+   	<LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="@color/white"
+    	android:layout_marginBottom="0.5dp" 
+    	android:gravity="center" >
+		<TextView
+		    android:layout_width="0dp"
+		    android:layout_height="40dp"
+		    android:layout_weight="0.3"
+		    android:text="接收号码" 
+		    android:gravity="center"/>
+		<LinearLayout 
+	        android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_weight="0.7"
+	    	android:gravity="center" >
+			<com.datang.miou.widget.TelephoneNumberEditText 
+			    android:id="@+id/destination_edit_text"
+			    android:layout_width="0dp"
+			    android:layout_height="40dp" 
+			    android:layout_weight="0.7"
+			    android:gravity="center" />
+			<Button 
+			    android:layout_width="30dp"
+			    android:layout_height="30dp" 
+			    android:gravity="center" 
+			    android:layout_margin="5dp"
+			    android:scaleX="0.8"
+			    android:scaleY="0.8"
+			    android:visibility="invisible"/>
+		</LinearLayout>
+	</LinearLayout>
+		
+	<LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="@color/white"
+    	android:layout_marginBottom="0.5dp" 
+    	android:gravity="center" >
+		<TextView
+		    android:layout_width="0dp"
+		    android:layout_height="40dp"
+		    android:layout_weight="0.3"
+		    android:text="短信内容" 
+		    android:gravity="center"/>
+		<LinearLayout 
+	        android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_weight="0.7"
+	    	android:gravity="center" >
+			<EditText 
+			    android:id="@+id/content_edit_text"
+			    android:layout_width="0dp"
+			    android:layout_height="40dp" 
+			    android:layout_weight="0.7"
+			    android:gravity="center" />
+			<Button 
+			    android:layout_width="30dp"
+			    android:layout_height="30dp" 
+			    android:gravity="center" 
+			    android:layout_margin="5dp"
+			    android:scaleX="0.8"
+			    android:scaleY="0.8"
+			    android:visibility="invisible"/>
+		</LinearLayout>
+	</LinearLayout>
+		
+	<LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="@color/white"
+    	android:layout_marginBottom="0.5dp" 
+    	android:gravity="center" >
+		<TextView
+		    android:layout_width="0dp"
+		    android:layout_height="40dp"
+		    android:layout_weight="0.3"
+		    android:text="发送超时" 
+		    android:gravity="center"/>
+		<LinearLayout 
+	        android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_weight="0.7"
+	    	android:gravity="center" >
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/timeout_edit_text"
+			    android:layout_width="0dp"
+			    android:layout_height="40dp" 
+			    android:layout_weight="0.7"
+			    android:gravity="center" />
+			<Button 
+			    android:layout_width="30dp"
+			    android:layout_height="30dp" 
+			    android:gravity="center" 
+			    android:layout_margin="5dp"
+			    android:scaleX="0.8"
+			    android:scaleY="0.8"
+			    android:visibility="invisible"/>
+		</LinearLayout>
+	</LinearLayout>
+		
+	<LinearLayout 
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:background="@color/white"
+    	android:layout_marginBottom="0.5dp" 
+    	android:gravity="center" >
+		<TextView
+		    android:layout_width="0dp"
+		    android:layout_height="40dp"
+		    android:layout_weight="0.3"
+		    android:text="间隔时长" 
+		    android:gravity="center"/>
+		<LinearLayout 
+	        android:layout_width="0dp"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_weight="0.7"
+	    	android:gravity="center" >
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/interval_edit_text"
+			    android:layout_width="0dp"
+			    android:layout_height="40dp" 
+			    android:layout_weight="0.7"
+			    android:gravity="center" />
+			<Button 
+			    android:layout_width="30dp"
+			    android:layout_height="30dp" 
+			    android:gravity="center" 
+			    android:layout_margin="5dp"
+			    android:scaleX="0.8"
+			    android:scaleY="0.8"
+			    android:visibility="invisible"/>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

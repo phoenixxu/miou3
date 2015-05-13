@@ -1,20 +1,24 @@
 package com.datang.miou.xml;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
 
 import com.datang.miou.datastructure.Synchronize;
 import com.datang.miou.datastructure.TestCommand;
 import com.datang.miou.datastructure.TestScheme;
+import com.datang.miou.datastructure.TestScript;
 import com.datang.miou.datastructure.Time;
 
 import android.util.Log;
 import android.util.Xml;
 
-public class PullTestSchemeParser implements TestSchemeParser {
+public class PullTestSchemeParser {
 
 	private static final String TAG = "PullTestSchemeParser";
 	private TestScheme mTestScheme;
@@ -26,7 +30,6 @@ public class PullTestSchemeParser implements TestSchemeParser {
 	public PullTestSchemeParser() {
 	}
 	
-	@Override
 	public List<TestScheme> parse(InputStream is) throws Exception {
 		
 		XmlPullParser parser = Xml.newPullParser();
@@ -265,6 +268,12 @@ public class PullTestSchemeParser implements TestSchemeParser {
 					} else if (parser.getName().equals("HTML")) {
 						eventType = parser.next();
 						mCommand.setHtml(parser.getText());		
+					} else if (parser.getName().equals("Proxy")) {
+						eventType = parser.next();
+						mCommand.setProxy(parser.getText());
+					} else if (parser.getName().equals("ProxyType")) {
+						eventType = parser.next();
+						mCommand.setProxyType(parser.getText());
 					}
 					
 					
@@ -280,7 +289,407 @@ public class PullTestSchemeParser implements TestSchemeParser {
 		return mTestSchemes;
 	}
 	
-	@Override
+	public static void writeXml(List<TestCommand> schemes, Writer writer) throws IllegalArgumentException, IllegalStateException, IOException {
+		XmlSerializer s = Xml.newSerializer();
+		s.setOutput(writer);
+		
+		s.startDocument("UTF-8", true);
+		s.startTag(null, "root");
+		
+		for (TestCommand command : schemes) {
+			formCommand(s, command);
+		}
+		
+		s.endTag(null, "root");
+		
+		s.endDocument();
+	}
+	
+	private static void formCommand(XmlSerializer s, TestCommand command) throws IllegalStateException, IOException {
+		// TODO Auto-generated method stub
+		s.startTag(null, "TestScheme");
+		
+		if (command.getId() != null) {
+			s.startTag(null, "ID");
+			s.text(command.getId());
+			s.endTag(null, "ID");
+		}
+		
+		if (command.getCallNumber() != null) {
+			s.startTag(null, "CallNumber");
+			s.text(command.getCallNumber());
+			s.endTag(null, "CallNumber");
+		}
+		
+		if (command.getRandomCall() != null) {
+			s.startTag(null, "RandomCall");
+			s.text(command.getRandomCall());
+			s.endTag(null, "RandomCall");
+		}
+		
+		if (command.getDuration() != null) {
+			s.startTag(null, "Duration");
+			s.text(command.getDuration());
+			s.endTag(null, "Duration");
+		}
+		
+		if (command.getInterval() != null) {
+			s.startTag(null, "Interval");
+			s.text(command.getInterval());
+			s.endTag(null, "Interval");
+		}
+		
+		if (command.getMaxTime() != null) {
+			s.startTag(null, "MaxTime");
+			s.text(command.getMaxTime());
+			s.endTag(null, "MaxTime");
+		}
+		
+		if (command.getTestMos() != null) {
+			s.startTag(null, "TestMOS");
+			s.text(command.getTestMos());
+			s.endTag(null, "TestMOS");
+		}
+		
+		if (command.getCallMosServer() != null) {
+			s.startTag(null, "CallMOSServer");
+			s.text(command.getCallMosServer());
+			s.endTag(null, "CallMOSServer");
+		}
+		
+		if (command.getMosLimit() != null) {
+			s.startTag(null, "MOSLimit");
+			s.text(command.getMosLimit());
+			s.endTag(null, "MOSLimit");
+		}
+		
+		if (command.getWaitTimes() != null) {
+			s.startTag(null, "WaitTimes");
+			s.text(command.getWaitTimes());
+			s.endTag(null, "WaitTimes");
+		}
+		
+		if (command.getKeepTime() != null) {
+			s.startTag(null, "Keeptime");
+			s.text(command.getKeepTime());
+			s.endTag(null, "Keeptime");
+		}
+		
+		if (command.getApn() != null) {
+			s.startTag(null, "APN");
+			s.text(command.getApn());
+			s.endTag(null, "APN");
+		}
+		
+		if (command.getIp() != null) {
+			s.startTag(null, "IP");
+			s.text(command.getIp());
+			s.endTag(null, "IP");
+		}
+		
+		if (command.getPackageSize() != null) {
+			s.startTag(null, "Packagesize");
+			s.text(command.getPackageSize());
+			s.endTag(null, "Packagesize");
+		}
+		
+		if (command.getTimeOut() != null) {
+			s.startTag(null, "TimeOut");
+			s.text(command.getTimeOut());
+			s.endTag(null, "TimeOut");
+		}
+		
+		if (command.getUrl() != null) {
+			s.startTag(null, "URL");
+			s.text(command.getUrl());
+			s.endTag(null, "URL");
+		}
+		
+		if (command.getAgent() != null) {
+			s.startTag(null, "Agent");
+			s.text(command.getAgent());
+			s.endTag(null, "Agent");
+		}
+		
+		if (command.getConnectionMode() != null) {
+			s.startTag(null, "ConnectionMode");
+			s.text(command.getConnectionMode());
+			s.endTag(null, "ConnectionMode");
+		}
+		
+		if (command.getGateWay() != null) {
+			s.startTag(null, "Gateway");
+			s.text(command.getGateWay());
+			s.endTag(null, "Gateway");
+		}
+		
+		if (command.getPort() != null) {
+			s.startTag(null, "Port");
+			s.text(command.getPort());
+			s.endTag(null, "Port");
+		}
+		
+		if (command.getServerCenterAddress() != null) {
+			s.startTag(null, "ServerCenterAddress");
+			s.text(command.getServerCenterAddress());
+			s.endTag(null, "ServerCenterAddress");
+		}
+		
+		if (command.getDestination() != null) {
+			s.startTag(null, "Destination");
+			s.text(command.getDestination());
+			s.endTag(null, "Destination");
+		}
+		
+		if (command.getMode() != null) {
+			s.startTag(null, "Mode");
+			s.text(command.getMode());
+			s.endTag(null, "Mode");
+		}
+		
+		if (command.getText() != null) {
+			s.startTag(null, "Text");
+			s.text(command.getText());
+			s.endTag(null, "Text");
+		}
+		
+		if (command.getReport() != null) {
+			s.startTag(null, "Report");
+			s.text(command.getReport());
+			s.endTag(null, "Report");
+		}
+		
+		if (command.getContent() != null) {
+			s.startTag(null, "Content");
+			s.text(command.getContent());
+			s.endTag(null, "Content");
+		}
+		
+		if (command.getAccount() != null) {
+			s.startTag(null, "Account");
+			s.text(command.getAccount());
+			s.endTag(null, "Account");
+		}
+		
+		if (command.getPassword() != null) {
+			s.startTag(null, "Password");
+			s.text(command.getPassword());
+			s.endTag(null, "Password");
+		}
+		
+		if (command.getServerAddress() != null) {
+			s.startTag(null, "ServerAddress");
+			s.text(command.getServerAddress());
+			s.endTag(null, "ServerAddress");
+		}
+		
+		if (command.getSyncMsno() != null) {
+			s.startTag(null, "SyncMSNOs");
+			s.text(command.getSyncMsno());
+			s.endTag(null, "SyncMSNOs");
+		}
+		
+		if (command.getMediaFileSize() != null) {
+			s.startTag(null, "MediaFileSize");
+			s.text(command.getMediaFileSize());
+			s.endTag(null, "MediaFileSize");
+		}
+		
+		if (command.getPTimeOut() != null) {
+			s.startTag(null, "PTimeOut");
+			s.text(command.getPTimeOut());
+			s.endTag(null, "PTimeOut");
+		}
+		
+		if (command.getRemoteHost() != null) {
+			s.startTag(null, "RemoteHost");
+			s.text(command.getRemoteHost());
+			s.endTag(null, "RemoteHost");
+		}
+		
+		if (command.getPassive() != null) {
+			s.startTag(null, "Passive");
+			s.text(command.getPassive());
+			s.endTag(null, "Passive");
+		}
+		
+		if (command.getBinary() != null) {
+			s.startTag(null, "Binary");
+			s.text(command.getBinary());
+			s.endTag(null, "Binary");
+		}
+		
+		if (command.getDownload() != null) {
+			s.startTag(null, "Download");
+			s.text(command.getDownload());
+			s.endTag(null, "Download");
+		}
+		
+		if (command.getRemoteFile() != null) {
+			s.startTag(null, "RemoteFile");
+			s.text(command.getRemoteFile());
+			s.endTag(null, "RemoteFile");
+		}
+		
+		if (command.getVersion() != null) {
+			s.startTag(null, "Version");
+			s.text(command.getVersion());
+			s.endTag(null, "Version");
+		}
+		
+		if (command.getUserName() != null) {
+			s.startTag(null, "Username");
+			s.text(command.getUserName());
+			s.endTag(null, "Username");
+		}
+		
+		if (command.getRtp() != null) {
+			s.startTag(null, "RTP");
+			s.text(command.getRtp());
+			s.endTag(null, "RTP");
+		}
+		
+		if (command.getRtspHttpPort() != null) {
+			s.startTag(null, "RtspHttpPort");
+			s.text(command.getRtspHttpPort());
+			s.endTag(null, "RtspHttpPort");
+		}
+		
+		if (command.getLocalRtpPort() != null) {
+			s.startTag(null, "LocalRTPport");
+			s.text(command.getLocalRtpPort());
+			s.endTag(null, "LocalRTPport");
+		}
+		
+		if (command.getPreBufferLength() != null) {
+			s.startTag(null, "PreBufferLength");
+			s.text(command.getPreBufferLength());
+			s.endTag(null, "PreBufferLength");
+		}
+		
+		if (command.getRebufferLength() != null) {
+			s.startTag(null, "RebufferLength");
+			s.text(command.getRebufferLength());
+			s.endTag(null, "RebufferLength");
+		}
+		
+		if (command.getPlayTime() != null) {
+			s.startTag(null, "PlayTime");
+			s.text(command.getPlayTime());
+			s.endTag(null, "PlayTime");
+		}
+		
+		if (command.getBufferLength() != null) {
+			s.startTag(null, "BufferLength");
+			s.text(command.getBufferLength());
+			s.endTag(null, "BufferLength");
+		}
+		
+		if (command.getBufferPlayThreshold() != null) {
+			s.startTag(null, "BufferPlayThreshold");
+			s.text(command.getBufferPlayThreshold());
+			s.endTag(null, "BufferPlayThreshold");
+		}
+		
+		if (command.getMailServer() != null) {
+			s.startTag(null, "MailServer");
+			s.text(command.getMailServer());
+			s.endTag(null, "MailServer");
+		}
+		
+		if (command.getDeleteMail() != null) {
+			s.startTag(null, "Deletemail");
+			s.text(command.getDeleteMail());
+			s.endTag(null, "Deletemail");
+		}
+		
+		if (command.getPath() != null) {
+			s.startTag(null, "Path");
+			s.text(command.getPath());
+			s.endTag(null, "Path");
+		}
+		
+		if (command.getSsl() != null) {
+			s.startTag(null, "SSL");
+			s.text(command.getSsl());
+			s.endTag(null, "SSL");
+		}
+		
+		if (command.getSender() != null) {
+			s.startTag(null, "Sender");
+			s.text(command.getSender());
+			s.endTag(null, "Sender");
+		}
+		
+		if (command.getFrom() != null) {
+			s.startTag(null, "From");
+			s.text(command.getFrom());
+			s.endTag(null, "From");
+		}
+		
+		if (command.getTo() != null) {
+			s.startTag(null, "To");
+			s.text(command.getTo());
+			s.endTag(null, "To");
+		}
+		
+		if (command.getFileSize() != null) {
+			s.startTag(null, "FileSize");
+			s.text(command.getFileSize());
+			s.endTag(null, "FileSize");
+		}
+		
+		if (command.getSubject() != null) {
+			s.startTag(null, "Subject");
+			s.text(command.getSubject());
+			s.endTag(null, "Subject");
+		}
+		
+		if (command.getBody() != null) {
+			s.startTag(null, "Body");
+			s.text(command.getBody());
+			s.endTag(null, "Body");
+		}
+		
+		if (command.getAuthentication() != null) {
+			s.startTag(null, "Authentication");
+			s.text(command.getAuthentication());
+			s.endTag(null, "Authentication");
+		}
+		
+		if (command.getEncoding() != null) {
+			s.startTag(null, "Encoding");
+			s.text(command.getEncoding());
+			s.endTag(null, "Encoding");
+		}
+		
+		if (command.getHtml() != null) {
+			s.startTag(null, "HTML");
+			s.text(command.getHtml());
+			s.endTag(null, "HTML");
+		}
+		
+		if (command.getAddress() != null) {
+			s.startTag(null, "Address");
+			s.text(command.getAddress());
+			s.endTag(null, "Address");
+		}
+		
+		if (command.getProxy() != null) {
+			s.startTag(null, "Proxy");
+			s.text(command.getProxy());
+			s.endTag(null, "Proxy");
+		}
+		
+		if (command.getProxyType() != null) {
+			s.startTag(null, "ProxyType");
+			s.text(command.getProxyType());
+			s.endTag(null, "ProxyType");
+		}
+		
+		s.endTag(null, "TestScheme");
+	}
+	
 	public String serialize(List<TestScheme> schemes) throws Exception {
 		return null;
 	}

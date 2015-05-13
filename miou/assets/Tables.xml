@@ -31,16 +31,16 @@
 	        <column id="i624"></column>
 	    </row>
 	    <row color="white">
-	        <column text="RRC State"></column>
-	        <column id="i1065"></column>
+	        <column text="RRC State" weight="25"></column>
+	        <column id="i1065" weight="75"></column>
 	    </row>
 	    <row color="blue">
-	        <column text="EMM State"></column>
-	        <column id="i1063"></column>
+	        <column text="EMM State" weight="25"></column>
+	        <column id="i1063" weight="75"></column>
 	    </row>
 	    <row color="white">
-	        <column text="EMM SubState"></column>
-	        <column id="i1064"></column>
+	        <column text="EMM SubState" weight="25"></column>
+	        <column id="i1064" weight="75"></column>
 	    </row>
 	</table>
 	
@@ -99,14 +99,14 @@
 	    </row>
 	</table>
 	<table id="3" name="LTE邻小区">
-	    <row color="blue">
-	        <column weight="22" text="Freqency"></column>
-	        <column weight="13" id="i668" sub_id="0"></column>
-	        <column weight="13" id="i668" sub_id="1"></column>
-	        <column weight="13" id="i668" sub_id="2"></column>
-	        <column weight="13" id="i668" sub_id="3"></column>
-	        <column weight="13" id="i668" sub_id="4"></column>
-	        <column weight="13" id="i668" sub_id="5"></column>
+	   <row color="blue">
+	        <column weight="22" text="RSRP"></column>
+	        <column weight="13" id="i671" sub_id="0"></column>
+	        <column weight="13" id="i671" sub_id="1"></column>
+	        <column weight="13" id="i671" sub_id="2"></column>
+	        <column weight="13" id="i671" sub_id="3"></column>
+	        <column weight="13" id="i671" sub_id="4"></column>
+	        <column weight="13" id="i671" sub_id="5"></column>
 	    </row>
 	    <row color="white">
 	        <column weight="22" text="PCI"></column>
@@ -216,11 +216,11 @@
 	        <column text="RSRP"></column>
 	        <column id="i637"></column>
 	        <column text="SINR"></column>
-	        <column id="i651"></column>
+	        <column id="i642"></column>
 	    </row>
 	    <row color="white">
 	        <column text="FTP下载速率"></column>
-	        <column id="interface4"></column>
+	        <column id="i1000"></column>
 	        <column text="FTP上传速率"></column>
 	        <column id="interface5"></column>
 	    </row>
@@ -328,6 +328,158 @@
 	    <row color="blue">
 	        <column text="GSM RxLev"></column>
 	        <column id="i451"></column>
+	    </row>
+	</table>
+	<table id="13" name="语音统计">
+	    <row color="blue">
+	        <column weight="40" text=""></column>
+	        <column weight="20" text="LTE"></column>
+	        <column weight="20" text="TD"></column>
+	        <column weight="20" text="GSM"></column>
+	    </row>
+	    <row color="white">
+	        <column text="尝试次数" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="接通率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="掉话次数" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="平均呼叫建立时间" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="切换成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	</table>
+	<table id="14" name="短信/彩信指标统计">
+	    <row color="blue">
+	        <column weight="40" text=""></column>
+	        <column weight="20" text="LTE"></column>
+	        <column weight="20" text="TD"></column>
+	        <column weight="20" text="GSM"></column>
+	    </row>
+	    <row color="white">
+	        <column text="短信发送成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="彩信发送成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="短信接收成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="彩信接收成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="短信端到端时延" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	</table>
+	<table id="15" name="数据业务连接成功率">
+	    <row color="blue">
+	        <column weight="40" text=""></column>
+	        <column weight="20" text="LTE"></column>
+	        <column weight="20" text="TD"></column>
+	        <column weight="20" text="GSM"></column>
+	    </row>
+	    <row color="white">
+	        <column text="附着成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="平均附着时间" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="PDP激活成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="PDP平均激活时间" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="PING" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	</table>
+	<table id="16" name="数据业务质量">
+	    <row color="blue">
+	        <column weight="40" text=""></column>
+	        <column weight="20" text="LTE"></column>
+	        <column weight="20" text="TD"></column>
+	        <column weight="20" text="GSM"></column>
+	    </row>
+	    <row color="white">
+	        <column text="应用层下载速率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="应用层上传速率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="PHY-RLC平均BLER/FER" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="blue">
+	        <column text="掉线率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	    </row>
+	    <row color="white">
+	        <column text="成功率" weight="40"></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
+	        <column weight="20" ></column>
 	    </row>
 	</table>
 </tables>

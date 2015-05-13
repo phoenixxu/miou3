@@ -20,6 +20,7 @@ import com.datang.miou.ProcessInterface;
  */
 public class GpsReportThread implements Runnable {
     private LogType mLogType = null;
+	private String TAG = "GpsReportThread";
 
     public GpsReportThread(LogType logType) {
         Thread.currentThread().setName("GpsReportThread");
@@ -37,6 +38,7 @@ public class GpsReportThread implements Runnable {
            // LogStatus logStatus = getLogStatus(mLogType);
            // if (logStatus == LogStatus.Start) {
                 Location loc = helper.getLocation();
+                
                 if (loc != null) {
                     GpsInfo gpsInfo = new GpsInfo();
                     gpsInfo.setLatitude(String.valueOf(loc.getLatitude()));
@@ -47,8 +49,14 @@ public class GpsReportThread implements Runnable {
                     //writeLog(mLogType, gpsInfo);
                     //Log.v("gps",gpsInfo.toString());
                     
+                    Log.i(TAG, "location......");
+                    Log.i(TAG, "lat = " + Double.parseDouble(gpsInfo.getLatitude()));
+                    Log.i(TAG, "lon = " + (int)Double.parseDouble(gpsInfo.getLongitude()));
+                    Log.i(TAG, "alt = " + Double.parseDouble(gpsInfo.getAltitude()));
+                    Log.i(TAG, "speed = " + (int)Double.parseDouble(gpsInfo.getSpeed()));
                     //ProcessInterface.RpGPS(Double.parseDouble(gpsInfo.getLatitude()),Double.parseDouble(gpsInfo.getAltitude()),(int)Double.parseDouble(gpsInfo.getLongitude()),(int)Double.parseDouble(gpsInfo.getSpeed()));
-                    
+                    ProcessInterface.RpGPS(Double.parseDouble(gpsInfo.getLongitude()),Double.parseDouble(gpsInfo.getLatitude()),(int)Double.parseDouble(gpsInfo.getAltitude()),(int)Double.parseDouble(gpsInfo.getSpeed()));
+
              //   }
            // } else if (logStatus == LogStatus.Stoping || logStatus == LogStatus.Stop || logStatus == LogStatus.Unknow) {
            //     break;

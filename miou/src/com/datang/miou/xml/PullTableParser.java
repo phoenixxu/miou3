@@ -14,7 +14,7 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
 
-public class PullTableParser implements TableParser {
+public class PullTableParser {
 
 	private static final String TAG = "PullTableParser";
 	private Table mTable;
@@ -27,7 +27,6 @@ public class PullTableParser implements TableParser {
 		mContext = context;
 	}
 	
-	@Override
 	public List<Table> parse(InputStream is) throws Exception {
 		mRow = null;
 		
@@ -86,7 +85,6 @@ public class PullTableParser implements TableParser {
 		return mTables;
 	}
 	
-	@Override
 	public String serialize(List<Table> tables) throws Exception {
 		return null;
 	}

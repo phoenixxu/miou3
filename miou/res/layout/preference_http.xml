@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:id="@+id/fragmentContainer" >
+    <com.datang.miou.widget.AppTitle
+		android:id="@+id/gen_map_title" 
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+    <LinearLayout 
+        android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:background="@color/title_background_gray" >
+
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+	    	<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="单次超时" 
+			    android:gravity="center" />
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/timeout_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+
+		</LinearLayout>
+		
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="间隔时长" 
+			    android:gravity="center" />
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/interval_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+
+		</LinearLayout>	
+		
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="端口" 
+			    android:gravity="center" />
+			<com.datang.miou.widget.PositiveIntegerEditText 
+			    android:id="@+id/port_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+
+		</LinearLayout>	
+		
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="URL" 
+			    android:gravity="center" />
+			<EditText 
+			    android:id="@+id/url_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+
+		</LinearLayout>	
+		
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+	    	<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="APN" 
+			    android:gravity="center"/>
+			<LinearLayout 
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp" >
+				<Button 
+				    android:id="@+id/cmwap_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.2"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="CMWAP"
+				    android:textSize="12sp"
+				    android:background="@color/white"/>
+				<Button 
+				    android:id="@+id/cmnet_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.2"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="CMNET"
+				    android:textSize="12sp"
+				    android:background="@color/white"/>
+				<Button 
+				    android:id="@+id/ctwap_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.2"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="CTWAP"
+				    android:textSize="12sp"
+				    android:background="@color/white"/>
+				<Button 
+				    android:id="@+id/ctnet_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.2"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="CTNET"
+				    android:textSize="12sp"
+				    android:background="@color/white"/>
+			</LinearLayout>
+			
+		</LinearLayout>
+		
+		<LinearLayout 
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" >
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="是否使用代理" 
+			    android:gravity="center"/>
+			<CheckBox 
+			    android:id="@+id/proxy_checkbox"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>	
+			
+		</LinearLayout>	
+		
+		<LinearLayout 
+		   	android:id="@+id/proxy_address_layout"
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" 
+	    	android:visibility="invisible">
+			<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="代理地址" 
+			    android:gravity="center" />
+			<EditText 
+			    android:id="@+id/address_edit_text"
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp"/>
+
+		</LinearLayout>	
+		
+		<LinearLayout 
+		    android:id="@+id/proxy_type_layout"
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:orientation="horizontal"
+	    	android:background="@color/white"
+	    	android:layout_marginBottom="0.5dp" 
+	    	android:gravity="center" 
+	    	android:visibility="invisible">
+	    	<TextView
+			    android:layout_width="100dp"
+			    android:layout_height="40dp"
+			    android:text="代理类型" 
+			    android:gravity="center"/>
+			<LinearLayout 
+			    android:layout_width="0dp"
+		    	android:layout_height="40dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+			    android:layout_marginRight="35dp" >
+				<Button 
+				    android:id="@+id/http_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.3"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="HTTP"
+				    android:background="@color/white"/>
+				<Button 
+				    android:id="@+id/socks5_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.3"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="SOCKS5"
+				    android:background="@color/white"/>
+				<Button 
+				    android:id="@+id/socks4_button"
+				    android:layout_width="0dp"
+				    android:layout_height="30dp" 
+				    android:layout_weight="0.3"
+				    android:gravity="center" 
+				    android:layout_margin="5dp"
+				    android:text="SOCKS4"
+				    android:background="@color/white"/>
+			</LinearLayout>
+			
+		</LinearLayout>
+		
+	</LinearLayout>
+</LinearLayout>

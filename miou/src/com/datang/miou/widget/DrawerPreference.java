@@ -23,7 +23,7 @@ public class DrawerPreference extends LinearLayout{
 	private String mKeyBase;
 	private LinearLayout mColorSetterLayout;
 	private boolean isColorSetterLayoutShown = false;
-	private int mColorSelecterNum = 5;
+	private int mColorSelecterNum = 7;
 	private ColorPickerPrefrence mColorPicker[];
 	
 	@SuppressLint("Recycle")
@@ -49,6 +49,8 @@ public class DrawerPreference extends LinearLayout{
 				case R.styleable.DrawerPrefrence_key:
 					mKeyBase = array.getString(id);
 					break;
+				case R.styleable.DrawerPrefrence_items:
+					mColorSelecterNum = Integer.parseInt(array.getString(id));
 			}
 		}
 		
@@ -81,7 +83,6 @@ public class DrawerPreference extends LinearLayout{
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 			mColorPicker[i].setLayoutParams(lp);
 			
-			Log.i(TAG, "i = " + i);
 			mColorPicker[i].setVisibility(View.VISIBLE);
 			mColorPicker[i].setKey(mKeyBase + "_LEVEL_" + i);
 			mColorPicker[i].refreshOptionView();

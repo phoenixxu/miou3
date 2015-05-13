@@ -100,6 +100,50 @@
         android:layout_weight="1"
         android:gravity="center|top|left">
 
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/html"
+            android:gravity="center"
+            android:text="百度" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/html"
+            android:gravity="center"
+            android:text="移动" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/html"
+            android:gravity="center"
+            android:text="优酷" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/html"
+            android:gravity="center"
+            android:text="腾讯" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/html"
+            android:gravity="center"
+            android:text="新浪" />
     </com.datang.miou.widget.FlowLayout>
 
 

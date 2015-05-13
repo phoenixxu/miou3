@@ -1,9 +1,17 @@
 package com.datang.miou.preferences;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,8 +37,14 @@ import com.datang.miou.FragmentSupport;
 import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
 import com.datang.miou.datastructure.EventType;
-import com.datang.miou.datastructure.EventTypeJSONSerializer;
+import com.datang.miou.datastructure.TestScript;
+import com.datang.miou.utils.MiscUtils;
+import com.datang.miou.utils.SDCardUtils;
 import com.datang.miou.widget.ColorPickerPrefrence;
+import com.datang.miou.xml.PullEventTypeParser;
+import com.datang.miou.xml.PullTestCommandParser;
+import com.datang.miou.xml.PullTestScriptParser;
+import com.datang.miou.MiouApp;
 
 @AutoView(R.layout.preference_filter_event)
 public class EventFilterFragment extends FragmentSupport {
@@ -39,6 +53,8 @@ public class EventFilterFragment extends FragmentSupport {
 	
 	public static final String KEY_BASE = "PREF_EVENT_COLOR";
 	private static final String FILE_NAME_EVENT_TYPE = "event_types.json";
+
+	private static final String XML_FILE_EVENT_TYPES = "EventTypes.xml";
 	@AutoView(R.id.all_checkBox)
 	private CheckBox mAllCheckBox;
 	@AutoView(R.id.search_event_editText)
@@ -61,7 +77,6 @@ public class EventFilterFragment extends FragmentSupport {
 	private ImageView mRemoveButton;
 	
 	private ArrayList<EventType> mTypes;
-	private ArrayList<EventType> mSelectedTypes;
 	
 	private class EventTypeAdapter extends ArrayAdapter<EventType> {
 
@@ -168,7 +183,7 @@ public class EventFilterFragment extends FragmentSupport {
 		EventTypeAdapter adapter = new EventTypeAdapter(getActivity(), mTypes);
 		mEventListView.setAdapter(adapter);	
 		
-		SelectedEventTypeAdapter adapterSelected = new SelectedEventTypeAdapter(getActivity(), mSelectedTypes);
+		SelectedEventTypeAdapter adapterSelected = new SelectedEventTypeAdapter(getActivity(), (ArrayList<EventType>) ((MiouApp) getActivity().getApplication()).getSelectedEventTypes());
 		mEventSelectedListView.setAdapter(adapterSelected);
 		
 		//事件全选复选框
@@ -200,7 +215,7 @@ public class EventFilterFragment extends FragmentSupport {
 			public void onClick(View view) {
 				// TODO 自动生成的方法存根
 				if (((CheckBox) view).isChecked()) {
-					for (EventType type : mSelectedTypes) {
+					for (EventType type : ((MiouApp) getActivity().getApplication()).getSelectedEventTypes()) {
 						type.setWillRemove(true);
 					}	
 				} else {
@@ -225,14 +240,14 @@ public class EventFilterFragment extends FragmentSupport {
 					
 					if (type.isSelected()) {
 						shouldAdd = true;
-						for (EventType selectedType : mSelectedTypes) {
+						for (EventType selectedType : ((MiouApp) getActivity().getApplication()).getSelectedEventTypes()) {
 							if (selectedType.equals(type)) {
 								shouldAdd = false;
 								break;
 							}
 						}
 						if (shouldAdd){
-							mSelectedTypes.add(type);
+							((MiouApp) getActivity().getApplication()).getSelectedEventTypes().add(type);
 						}
 					}
 				}	
@@ -249,7 +264,7 @@ public class EventFilterFragment extends FragmentSupport {
 			@Override
 			public void onClick(View view) {
 				// TODO 自动生成的方法存根	
-				Iterator<EventType> iter = mSelectedTypes.listIterator();
+				Iterator<EventType> iter = ((MiouApp) getActivity().getApplication()).getSelectedEventTypes().listIterator();
 				while (iter.hasNext()) {
 					EventType type = iter.next();
 					if (type.isWillRemove()) {
@@ -347,7 +362,7 @@ public class EventFilterFragment extends FragmentSupport {
 				// TODO 自动生成的方法存根
 				String filter = mSearchSelectedEventEditText.getText().toString().toLowerCase();
 				ArrayList<EventType> part = new ArrayList<EventType>();
-				for (EventType type : mSelectedTypes) {
+				for (EventType type : ((MiouApp) getActivity().getApplication()).getSelectedEventTypes()) {
 					if (type.getDescription().toLowerCase().contains(filter)) {
 						part.add(type);
 					}
@@ -362,25 +377,23 @@ public class EventFilterFragment extends FragmentSupport {
 	private void initTypeArray() {
 		// TODO 自动生成的方法存根
 		if (mTypes == null) {
-			mTypes = initEventTypes();
+			mTypes = getEventTypes();
 		}
 		
-		if (mSelectedTypes == null) {
-		mSelectedTypes = new ArrayList<EventType>();
-			for (EventType type : mTypes) {
-				if (type.isSelected()) {
-					mSelectedTypes.add(type);
-				}
+		//if (mSelectedTypes == null) {
+		//mSelectedTypes = new ArrayList<EventType>();
+		for (EventType type : mTypes) {
+			if (type.isSelected()) {
+				 ((MiouApp) getActivity().getApplication()).getSelectedEventTypes().add(type);
 			}
 		}
-		
 	}
 
 	//刷新已选事件列表
 	private void refreshSelectedEventList() {
 		// TODO 自动生成的方法存根
 		//((EventTypeAdapter) mEventSelectedListView.getAdapter()).notifyDataSetChanged();
-		SelectedEventTypeAdapter adapterSelected = new SelectedEventTypeAdapter(getActivity(), mSelectedTypes);
+		SelectedEventTypeAdapter adapterSelected = new SelectedEventTypeAdapter(getActivity(),  (ArrayList<EventType>) ((MiouApp) getActivity().getApplication()).getSelectedEventTypes());
 		mEventSelectedListView.setAdapter(adapterSelected);
 	}
 	
@@ -391,6 +404,7 @@ public class EventFilterFragment extends FragmentSupport {
 		mEventListView.setAdapter(adapterSelected);
 	}
 	
+	/*
     private ArrayList<EventType> initEventTypes() {
 		// TODO Auto-generated method stub
     	ArrayList<EventType> types = null;
@@ -408,17 +422,22 @@ public class EventFilterFragment extends FragmentSupport {
 				}
 				
 				//初始化文件
+				types = getEventTyps();
 				types = new ArrayList<EventType>();
-				types.add(new EventType("Outgoing Call Attempt", 0x2000));
-				types.add(new EventType("Outgoing Call Alerting", 0x2001));
-				types.add(new EventType("Outgoing Call Connected", 0x2002));
-				types.add(new EventType("Outgoing Call Failure", 0x2003));
-				types.add(new EventType("Incoming Call Attempt", 0x2004));
-				types.add(new EventType("Incoming Call Alerting", 0x2005));
-				types.add(new EventType("Incoming Call Connected", 0x2006));
-				types.add(new EventType("Incoming Call Failure", 0x2007));
-				types.add(new EventType("Call Complete", 0x2008));
-				types.add(new EventType("Drop Call", 0x2009));
+				types.add(new EventType("Outgoing Call Attempt", "0x2000"));
+				types.add(new EventType("Outgoing Call Alerting", "0x2001"));
+				types.add(new EventType("Outgoing Call Connected", "0x2002"));
+				types.add(new EventType("Outgoing Call Failure", "0x2003"));
+				types.add(new EventType("Incoming Call Attempt", "0x2004"));
+				types.add(new EventType("Incoming Call Alerting", "0x2005"));
+				types.add(new EventType("Incoming Call Connected", "0x2006"));
+				types.add(new EventType("Incoming Call Failure", "0x2007"));
+				types.add(new EventType("Call Complete", "0x2008"));
+				types.add(new EventType("Drop Call", "0x2009"));
+				types.add(new EventType("FTP server logon success", "0x4100"));
+				types.add(new EventType("FTP server logon fail", "0x4101"));
+				types.add(new EventType("FTP Download Attempt", "0x4102"));
+				types.add(new EventType("Ftp Download Success", "0x4103"));
 				
 				String path = file.getAbsolutePath();
 				
@@ -441,13 +460,32 @@ public class EventFilterFragment extends FragmentSupport {
 		}
 		return types;
 	}
+	*/
+
+	private ArrayList<EventType> getEventTypes() {
+		// TODO Auto-generated method stub
+		try {
+			File file = MiscUtils.getExternalFileForRead(getActivity(), SDCardUtils.getConfigPath(), XML_FILE_EVENT_TYPES);			
+			InputStream is = new FileInputStream(file);
+			//InputStream is = getActivity().getAssets().open(XML_FILE_TEST_SCHEME);
+			PullEventTypeParser parser = new PullEventTypeParser(getActivity());
+			return (ArrayList<EventType>) parser.parse(is);
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			Toast.makeText(getActivity(), "parse xml error!", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+	}
 
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		//保存
-		saveEventTypes();
+		if (mTypes != null) {
+			writeToXml(mTypes);
+		}
+		//saveEventTypes();
 	}
 
 	@Override
@@ -457,6 +495,7 @@ public class EventFilterFragment extends FragmentSupport {
 	}
     
 	//保存事件类型到JSON文件，主要是颜色改动
+	/*
 	private void saveEventTypes() {
 		// TODO Auto-generated method stub
     	String state = Environment.getExternalStorageState();
@@ -481,5 +520,31 @@ public class EventFilterFragment extends FragmentSupport {
 			}
 		}
 	}
-    
+    */
+	
+	/*
+	 * 将时间类型写入XML文件
+	 */
+	@SuppressLint("SimpleDateFormat")
+	private void writeToXml(List<EventType> types) {
+
+		File file = MiscUtils.getExternalFileForWrite(getActivity(), SDCardUtils.getConfigPath(), XML_FILE_EVENT_TYPES);
+		
+		Writer writer = null;
+		try {
+			FileOutputStream out = new FileOutputStream(file);
+			writer = new OutputStreamWriter(out);
+			PullEventTypeParser.writeXml(types, writer);
+		} catch (Exception e) {
+			Toast.makeText(getActivity(), "Xml Write Error : " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (Exception e) {
+					Toast.makeText(getActivity(), "File Close Error : " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+	}
 }
