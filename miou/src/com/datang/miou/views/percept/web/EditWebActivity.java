@@ -1,6 +1,8 @@
 package com.datang.miou.views.percept.web;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.datang.miou.ActivitySupport;
 import com.datang.miou.R;
 import com.datang.miou.annotation.AutoView;
+import com.datang.miou.widget.FlowLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +28,12 @@ import java.util.Map;
  */
 @AutoView(R.layout.edit_web_activity)
 public class EditWebActivity extends ActivitySupport {
+    private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("网页测试");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
@@ -81,6 +87,10 @@ public class EditWebActivity extends ActivitySupport {
         for (int index = 0; index < webURLs.length; index++) {
             webUrlMap.put(webNames[index], webURLs[index]);
         }
+
+        FlowLayout flowLayout = (FlowLayout) this.f(R.id.fl_web_task);
+        TextView webTask = (TextView) this.getLayoutInflater().inflate(R.layout.web_task_item,null);
+        flowLayout.addView(webTask);
 
         f(R.id.bt_web_add).setOnClickListener(new View.OnClickListener() {
             @Override
