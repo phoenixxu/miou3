@@ -172,6 +172,7 @@
         <activity
             android:name=".views.percept.PerceptionActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Tab"
             android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

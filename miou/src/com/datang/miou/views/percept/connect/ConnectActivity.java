@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.datang.miou.ActivitySupport;
@@ -52,6 +53,8 @@ public class ConnectActivity extends ActivitySupport {
 
     @AfterView
     private void init() {
+        ListView connectLv = (ListView) findViewById(R.id.lv_connect);
+        connectLv.setAdapter(new ConnectAdapter());
 
     }
 }

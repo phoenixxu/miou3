@@ -18,11 +18,11 @@
         <item>WAP下载</item>
         <item>流媒体测试</item>
     </string-array>
-        <string-array name="test_type_dot">
+    <string-array name="test_type_dot">
         <item>空闲测试</item>
         <item>语音测试</item>
     </string-array>
-        <string-array name="test_type_trace">
+    <string-array name="test_type_trace">
         <item>WAP下载</item>
         <item>流媒体测试</item>
     </string-array>
@@ -44,5 +44,20 @@
         <item>优酷</item>
         <item>腾讯</item>
         <item>新浪</item>
+    </string-array>
+
+    <string-array name="ping_urls">
+        <item>www.10086.cn/sh/</item>
+        <item>www.baidu.com</item>
+        <item>www.qq.com</item>
+        <item>www.sina.com.cn</item>
+        <item>www.youku.com/</item>
+    </string-array>
+    <string-array name="ping_nams">
+        <item>移动</item>
+        <item>百度</item>
+        <item>腾讯</item>
+        <item>新浪</item>
+        <item>优酷</item>
     </string-array>
 </resources>
