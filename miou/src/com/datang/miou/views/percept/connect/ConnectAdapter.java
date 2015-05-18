@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.datang.miou.R;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,13 +21,13 @@ public class ConnectAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
-    private final List<PingBean> mDatas;
+    private final List<PingBean> mDatas=new ArrayList<PingBean>();
 
 
-    public ConnectAdapter(Context context, List<PingBean> datas) {
+    public ConnectAdapter(Context context, Collection<PingBean> datas) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
-        mDatas = datas;
+        mDatas.addAll(datas);
 
     }
 

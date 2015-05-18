@@ -122,8 +122,6 @@ public class ConnectActivity extends ActivitySupport {
 
     @AfterView
     private void init() {
-        ListView connectLv = (ListView) findViewById(R.id.lv_connect);
-        connectLv.setAdapter(new ConnectAdapter(mContext, (List<PingBean>) beanMap.values()));
         String[] names = this.getResources().getStringArray(R.array.ping_nams);
         String[] urls = this.getResources().getStringArray(R.array.ping_urls);
         for (int index = 0; index < names.length; index++) {
@@ -131,6 +129,9 @@ public class ConnectActivity extends ActivitySupport {
             bean.name = names[index];
             beanMap.put(bean.name, bean);
         }
+        ListView connectLv = (ListView) findViewById(R.id.lv_connect);
+        connectLv.setAdapter(new ConnectAdapter(mContext, beanMap.values()));
+
     }
 
     private void startTest() {
