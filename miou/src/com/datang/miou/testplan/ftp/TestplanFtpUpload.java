@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.net.ftp.FTPClient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -25,10 +26,6 @@ import com.datang.miou.datastructure.TestScheme;
  */
 public class TestplanFtpUpload extends TestplanFtpHelper
 {
-	public interface Callbacks {
-		public void updateUIOnFinnished();
-	}
-	
 	//	private static final String TAG = "TestplanFtpDown";
 	private static final String TAG = "chenzm";
 
@@ -127,6 +124,21 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 	}
 	
 	/**
+	 * 发送类型广播
+	 */
+	private void sendFinishBroadcast()
+	{
+		// 实例化Intent对象
+        Intent intent = new Intent();
+        
+        // 设置Intent action属性
+        intent.setAction("com.datang.miou.views.gen.action.TESTPLAN_FINISH_ACTION");
+
+        // 发出广播
+        mContext.sendBroadcast(intent);
+	}
+	
+	/**
 	 * 开始ftp下载
 	 */
 	public void StartFtpUpload()
@@ -210,7 +222,7 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 		else
 		{
 			//	判断当前是否处于通用测试界面
-			((Callbacks) mContext).updateUIOnFinnished();
+			sendFinishBroadcast();
 			
 			//	置状态
 			mRunState = FtpRunState.STOP;
@@ -249,14 +261,14 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 		
 		// 记录每次下载的开始时间
 		startTime = System.currentTimeMillis();
-		
+
 		// FTP登陆服务器
 		if(!DoFtpLogin(client))
 		{
 			//	登陆失败
 			return;
 		}
-		
+
 		//	启动统计子线程
 		startStatChild();
 		
@@ -268,7 +280,7 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 		
 		//	停止统计子线程
 		stopStatChild();
-		
+
 		Log.d(TAG, "======== DoFtpUpload end.");
 	}
 	
@@ -281,7 +293,7 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 		{
 			//	打印 登录,如果不成功，则启用重连，重连次数为10
 			Log.i(TAG, getRemoteHost() + "," +getPort() + "," + getAccount() + "," + getPassword());
-			Log.i(TAG,"DownFilePath: " + getRemoteFile());
+			Log.i(TAG,"UploadFilePath: " + getRemoteFile());
 			
 			//	登录,如果不成功，则启用重连，重连次数为10
 			login(client, getRemoteHost(), getPort(), getAccount(), getPassword());
@@ -302,11 +314,18 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 		} 
 		catch (SocketException e)
 		{
-			Log.i(TAG,"Socket Error: " + e);
+			Log.i(TAG,"Upload SocketException: " + e);
 		}
 		catch (IOException e1) 
 		{
-			Log.i(TAG,"Ftp Restart Link Server: " + e1);
+			Log.i(TAG,"Upload SocketException: " + e1);
+			
+			//	执行断开连接
+			disconnect(client);
+		}
+		catch (Exception e) 
+		{
+			Log.i(TAG,"Upload Exception: " + e);
 			
 			//	执行断开连接
 			disconnect(client);
@@ -355,6 +374,8 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 		{
 			mFutureList.add(executorServices.submit(new TestplanFtpUploadChild(mTestPlan, statThread)));
 		}
+		
+		Log.i(TAG, "====== writeAttempt");
 		
 		//	Ftp Upload Attempt
 		writeAttempt(false);
@@ -575,7 +596,14 @@ public class TestplanFtpUpload extends TestplanFtpHelper
 	 */
 	private int getFileSize()
 	{
-		return (Integer.parseInt(mTestPlan.getCommandList().getCommand().getFileSize()) * 1024);
+		if(mTestPlan.getCommandList().getCommand().getFileSize() != null)
+		{
+			return (Integer.parseInt(mTestPlan.getCommandList().getCommand().getFileSize()) * 1024);
+		}
+		else
+		{
+			return (1024 * 1024);
+		}
 	}
 	
 	/**

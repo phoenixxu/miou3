@@ -1,5 +1,7 @@
 package com.datang.miou;
 
+import java.util.concurrent.ExecutorService;
+
 import com.datang.miou.testplan.voice.TestplanVoiceHelper;
 
 import android.content.Context;
@@ -11,10 +13,6 @@ import android.view.KeyEvent;
 
 public class PhoneCallListener extends PhoneStateListener 
 {
-	public interface Callbacks {
-		public void updateUIOnFinnished();
-	}
-	
 	//	private static final String TAG = "PhoneCallListener";
 	private static final String TAG = "chenzm";
 	public static boolean AUTO_MOS = true;
@@ -24,15 +22,40 @@ public class PhoneCallListener extends PhoneStateListener
 	public static boolean mRunState = false;
 	private int mCount = 0;
 	private int mCountMax = 0;
+	private boolean misMaster = false;
+	
+	//	获取本次通话的时间
+	private int time = 0;
+	
+	//	判断是否正在通话中
+	private boolean isCalling;
+	
+	//	控制循环是否结束
+	private boolean isFinish;
+	
+	//	判断是否振铃
+	private boolean isAlerting;
 	
 	/** 
      * 注册电话系统服务
      */
-	public void register(Context context)
+	public void register(Context context,boolean isMaster,int numRepeat)
 	{
 		Log.i(TAG, "PhoneCallListener register.");
 		
 		mContext = context;
+		
+		mRunState = true;
+		
+		misMaster = isMaster;
+		
+		mCountMax = numRepeat;
+		
+		isCalling = false;
+		
+		isFinish = false;
+		
+		isAlerting = false;
 		
 		if(manager == null)
 		{
@@ -44,34 +67,32 @@ public class PhoneCallListener extends PhoneStateListener
 	        //	手动注册对PhoneStateListener中的listen_call_state状态进行监听  
 	        manager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
 		}
-		
 	}
 	
 	public void unregister()
 	{
 		if(manager != null)
 		{
-			 manager.listen(null, PhoneStateListener.LISTEN_NONE);
+			 manager.listen(this, PhoneStateListener.LISTEN_NONE);
+			 manager = null;
 		}
-	}
-	
-	/** 
-     * 启动
-     */
-	public void start(int numRepeat)
-	{
-		Log.i(TAG, "PhoneCallListener start.");
-		mCountMax = numRepeat;
-		mRunState = true;
-	}
-	
-	/** 
-     * 关闭
-     */
-	public void stop()
-	{
-		Log.i(TAG, "PhoneCallListener stop.");
+		
 		mRunState = false;
+	}
+	
+	/**
+	 * 发送类型广播
+	 */
+	private void sendFinishBroadcast()
+	{
+		// 实例化Intent对象
+        Intent intent = new Intent();
+        
+        // 设置Intent action属性
+        intent.setAction("com.datang.miou.views.gen.action.TESTPLAN_FINISH_ACTION");
+
+        // 发出广播
+        mContext.sendBroadcast(intent);
 	}
 	
 	/** 
@@ -87,7 +108,6 @@ public class PhoneCallListener extends PhoneStateListener
      */
 	public boolean isEnd()
 	{
-		mCount++;
 		Log.i(TAG, "mCount: " + mCount + ",mCountMax: " + mCountMax);
 		if(mCount >= mCountMax)
 		{
@@ -102,64 +122,125 @@ public class PhoneCallListener extends PhoneStateListener
 	@Override
 	public void onCallStateChanged(int state, String incomingNumber) 
 	{
-		if(!mRunState)
+		if(misMaster)
 		{
-			Log.i(TAG, "PhoneCallListener onCallStateChanged close " + state);
-			return;
-		}
-		
-		Log.i(TAG, "phone state changed :"+state);
-		Log.i(TAG, "incommingNumber :"+incomingNumber);
-		
-		switch (state) 
-		{
-		//	空闲状态，没有任何活动
-		case TelephonyManager.CALL_STATE_IDLE: 
+			Log.i(TAG, "Master state :" + state);
+			Log.i(TAG, "Master Num: " + incomingNumber);
 			
-			TestplanVoiceHelper.writeCallAttempt(false);
-			
-			if (AUTO_MOS) 
+			switch (state) 
 			{
-				StopRecordMos();
-				StopReplayMos();
+			//	空闲状态，没有任何活动
+			case TelephonyManager.CALL_STATE_IDLE: 
+				
+				if(isCalling)
+				{
+					//	通话结束
+					TestplanVoiceHelper.writeCallComplete(true);
+					isCalling = false;
+					isFinish = true;
+					time = 0;
+				}
+				
+				break;
+			
+			//	来电状态
+			//	电话铃声响起的那段时间或正在通话又来新电，新来电话不得不等待的那段时间
+			case TelephonyManager.CALL_STATE_RINGING: 
+				
+				//	无
+				
+				break;
+			
+			//	摘机（正在通话中）
+			//	摘机状态，至少有个电话活动；
+			//	该活动或是拨打或是通话，或是on hold 并且没有电话是ringing or waiting
+			case TelephonyManager.CALL_STATE_OFFHOOK: 
+				
+				isCalling = true;
+				TestplanVoiceHelper.writeCallAttempt(true);
+				TestplanVoiceHelper.writeCallAlerting(true);
+				TestplanVoiceHelper.writeCallConnected(true);
+				
+				break;
 			}
-			break;
-		
-		//	来电状态
-		//	电话铃声响起的那段时间或正在通话又来新电，新来电话不得不等待的那段时间
-		case TelephonyManager.CALL_STATE_RINGING: 
+		}
+		else
+		{
+			Log.i(TAG, "Slave state: "+state);
+			Log.i(TAG, "Slave Num: "+incomingNumber);
 			
-			TestplanVoiceHelper.writeCallAlerting(false);
-			
-			if (AUTO_ANSWER_CALL || SetAutoAnswer()) 
+			switch (state) 
 			{
-				//	自动应答
-				//	AnswerCall();
+			//	空闲状态，没有任何活动
+			case TelephonyManager.CALL_STATE_IDLE: 
+				
+				//	通话结束
+				if(isCalling == true && isAlerting == false)
+				{
+					TestplanVoiceHelper.writeCallComplete(false);
+					isCalling = false;
+					isAlerting = false;
+					time = 0;
+				}
+				//	未接通
+				else if(isCalling == false && isAlerting == true)
+				{
+					TestplanVoiceHelper.writeCallFailure(false);
+					isAlerting = false;
+					isAlerting = false;
+				}
 				
 				//	统计次数
 				if(isEnd())
 				{
 					//	更新界面
-					Log.i(TAG, "============= updateUIOnFinnished");
-					((Callbacks) mContext).updateUIOnFinnished();
-					Log.i(TAG, "============= updateUIOnFinnished end");
+					sendFinishBroadcast();
 				}
-			}
-			break;
-		
-		//	摘机（正在通话中）
-		//	摘机状态，至少有个电话活动；
-		//	该活动或是拨打或是通话，或是on hold 并且没有电话是ringing or waiting
-		case TelephonyManager.CALL_STATE_OFFHOOK: 
+				
+				if (AUTO_MOS) 
+				{
+					StopRecordMos();
+					StopReplayMos();
+				}
+				break;
 			
-			TestplanVoiceHelper.writeCallConnected(false);
+			//	来电状态
+			//	电话铃声响起的那段时间或正在通话又来新电，新来电话不得不等待的那段时间
+			case TelephonyManager.CALL_STATE_RINGING: 
+				
+				//	振铃
+				TestplanVoiceHelper.writeCallAttempt(false);
+				TestplanVoiceHelper.writeCallAlerting(false);
+				isAlerting = true;
+				isCalling = false;
+				
+				mCount++;
+				
+				if (AUTO_ANSWER_CALL || SetAutoAnswer()) 
+				{
+					//	自动应答
+					AnswerCall();
+				}
+				break;
 			
-			if (AUTO_MOS) 
-			{
-				StartRecordMos();
-				StartReplayMos();
+			//	摘机（正在通话中）
+			//	摘机状态，至少有个电话活动；
+			//	该活动或是拨打或是通话，或是on hold 并且没有电话是ringing or waiting
+			case TelephonyManager.CALL_STATE_OFFHOOK: 
+				
+				//	接通
+				TestplanVoiceHelper.writeCallConnected(false);
+				isAlerting = false;
+				isCalling = true;
+				
+				if (AUTO_MOS) 
+				{
+					StartRecordMos();
+					StartReplayMos();
+				}
+				
+				break;
 			}
-			break;
 		}
 	}
 	

@@ -83,6 +83,7 @@ public class ProcessInterface {
 		} else {
 			Uri uri = Uri.parse("tel:" + strNumber);
 			Intent it = new Intent(Intent.ACTION_CALL, uri);
+			it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(it);
 			System.out.println(uri.toString());
 		}

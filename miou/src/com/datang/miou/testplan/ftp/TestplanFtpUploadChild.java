@@ -99,20 +99,20 @@ public class TestplanFtpUploadChild implements Runnable
 			if (!StringUtils.isEmpty(getRemoteFile()))
 			{
 				String[] files = getRemoteFile().split("/");
-				Log.i(TAG,"Len: " + files.length);
-				Log.i(TAG,"files: " + files[1]);
 				
 				//	根据给定的名字返回一个能够向服务器上传文件的OutputStream
 				if (files.length > 2) 
 				{
 					for (int i = 1; i < (files.length - 1); i++)
 					{
-						Log.i(TAG,"File: " + files[i]);
+						Log.i(TAG,"makeDirectory: " + files[i]);
 						cFtpClient.makeDirectory(files[i]);
 						cFtpClient.changeWorkingDirectory(files[i]);
 					}
 				}
-				Log.i(TAG,"File: " + files[(files.length - 1)]);
+				
+				//	上传保存文件名
+				Log.i(TAG,"Store File: " + files[(files.length - 1)]);
 				os = cFtpClient.storeFileStream(files[(files.length - 1)]);
 			} 
 			
@@ -120,11 +120,11 @@ public class TestplanFtpUploadChild implements Runnable
 			int bytes;
 	        long total = 0l;
 	        long lastTotal = 0l;
-	        byte[] buffer = new byte[1024];
+	        byte[] buffer = new byte[COPY_BUFFER_SIZE];
 
             while ((bytes = is.read(buffer)) != -1) 
             {
-            	Log.i(TAG,"read bytes: " + bytes);
+            	Log.i(TAG,"upload read: " + bytes);
             	
             	if(Thread.currentThread().isInterrupted()) 
             	{
@@ -160,19 +160,19 @@ public class TestplanFtpUploadChild implements Runnable
                 }
 
                 //	字符数组buffer中从下标off开始，长度为bytes的字节写入流中
-                Log.i(TAG,"write bytes: " + bytes);
                 os.write(buffer, 0, bytes);
+                Log.i(TAG,"upload write: " + bytes);
                 
                 //	刷空输出流，并输出所有被缓存的字节，由于某些流支持缓存功能，该方法将把缓存中所有内容强制输出到流中
                 os.flush();
+                
+                SystemClock.sleep(10);
                 
                 total += bytes;
                 if(total > lastTotal)
                 {
 					ftpStatThread.setLen(bytes);
 				}
-                
-                SystemClock.sleep(10);
             }
             
             Log.i(TAG,"TestplanFtpUploadChild write finish.");
@@ -193,9 +193,9 @@ public class TestplanFtpUploadChild implements Runnable
 					Log.i(TAG,"TestplanFtpUploadChild disconnect.");
 					cFtpClient.disconnect();
 				} 
-				catch (IOException e1)
+				catch (IOException e)
 				{
-					e1.printStackTrace();
+					Log.e(TAG,"TestplanFtpUploadChild Exception.", e);
 				}
 			}
 			
@@ -332,7 +332,14 @@ public class TestplanFtpUploadChild implements Runnable
 	 */
 	private int getFileSize()
 	{
-		return (Integer.parseInt(mTestPlan.getCommandList().getCommand().getFileSize()) * 1024);
+		if(mTestPlan.getCommandList().getCommand().getFileSize() != null)
+		{
+			return (Integer.parseInt(mTestPlan.getCommandList().getCommand().getFileSize()) * 1024);
+		}
+		else
+		{
+			return (1024 * 1024);
+		}
 	}
 	
 	/**

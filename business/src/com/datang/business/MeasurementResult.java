@@ -130,26 +130,33 @@ public class MeasurementResult {
         }
     }
 
+    private void getPingResult(Map<String, String> r) {
+        if (success) {
+            float packetLoss = Float.parseFloat(values.get("packet_loss"));
+            r.put("S", ((1 - packetLoss) * 100) + "");
+            float value = Float.parseFloat(values.get("mean_rtt_ms"));
+            r.put("T", String.format("%.1f", value) + " ms");
+        } else {
+            r.put("S", "-");
+            r.put("T", "-ms");
+        }
+    }
+
     public String getResult() {
         Map<String, String> r = new HashMap<String, String>();
-        if (success) {
-            Formatter format = new Formatter();
-            int headerLen = Integer.parseInt(values.get("headers_len"));
-            int bodyLen = Integer.parseInt(values.get("body_len"));
-            int time = Integer.parseInt(values.get("time_ms"));
-            r.put("T", time / 1000.0 + "s");
-            r.put("V", format.format("%.2fM/s", (headerLen + bodyLen) * 8 / (1000.0 * time)).toString());
-        } else {
-            r.put("T", "0s");
-            r.put("V", "0M/s");
+        if (type == PingTask.TYPE) {
+            getPingResult(r);
+        } else if (type == HttpTask.TYPE) {
+            getHttpResult(r);
         }
+
 
         return new JSONObject(r).toString();
 
 
     }
 
-    private void getHttpResult(StringBuilderPrinter printer, HashMap<String, String> values) {
+    private void getHttpResult(StringBuilderPrinter printer, HashMap<String, String> r) {
         HttpDesc desc = (HttpDesc) parameters;
         printer.println("[HTTP]");
         printer.println("URL: " + desc.url);
@@ -163,6 +170,21 @@ public class MeasurementResult {
             printer.println("Bandwidth: " + (headerLen + bodyLen) * 8 / time + " Kbps");
         } else {
             printer.println("Download failed, status code " + values.get("code"));
+        }
+
+    }
+
+    private void getHttpResult(Map<String, String> r) {
+        if (success) {
+            Formatter format = new Formatter();
+            int headerLen = Integer.parseInt(values.get("headers_len"));
+            int bodyLen = Integer.parseInt(values.get("body_len"));
+            int time = Integer.parseInt(values.get("time_ms"));
+            r.put("T", time / 1000.0 + "s");
+            r.put("V", format.format("%.2fM/s", (headerLen + bodyLen) * 8 / (1000.0 * time)).toString());
+        } else {
+            r.put("T", "0s");
+            r.put("V", "0M/s");
         }
     }
 

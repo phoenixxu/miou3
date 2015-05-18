@@ -119,7 +119,7 @@ public class WebActivity extends ActivitySupport {
                     int progress = intent.getIntExtra(UpdateIntent.PROGRESS_PAYLOAD,
                             Config.INVALID_PROGRESS);
                     String key = intent.getStringExtra(UpdateIntent.TASK_KEY);
-                    upgradeProgress(key, progress, intent.getStringExtra(UpdateIntent.STRING_PAYLOAD));
+                    progress(key, progress, intent.getStringExtra(UpdateIntent.STRING_PAYLOAD));
                     textResult.setText(intent.getStringExtra(UpdateIntent.STATUS_MSG_PAYLOAD));
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
@@ -154,7 +154,7 @@ public class WebActivity extends ActivitySupport {
     /**
      * Upgrades the progress bar in the UI.
      */
-    private void upgradeProgress(String key, int progress, String msg) {
+    private void progress(String key, int progress, String msg) {
         Logger.d("Progress is " + key + ":" + progress + "--" + msg);
         if (!barHashMap.containsKey(key)) return;
         if (progress >= 0 && progress <= Config.MAX_PROGRESS_BAR_VALUE) {

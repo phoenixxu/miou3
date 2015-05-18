@@ -1,15 +1,12 @@
 package com.datang.miou.testplan.voice;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 
 import com.datang.miou.ProcessInterface;
 import com.datang.miou.datastructure.TestScheme;
-import com.datang.miou.services.TestplanService;
-import com.datang.miou.testplan.ftp.TestplanFtpHelper;
-import com.datang.miou.testplan.ftp.TestplanFtpDown.Callbacks;
-
 
 /**
  * VoiceCalling主线程,定时器机制
@@ -18,10 +15,6 @@ import com.datang.miou.testplan.ftp.TestplanFtpDown.Callbacks;
  */
 public class TestplanVoiceCalling extends TestplanVoiceHelper
 {
-	public interface Callbacks {
-		public void updateUIOnFinnished();
-	}
-	
 	//	private static final String TAG = "VoiceThread";
 	private static final String TAG = "chenzm";
 
@@ -87,7 +80,21 @@ public class TestplanVoiceCalling extends TestplanVoiceHelper
 	}
 	
 	/**
-	 * 
+	 * 发送类型广播
+	 */
+	private void sendFinishBroadcast()
+	{
+		// 实例化Intent对象
+        Intent intent = new Intent();
+        
+        // 设置Intent action属性
+        intent.setAction("com.datang.miou.views.gen.action.TESTPLAN_FINISH_ACTION");
+
+        // 发出广播
+        mContext.sendBroadcast(intent);
+	}
+	
+	/**
 	 * 开始主叫测试
 	 */
 	public void startVoiceCalling()
@@ -100,12 +107,12 @@ public class TestplanVoiceCalling extends TestplanVoiceHelper
 	}
 	
 	/**
-	 * 
 	 * 停止主叫测试
-	 * 
 	 */
 	public void stopVoiceCalling()
 	{
+		//	挂断电话
+		ProcessInterface.StopCall(mContext);
 		mHandler.removeCallbacks(mRunnableCall);
 		mHandler.removeCallbacks(mRunnableHandup);
 		
@@ -122,38 +129,27 @@ public class TestplanVoiceCalling extends TestplanVoiceHelper
 	}
 	
 	/**
-	 * 
 	 * 呼叫
 	 */
 	private void StartCall()
 	{
 		//	打印
-		Log.i(TAG, "call count = " + (curNum+1));
-		
-		//	写信令
-		writeCallAttempt(true);
-		writeCallAlerting(true);
+		Log.i(TAG, "StartCall Count: " + (curNum+1));
 		
 		//	呼叫
-		TestplanService.sendVoiceMasterBroadcast(true,getCallNumber());
-		//	ProcessInterface.StartCall(getCallNumber(),false,false,mContext);
+		ProcessInterface.StartCall(getCallNumber(),false,false,mContext);
 		
 		// 设置挂掉操作定时器
 		mHandler.postDelayed(mRunnableHandup, 1000 * getDuration());
 	}
 	
 	/**
-	 * 
 	 * 挂断
 	 */
 	private void StopCall()
-	{
-		//	写信令
-		writeCallComplete(true);
-			
+	{	
 		//	挂断
-		//	ProcessInterface.StopCall(mContext);
-		TestplanService.sendVoiceMasterBroadcast(false,getCallNumber());
+		ProcessInterface.StopCall(mContext);
 		
 		//	统计
 		curNum++;
@@ -166,10 +162,10 @@ public class TestplanVoiceCalling extends TestplanVoiceHelper
 		//	calling plantest finished
 		else
 		{
-			Log.i(TAG, "calling plantest finished.");
+			Log.i(TAG, "TestplanVoiceCalling updateUIOnFinnished.");
 			
 			//	判断当前是否处于通用测试界面
-			((Callbacks) mContext).updateUIOnFinnished();
+			sendFinishBroadcast();
 			
 			//	设置状态
 			mRunState = VoiceRunState.STOP;
@@ -185,7 +181,6 @@ public class TestplanVoiceCalling extends TestplanVoiceHelper
 	}
 	
 	/**
-	 * 
 	 * 获取电话号码
 	 */
 	private String getCallNumber()

@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.net.ftp.FTPClient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -18,7 +19,6 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.datang.miou.datastructure.TestScheme;
-import com.datang.miou.testplan.ftp.TestplanFtpUpload.Callbacks;
 
 /**
  * FTP下载主线程,定时器机制
@@ -27,10 +27,6 @@ import com.datang.miou.testplan.ftp.TestplanFtpUpload.Callbacks;
  */
 public class TestplanFtpDown extends TestplanFtpHelper
 {
-	public interface Callbacks {
-		public void updateUIOnFinnished();
-	}
-	
 	//	private static final String TAG = "TestplanFtpDown";
 	private static final String TAG = "chenzm";
 
@@ -129,6 +125,21 @@ public class TestplanFtpDown extends TestplanFtpHelper
 	}
 	
 	/**
+	 * 发送类型广播
+	 */
+	private void sendFinishBroadcast()
+	{
+		// 实例化Intent对象
+        Intent intent = new Intent();
+        
+        // 设置Intent action属性
+        intent.setAction("com.datang.miou.views.gen.action.TESTPLAN_FINISH_ACTION");
+
+        // 发出广播
+        mContext.sendBroadcast(intent);
+	}
+	
+	/**
 	 * 开始ftp下载
 	 */
 	public void StartFtpDown()
@@ -215,7 +226,7 @@ public class TestplanFtpDown extends TestplanFtpHelper
 		else
 		{
 			//	判断当前是否处于通用测试界面
-			((Callbacks) mContext).updateUIOnFinnished();
+			sendFinishBroadcast();
 			
 			//	置状态
 			mRunState = FtpRunState.STOP;
@@ -307,11 +318,18 @@ public class TestplanFtpDown extends TestplanFtpHelper
 		} 
 		catch (SocketException e)
 		{
-			Log.i(TAG,"Socket Error: " + e);
+			Log.i(TAG,"Down SocketException: " + e);
 		}
 		catch (IOException e1) 
 		{
-			Log.i(TAG,"Ftp Restart Link Server: " + e1);
+			Log.i(TAG,"Down IOException: " + e1);
+			
+			//	执行断开连接
+			disconnect(client);
+		}
+		catch (Exception e) 
+		{
+			Log.i(TAG,"Dwon Exception: " + e);
 			
 			//	执行断开连接
 			disconnect(client);
@@ -453,7 +471,7 @@ public class TestplanFtpDown extends TestplanFtpHelper
 		}
 		mFutureList = null;
 	}
-
+	
 	/**
 	 * 返回执行次数
 	 */

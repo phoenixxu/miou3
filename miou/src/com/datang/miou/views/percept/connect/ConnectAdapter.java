@@ -1,54 +1,43 @@
 package com.datang.miou.views.percept.connect;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.datang.miou.R;
+
+import java.util.List;
 
 /**
  * Created by leo on 5/14/15.
  */
-public class ConnectAdapter implements ListAdapter {
+public class ConnectAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
+    private final List<PingBean> mDatas;
 
-    public  ConnectAdapter(Context context){
+
+    public ConnectAdapter(Context context, List<PingBean> datas) {
         mContext = context;
-         mLayoutInflater = LayoutInflater.from(mContext);
-    }
-    @Override
-    public boolean areAllItemsEnabled() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-        return false;
-    }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
+        mLayoutInflater = LayoutInflater.from(mContext);
+        mDatas = datas;
 
     }
 
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
-    }
 
     @Override
     public int getCount() {
-        return 0;
+        return mDatas.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mDatas.get(position);
     }
 
     @Override
@@ -57,28 +46,35 @@ public class ConnectAdapter implements ListAdapter {
     }
 
     @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        mLayoutInflater.inflate(R.layout.connect_listview_item,null);
-        return null;
+        ViewHolder holder = null;
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = mLayoutInflater.inflate(R.layout.connect_listview_item, null);
+            holder.name = (TextView) convertView.findViewById(R.id.ping_name);
+            holder.time = (TextView) convertView.findViewById(R.id.ping_time);
+            holder.sucess = (TextView) convertView.findViewById(R.id.ping_success);
+            holder.progress = (ProgressBar) convertView.findViewById(R.id.ping_progress);
+            holder.result = (TextView) convertView.findViewById(R.id.ping_result);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        PingBean pingBean = mDatas.get(position);
+        holder.progress.setProgress(pingBean.progress);
+        holder.name.setText(pingBean.name);
+        holder.sucess.setText("成功率：" + pingBean.sucess);
+        holder.time.setText("时延：" + pingBean.time);
+        holder.result.setText(pingBean.result);
+        return convertView;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
+    class ViewHolder {
+        TextView name;
+        TextView time;
+        TextView sucess;
+        TextView result;
+        ProgressBar progress;
     }
 
-    @Override
-    public int getViewTypeCount() {
-        return 0;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
 }

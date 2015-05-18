@@ -10,7 +10,9 @@ import com.datang.miou.ActivitySupport;
 import com.datang.miou.R;
 import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
+import com.datang.miou.datastructure.Globals;
 import com.datang.miou.shared.Shared;
+import com.datang.miou.views.percept.PerceptionActivity;
 
 /**
  * 启动界面
@@ -18,7 +20,8 @@ import com.datang.miou.shared.Shared;
  * @author suntongwei
  */
 @AutoView(R.layout.start)
-public class StartActivity extends ActivitySupport {
+public class StartActivity extends ActivitySupport 
+{
 
 	@AutoView(R.id.start_txt_imei)
 	private EditText txtImei;
@@ -30,7 +33,12 @@ public class StartActivity extends ActivitySupport {
 		
 		String imei = Shared.getImei(mContext);
 		if(imei != null && !"".equals(imei)) {
-			startActivity(new Intent(mContext, MainActivity.class));
+			//	add via chenzm
+			if(Globals.isHigherUserPermission())
+				startActivity(new Intent(mContext, MainActivity.class));
+			else
+				startActivity(new Intent(mContext, PerceptionActivity.class));
+			//	add via chenzm end
 			finish();
 		}
 		
@@ -53,8 +61,12 @@ public class StartActivity extends ActivitySupport {
 				
 				Shared.setImei(mContext, strImei.toString());
 				Shared.setEmail(mContext, strEmail.toString());
-				
-				startActivity(new Intent(mContext, MainActivity.class));
+				//	add via chenzm
+				if(Globals.isHigherUserPermission())
+					startActivity(new Intent(mContext, MainActivity.class));
+				else
+					startActivity(new Intent(mContext, PerceptionActivity.class));
+				//	add via chenzm end
 				finish();
 			}
 		});

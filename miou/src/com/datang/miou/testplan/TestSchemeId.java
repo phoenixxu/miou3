@@ -7,8 +7,6 @@ package com.datang.miou.testplan;
  * @author dingzhongchang
  */
 public abstract class TestSchemeId {
-
-    public static final String ID = "ID";
     /**
      * 语音主叫 0x0500<br>
      * 语音被叫 0x0501 <br>
@@ -32,11 +30,12 @@ public abstract class TestSchemeId {
     public static final String x0603 = "PDP测试";
     public static final String x0604 = "PING测试";
     public static final String x0608 = "Wap下载";
-    public static final String x0609 = "接收/发送短消息";
-    public static final String x060A = "发送彩信";
-    public static final String x060B = "接收彩信";
+    public static final String x0609 = "接收/发送短消息 ";
+    public static final String x060A = "发送彩信 ";
+    public static final String x060B = "接收彩信 ";
     public static final String x060C = "FTP上传/下载测试 ";
-    public static final String x0611 = "流媒体测试";
+    public static final String x0611 = "流媒体测试 ";
     public static final String x0612 = "接收POP3邮件测试";
     public static final String x0613 = "发送SMTP邮件测试";
+    public static final String ID = "TestSchemeId";
 }

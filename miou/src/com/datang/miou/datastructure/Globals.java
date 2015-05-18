@@ -6,6 +6,14 @@ import java.util.Map;
 import com.datang.miou.R;
 
 public class Globals {
+	//	add via chenzm
+	//	高级	HIGHER;低级 LOWER
+	//	HIGHER	支持普通测试；单站测试；室内测试；用户感知
+	//	LOWER	支持用户感知
+	public static final String USER_PERMISSION = "HIGHER";
+	
+	//	add via chenzm end
+	
 	public static final String PREFS = "MIOU_PREFS";
 
 	//测试命令
@@ -252,8 +260,19 @@ public class Globals {
 	public static final int MODE_UPLOAD = 3;
 	public static final int MODE_DOWNLOAD = 4;
 
-
-
+	public static final String EVENT_ID_HTTP_ATTEMPT = "2701";
+	public static final String EVENT_ID_HTTP_SUCCESS = "2703";
+	public static final String EVENT_ID_HTTP_FAIL = "2702";
+	public static final String EVENT_ID_PING_ATTEMPT = "4409";
+	public static final String EVENT_ID_PING_SUCCESS = "440A";
+	public static final String EVENT_ID_PING_FAIL = "440B";
+	
+	public static final String EVENT_HTTP_ATTEMPT = "Http Attempt";
+	public static final String EVENT_HTTP_SUCCESS = "Http Success";
+	public static final String EVENT_HTTP_FAIL = "Http Fail";
+	public static final String EVENT_PING_ATTEMPT = "Ping Attempt";
+	public static final String EVENT_PING_SUCCESS = "Ping Success";
+	public static final String EVENT_PING_FAIL = "Ping Fail";
 	
 	
 	private static int netMode;
@@ -265,4 +284,11 @@ public class Globals {
 	public static void setNetMode(int mode) {
 		netMode = mode;
 	}
+	
+	//	add via chenzm 
+	public static boolean isHigherUserPermission()
+	{
+		return USER_PERMISSION.equals("HIGHER");
+	}
+	//	add via chenzm end
 }

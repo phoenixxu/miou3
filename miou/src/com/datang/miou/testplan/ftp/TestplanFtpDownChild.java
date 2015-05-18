@@ -95,20 +95,20 @@ public class TestplanFtpDownChild implements Runnable
 				// 判断线程是否被终止
 				if(Thread.currentThread().isInterrupted())
 				{
-					Log.e(TAG,"Ftp Down Child Thread is Interrupted.");
+					Log.e(TAG,"TestplanFtpDownChild is Interrupted.");
 					break;
 				}
 				
 				if(ftpStatThread.isEnd()) 
 				{
-            		Log.e(TAG,"Ftp Down Child Thread End.");
+            		Log.e(TAG,"TestplanFtpDownChild End.");
             		break;
             	}
 				
 				//	设置统计
 				if(ftpStatThread != null)
 				{
-					Log.i(TAG,"file size: " + c);
+					Log.i(TAG,"down read: " + c);
 					ftpStatThread.setLen(c);
 				}
 			}
@@ -123,7 +123,7 @@ public class TestplanFtpDownChild implements Runnable
 			{
 				try 
 				{
-					Log.i(TAG,"ftp Down Child disconnect.");
+					Log.i(TAG,"TestplanFtpDownChild disconnect.");
 					cFtpClient.disconnect();
 				} 
 				catch (IOException e) 

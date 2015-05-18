@@ -40,7 +40,7 @@ public class TestplanFtpInputStream extends InputStream
 			return -1;
 		}
 		
-		Log.d("chenzm","TestplanFtpInputStream length: " + b.length);
+		//	Log.d("chenzm","TestplanFtpInputStream length: " + b.length);
 		
 		for(int i = 0; i < b.length; i++) 
 		{

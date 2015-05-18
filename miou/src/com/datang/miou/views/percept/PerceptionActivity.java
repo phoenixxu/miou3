@@ -1,15 +1,19 @@
 package com.datang.miou.views.percept;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.datang.miou.datastructure.Globals;
 
 import com.datang.miou.R;
 
@@ -40,6 +44,11 @@ public class PerceptionActivity extends FragmentActivity implements CompoundButt
         mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("用户感知");
         ImageView mBackButton = (ImageView) findViewById(R.id.app_title_left);
+        //	add via chenzm
+        if(!Globals.isHigherUserPermission())
+        	mBackButton.setVisibility(View.INVISIBLE);
+        //	add via chenzm end
+
         mBackButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -78,5 +87,45 @@ public class PerceptionActivity extends FragmentActivity implements CompoundButt
     public void onPageScrolled(int arg0, float arg1, int arg2) {
     }
 
+    //	add via chenzm
+    @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+    	//	LOWER用户
+    	if(!Globals.isHigherUserPermission())
+    	{
+    		if (keyCode == KeyEvent.KEYCODE_BACK)
+    		{
+    			//快速点击两次后退退出程序
+    			exit();
+    		}
+    	}
+		return super.onKeyDown(keyCode, event);
+	}
+    
+    private void exit() {
+		// TODO Auto-generated method stub
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("退出")
+			   .setMessage("是否真的退出？")
+			   .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						//	ProcessInterface.Close();
+						System.exit(0);
+					}
+			   })
+			   .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+			   }).show();
+	}
+    //	add via chenzm end
 
 }
