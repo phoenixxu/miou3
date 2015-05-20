@@ -32,8 +32,8 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 连接测试
@@ -41,10 +41,12 @@ import java.util.Map;
  */
 @AutoView(R.layout.connect_activity)
 public class ConnectActivity extends ActivitySupport {
-
     private static final String TAG = "ConnectActivity";
+    AtomicBoolean isStop = new AtomicBoolean(true);
     BroadcastReceiver receiver;
     Map<String, PingBean> beanMap = new LinkedHashMap<String, PingBean>();
+    private TextView ctl;
+    private ConnectAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +120,7 @@ public class ConnectActivity extends ActivitySupport {
             }
             beanMap.get(key).progress = 100;
         }
+        adapter.notifyDataSetChanged();
     }
 
     @AfterView
@@ -127,18 +130,41 @@ public class ConnectActivity extends ActivitySupport {
         for (int index = 0; index < names.length; index++) {
             PingBean bean = new PingBean(urls[index]);
             bean.name = names[index];
-            beanMap.put(bean.name, bean);
+            beanMap.put(bean.url, bean);
         }
         ListView connectLv = (ListView) findViewById(R.id.lv_connect);
-        connectLv.setAdapter(new ConnectAdapter(mContext, beanMap.values()));
+        adapter = new ConnectAdapter(mContext, beanMap.values());
+        connectLv.setAdapter(adapter);
 
+        ctl = (TextView) f(R.id.bt_connect_ctl);
+        ctl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctl();
+            }
+        });
+
+    }
+
+    private void ctl() {
+        if (!isStop.get()) {
+            isStop.set(true);
+            ctl.setText("开始测试");
+            if (MainActivity.App.getScheduler() != null)
+                MainActivity.App.getScheduler().clean();
+        } else {
+            isStop.set(false);
+            ctl.setText("停止测试");
+            startTest();
+
+        }
     }
 
     private void startTest() {
         for (PingBean bean : beanMap.values()) {
             Map<String, String> params = new HashMap<String, String>();
             params.put("target", bean.url);
-            PingTask.PingDesc desc = new PingTask.PingDesc(null,
+            PingTask.PingDesc desc = new PingTask.PingDesc(bean.url,
                     Calendar.getInstance().getTime(),
                     null,
                     Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,

@@ -57,7 +57,7 @@
         android:dividerHeight="1dp" />
 
     <Button
-        android:id="@+id/bt_video_ctl"
+        android:id="@+id/bt_connect_ctl"
         style="@style/TaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

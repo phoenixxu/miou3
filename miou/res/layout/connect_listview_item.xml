@@ -51,7 +51,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:progress="10" />
+            android:progress="0" />
     </LinearLayout>
 
     <TextView

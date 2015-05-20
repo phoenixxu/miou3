@@ -7,8 +7,8 @@ public class PingBean {
     String url="";
     String name = "";
     String time = "0";
-    String sucess = "100";
-    int progress = 10;
+    String sucess = "0";
+    int progress = 0;
     String result = "很快";
 
     public PingBean(String url) {

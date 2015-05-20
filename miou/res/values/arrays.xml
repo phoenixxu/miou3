@@ -47,11 +47,11 @@
     </string-array>
 
     <string-array name="ping_urls">
-        <item>www.10086.cn/sh/</item>
+        <item>www.10086.cn</item>
         <item>www.baidu.com</item>
         <item>www.qq.com</item>
         <item>www.sina.com.cn</item>
-        <item>www.youku.com/</item>
+        <item>www.youku.com</item>
     </string-array>
     <string-array name="ping_nams">
         <item>移动</item>
