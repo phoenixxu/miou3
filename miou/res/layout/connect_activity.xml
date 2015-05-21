@@ -23,13 +23,13 @@
                 android:id="@+id/tv_ping_test_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ping 测试开始" />
+                android:text="Ping 测试" />
 
             <TextView
                 android:id="@+id/tv_ping_test_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="www.baidu.com" />
+                android:text="---" />
         </LinearLayout>
     </ScrollView>
     <!--<LinearLayout-->

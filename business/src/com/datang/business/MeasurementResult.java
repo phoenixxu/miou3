@@ -133,7 +133,7 @@ public class MeasurementResult {
     private void getPingResult(Map<String, String> r) {
         if (success) {
             float packetLoss = Float.parseFloat(values.get("packet_loss"));
-            r.put("S", ((1 - packetLoss) * 100) + "");
+            r.put("S", String.format("%.2f", ((1 - packetLoss) * 100)));
             float value = Float.parseFloat(values.get("mean_rtt_ms"));
             r.put("T", String.format("%.1f", value) + " ms");
         } else {

@@ -152,6 +152,15 @@ public class ConnectActivity extends ActivitySupport {
             ctl.setText("开始测试");
             if (MainActivity.App.getScheduler() != null)
                 MainActivity.App.getScheduler().clean();
+            if (!beanMap.isEmpty()) {
+                for (String key : beanMap.keySet()) {
+                    PingBean bean = beanMap.get(key);
+                    bean.sucess = "-";
+                    bean.time = "-";
+                    bean.progress = 0;
+                }
+                adapter.notifyDataSetChanged();
+            }
         } else {
             isStop.set(false);
             ctl.setText("停止测试");

@@ -6,8 +6,8 @@ package com.datang.miou.views.percept.connect;
 public class PingBean {
     String url="";
     String name = "";
-    String time = "0";
-    String sucess = "0";
+    String time = "-";
+    String sucess = "-";
     int progress = 0;
     String result = "很快";
 
