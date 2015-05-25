@@ -23,18 +23,7 @@
             <EditText
                 android:layout_margin="3dp"
                 android:layout_weight="1" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_gravity="center|left"
-                android:text="测试任务描述" />
-
-            <EditText
-                android:layout_margin="3dp"
-                android:layout_weight="1" />
-        </TableRow>
+        </TableRow> 
 
         <TableRow>
 

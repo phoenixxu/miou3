@@ -65,9 +65,9 @@ public class ConnectAdapter extends BaseAdapter {
         PingBean pingBean = mDatas.get(position);
         holder.progress.setProgress(pingBean.progress);
         holder.name.setText(pingBean.name);
-        holder.sucess.setText("成功率：" + pingBean.sucess);
-        holder.time.setText("时延：" + pingBean.time);
-        holder.result.setText(pingBean.result);
+        holder.sucess.setText("成功率:" + pingBean.sucess);
+        holder.time.setText("时延:" + pingBean.time);
+        holder.result.setText(pingBean.getResult());
         return convertView;
     }
 

@@ -103,8 +103,9 @@ public class ConnectActivity extends ActivitySupport {
     private void progress(String key, int progress, String extra) {
         Logger.d("Progress is " + key + ":" + progress + "--" + extra);
         if (!beanMap.containsKey(key)) return;
+        PingBean bean = beanMap.get(key);
         if (progress >= 0 && progress <= Config.MAX_PROGRESS_BAR_VALUE) {
-            beanMap.get(key).progress = progress;
+            bean.progress = progress;
         } else {
       /* UserMeasurementTask broadcast a progress greater than max to indicate the
        * termination of the measurement
@@ -112,13 +113,13 @@ public class ConnectActivity extends ActivitySupport {
             if (extra != null) {
                 try {
                     JSONObject json = new JSONObject(extra);
-                    beanMap.get(key).time = json.getString("T");
-                    beanMap.get(key).sucess = json.getString("S");
+                    bean.time = json.getString("T");
+                    bean.sucess = json.getString("S");
                 } catch (JSONException e) {
                     Log.w(TAG, e.getMessage(), e);
                 }
             }
-            beanMap.get(key).progress = 100;
+            bean.progress = 100;
         }
         adapter.notifyDataSetChanged();
     }
@@ -175,7 +176,7 @@ public class ConnectActivity extends ActivitySupport {
             params.put("target", bean.url);
             PingTask.PingDesc desc = new PingTask.PingDesc(bean.url,
                     Calendar.getInstance().getTime(),
-                    null,
+                    Calendar.getInstance().getTime(),
                     Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
                     Config.DEFAULT_USER_MEASUREMENT_COUNT,
                     MeasurementTask.USER_PRIORITY,
