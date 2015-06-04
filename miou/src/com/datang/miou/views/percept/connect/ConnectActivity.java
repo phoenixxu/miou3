@@ -90,6 +90,10 @@ public class ConnectActivity extends ActivitySupport {
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
                     textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
+                    int completed = intent.getIntExtra("completed",0);
+                    if (completed==beanMap.size()) {
+                        onTaskFinish();
+                    }
                 }
             }
         };
@@ -152,7 +156,7 @@ public class ConnectActivity extends ActivitySupport {
             isStop.set(true);
             ctl.setText("开始测试");
             if (MainActivity.App.getScheduler() != null)
-                MainActivity.App.getScheduler().clean();
+                MainActivity.App.getScheduler().clean("ping");
             if (!beanMap.isEmpty()) {
                 for (String key : beanMap.keySet()) {
                     PingBean bean = beanMap.get(key);
@@ -168,6 +172,11 @@ public class ConnectActivity extends ActivitySupport {
             startTest();
 
         }
+    }
+
+    private void onTaskFinish(){
+        isStop.set(true);
+        ctl.setText("开始测试");
     }
 
     private void startTest() {

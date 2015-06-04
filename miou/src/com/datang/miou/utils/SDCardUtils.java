@@ -1,12 +1,21 @@
 package com.datang.miou.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Enumeration;
@@ -24,11 +33,11 @@ import java.util.zip.ZipOutputStream;
  */
 public class SDCardUtils {
 
+    public static final String TAG = "SDCardUtils";
     /**
      * SD卡项目顶级路径
      */
     private static final String PROJECT_FILE_PATH = "/miou";
-
     /**
      * 系统子目录
      */
@@ -37,12 +46,10 @@ public class SDCardUtils {
      * 配置文件路径
      */
     private static final String CONFIG = "/config";
-    
     /**
      * 系统LOG目录
      */
     private static final String SYSTEM_LOG = "/log";
-    
     /**
      * LOG文件子路径
      */
@@ -54,16 +61,13 @@ public class SDCardUtils {
      */
     private static final String DEBUG_PATH = "/debug";
     private static final String LOG_PROJECT_FILE = "/project";
-
-
-
-    public static final String TAG = "SDCardUtils";
-    
-    
     private static final String LOG_TEST_LOG = "/testlog";
     private static final String LOG_TEST_PLAN = "/testplan";
     private static final String LOG_DEGUG_LOG = "/debuglog";
     private static final String LOG_TEMPLATE_FILE = "/template";
+
+    //用户感知 测试任务脚本
+    private static final String PER_SCRIPT = "/perp_script";
 
     /**
      * 自动创建文件系统
@@ -73,20 +77,20 @@ public class SDCardUtils {
             String[] createFileNames = new String[]{
                     PROJECT_FILE_PATH,
                     PROJECT_FILE_PATH + CONFIG,
-                     PROJECT_FILE_PATH + SYSTEM_PATH,
+                    PROJECT_FILE_PATH + SYSTEM_PATH,
                     PROJECT_FILE_PATH + SYSTEM_LOG,
                     PROJECT_FILE_PATH + LOG_FILE,
                     PROJECT_FILE_PATH + LOG_DEL_FILE,
                     PROJECT_FILE_PATH + LOG_PROJECT_FILE,
                     PROJECT_FILE_PATH + DEBUG_PATH,
-                    
-                    
+                    PROJECT_FILE_PATH + PER_SCRIPT,
+
                     //PROJECT_FILE_PATH + LOG_TEST_LOG,
                     PROJECT_FILE_PATH + LOG_TEST_PLAN
                     //PROJECT_FILE_PATH + LOG_DEGUG_LOG,
                     //PROJECT_FILE_PATH + LOG_TEMPLATE_FILE
-                    
-                  };
+
+            };
             for (String filePath : createFileNames) {
                 File file = new File(getSDPath() + filePath);
                 if (!file.exists()) {
@@ -131,13 +135,11 @@ public class SDCardUtils {
             	Log.d(TAG, "error*****************");
             	e.printStackTrace();
             }*/
-            
-            
-            
+
+
         }
-        
-        
-        
+
+
         //File file = new File(getTemplePath()+"/TestPlanTemplate.xml");
         //if(file)
         
@@ -154,26 +156,35 @@ public class SDCardUtils {
         }*/
     }
 
-    
+
     public static String getTemplePath() {
         if (getSDCardExist()) {
             return getSDPath() + PROJECT_FILE_PATH + LOG_TEMPLATE_FILE;
         }
         return null;
     }
-    
-    
+
+
     public static String getTestPlanPath() {
         if (getSDCardExist()) {
             return getSDPath() + PROJECT_FILE_PATH + LOG_TEST_PLAN;
         }
         return null;
     }
-    
-    
-    
-    
-    
+
+
+    /**
+     * 获取用户感知测试任务脚本文件路径
+     *
+     * @return 文件路径
+     */
+    public static String getPerScript() {
+        if (getSDCardExist()) {
+            return getSDPath() + PROJECT_FILE_PATH + PER_SCRIPT;
+        }
+        return null;
+    }
+
     /**
      * 返回工程目录路径
      *
@@ -184,7 +195,9 @@ public class SDCardUtils {
             return getSDPath() + PROJECT_FILE_PATH + LOG_PROJECT_FILE;
         }
         return null;
-    }/**
+    }
+
+    /**
      * 判断SD卡是否存在
      *
      * @return true存在, false不存在
@@ -230,17 +243,17 @@ public class SDCardUtils {
         }
         return null;
     }
-    
+
     /**
      * 返回系统LOG文件目录
-     * 
+     *
      * @return
      */
     public static String getSystemLogPath() {
-    	 if (getSDCardExist()) {
-             return getSDPath() + PROJECT_FILE_PATH + SYSTEM_LOG;
-         }
-         return null;
+        if (getSDCardExist()) {
+            return getSDPath() + PROJECT_FILE_PATH + SYSTEM_LOG;
+        }
+        return null;
     }
 
     /**
@@ -357,12 +370,12 @@ public class SDCardUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(in!=null) try {
+            if (in != null) try {
                 in.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(out!=null){
+            if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {
@@ -429,13 +442,13 @@ public class SDCardUtils {
                 }
             }
         } catch (Exception ex) {
-            Log.e(TAG,ex.getMessage(), ex);
+            Log.e(TAG, ex.getMessage(), ex);
         } finally {
             if (fc != null) {
                 try {
                     fc.close();
                 } catch (IOException e) {
-                    Log.e(TAG,e.getMessage(), e);
+                    Log.e(TAG, e.getMessage(), e);
                 }
             }
         }
@@ -459,13 +472,13 @@ public class SDCardUtils {
                 os.write(data);
             }
         } catch (Exception ex) {
-            Log.e(TAG,ex.getMessage(), ex);
+            Log.e(TAG, ex.getMessage(), ex);
         } finally {
             if (os != null) {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    Log.e(TAG,e.getMessage(), e);
+                    Log.e(TAG, e.getMessage(), e);
                 }
             }
         }
@@ -489,13 +502,13 @@ public class SDCardUtils {
                 os.write(data);
             }
         } catch (Exception ex) {
-            Log.e(TAG,ex.getMessage(), ex);
+            Log.e(TAG, ex.getMessage(), ex);
         } finally {
             if (os != null) {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    Log.e(TAG,e.getMessage(), e);
+                    Log.e(TAG, e.getMessage(), e);
                 }
             }
         }
@@ -514,13 +527,13 @@ public class SDCardUtils {
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
 
         } catch (FileNotFoundException e) {
-            Log.e(TAG,"保存图片失败", e);
+            Log.e(TAG, "保存图片失败", e);
         } finally {
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {
-                    Log.e(TAG,e.getMessage(), e);
+                    Log.e(TAG, e.getMessage(), e);
                 }
             }
         }

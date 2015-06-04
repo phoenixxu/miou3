@@ -23,7 +23,7 @@
             <EditText
                 android:layout_margin="3dp"
                 android:layout_weight="1" />
-        </TableRow> 
+        </TableRow>
 
         <TableRow>
 
@@ -31,7 +31,7 @@
                 android:layout_gravity="center|left"
                 android:text="测试序列" />
 
-            <Spinner
+            <Spinner android:id="@+id/sp_newtask"
                 android:layout_margin="3dp"
                 android:layout_weight="1" />
         </TableRow>
@@ -39,7 +39,7 @@
 
     </TableLayout>
 
-    <Button
+    <Button android:id="@+id/bt_save_task"
         style="@style/TaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:layout_gravity="center"
             android:text="循环序列" />
 
-        <EditText
+        <EditText android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -79,7 +79,7 @@
             android:layout_margin="5dp"
             android:text="等待时间" />
 
-        <EditText
+        <EditText android:id="@+id/interval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -93,7 +93,7 @@
             android:layout_margin="5dp"
             android:text="秒" />
 
-        <Button
+        <Button android:id="@+id/del_task"
             style="@style/TaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:background="@color/menu_gray">
 
-        <CheckBox
+        <CheckBox android:id="@+id/all_checked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -133,7 +133,7 @@
 
     </LinearLayout>
     <ListView
-        android:id="@+id/test_plan_listView"
+        android:id="@+id/newtask_listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"

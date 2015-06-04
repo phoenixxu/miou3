@@ -51,7 +51,7 @@
             android:background="@color/menu_border_gray" />
 
         <ListView
-            android:id="@+id/test_plan_listView"
+            android:id="@+id/tasks_listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"

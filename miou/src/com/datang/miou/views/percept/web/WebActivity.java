@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
 import com.datang.miou.views.MainActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,10 +51,68 @@ public class WebActivity extends ActivitySupport {
     private HashMap<String, ProgressBar> barHashMap = new LinkedHashMap<String, ProgressBar>();
     private HashMap<String, TextView> tHashMap = new LinkedHashMap<String, TextView>();
     private HashMap<String, TextView> vHashMap = new LinkedHashMap<String, TextView>();
+    private SharedPreferences sharedPref;
+
+    public static void startTest(Activity context) {
+        SharedPreferences sharedPref = context.getPreferences(Context.MODE_PRIVATE);
+        String webs = sharedPref.getString("webs", "");
+        if (webs.isEmpty()) return;
+        try {
+            JSONArray jsonArray = new JSONArray(webs);
+            for (int index = 0; index < jsonArray.length(); index++) {
+                JSONObject object = (JSONObject) jsonArray.get(index);
+                String key = object.getString("key");
+                String value = object.getString("value");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("url", value);
+                params.put("method", "get");
+                HttpTask.HttpDesc desc = new HttpTask.HttpDesc(key,
+                        Calendar.getInstance().getTime(),
+                        Calendar.getInstance().getTime(),
+                        Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
+                        Config.DEFAULT_USER_MEASUREMENT_COUNT,
+                        MeasurementTask.USER_PRIORITY,
+                        params);
+                HttpTask newTask = new HttpTask(desc, context.getApplicationContext());
+                MeasurementScheduler scheduler = MainActivity.App.getScheduler();
+                if (scheduler != null && scheduler.submitTask(newTask)) {
+//                Toast.makeText(WebActivity.this, "开始测试 " + key, Toast.LENGTH_SHORT).show();
+                /*
+                 * Broadcast an intent with MEASUREMENT_ACTION so that the scheduler will immediately
+                 * handles the user measurement
+                 */
+                    context.sendBroadcast(
+                            new UpdateIntent(newTask.getDescriptor(), UpdateIntent.MEASUREMENT_ACTION));
+
+
+                    if (scheduler.getCurrentTask() != null) {
+                        Intent intent = new Intent();
+                        intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
+                        intent.putExtra(
+                                UpdateIntent.STATUS_MSG_PAYLOAD, "The scheduler is busy, your measurement will start shortly");
+                        context.sendBroadcast(intent);
+                    }
+                } else {
+                    Toast.makeText(context, "测试 " + key + " 失败", Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+
+    }
+
+    public static void stopTask() {
+        if (MainActivity.App.getScheduler() != null)
+            MainActivity.App.getScheduler().clean("http");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("网页测试");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
@@ -84,33 +144,44 @@ public class WebActivity extends ActivitySupport {
 
 
         final TextView textResult = (TextView) this.findViewById(R.id.tv_web_test_result);
-        final ProgressBar baidu = (ProgressBar) this.f(R.id.pb_baidu);
-        baidu.setTag("www.baidu.com");
-        barHashMap.put("baidu", baidu);
-        tHashMap.put("baidu", (TextView) this.f(R.id.baidu_t));
-        vHashMap.put("baidu", (TextView) this.f(R.id.baidu_v));
-        final ProgressBar mobile = (ProgressBar) this.f(R.id.pb_mobile);
-        mobile.setTag("www.10086.cn/sh/");
-        barHashMap.put("mobile", mobile);
-        tHashMap.put("mobile", (TextView) this.f(R.id.mobile_t));
-        vHashMap.put("mobile", (TextView) this.f(R.id.mobile_v));
-        final ProgressBar youku = (ProgressBar) this.f(R.id.pb_youku);
-        youku.setTag("www.youku.com");
-        barHashMap.put("youku", youku);
-        tHashMap.put("youku", (TextView) this.f(R.id.youku_t));
-        vHashMap.put("youku", (TextView) this.f(R.id.youku_v));
-        final ProgressBar qq = (ProgressBar) this.f(R.id.pb_tengxu);
-        qq.setTag("www.qq.com");
-        barHashMap.put("qq", qq);
-        tHashMap.put("qq", (TextView) this.f(R.id.tengxu_t));
-        vHashMap.put("qq", (TextView) this.f(R.id.tengxu_v));
-        final ProgressBar sina = (ProgressBar) this.f(R.id.pb_sina);
-        sina.setTag("sina.cn");
-        barHashMap.put("sina", sina);
-        tHashMap.put("sina", (TextView) this.f(R.id.sina_t));
-        vHashMap.put("sina", (TextView) this.f(R.id.sina_v));
+        JSONArray jsonArray = new JSONArray();
 
-
+        try {
+            final ProgressBar baidu = (ProgressBar) this.f(R.id.pb_baidu);
+            baidu.setTag("www.baidu.com");
+            jsonArray.put(new JSONObject("{'百度':'www.baidu.com'}"));
+            barHashMap.put("百度", baidu);
+            tHashMap.put("百度", (TextView) this.f(R.id.baidu_t));
+            vHashMap.put("百度", (TextView) this.f(R.id.baidu_v));
+            final ProgressBar mobile = (ProgressBar) this.f(R.id.pb_mobile);
+            mobile.setTag("www.10086.cn/sh/");
+            jsonArray.put(new JSONObject("{'移动':'www.10086.cn/sh/'}"));
+            barHashMap.put("移动", mobile);
+            tHashMap.put("移动", (TextView) this.f(R.id.mobile_t));
+            vHashMap.put("移动", (TextView) this.f(R.id.mobile_v));
+            final ProgressBar youku = (ProgressBar) this.f(R.id.pb_youku);
+            youku.setTag("www.youku.com");
+            jsonArray.put(new JSONObject("{'优酷':'www.youku.com'}"));
+            barHashMap.put("优酷", youku);
+            tHashMap.put("优酷", (TextView) this.f(R.id.youku_t));
+            vHashMap.put("优酷", (TextView) this.f(R.id.youku_v));
+            final ProgressBar qq = (ProgressBar) this.f(R.id.pb_tengxu);
+            qq.setTag("www.qq.com");
+            jsonArray.put(new JSONObject("{'QQ':'www.qq.com'}"));
+            barHashMap.put("QQ", qq);
+            tHashMap.put("QQ", (TextView) this.f(R.id.tengxu_t));
+            vHashMap.put("QQ", (TextView) this.f(R.id.tengxu_v));
+            final ProgressBar sina = (ProgressBar) this.f(R.id.pb_sina);
+            sina.setTag("sina.cn");
+            jsonArray.put(new JSONObject("{'新浪':'sina.cn'}"));
+            barHashMap.put("新浪", sina);
+            tHashMap.put("新浪", (TextView) this.f(R.id.sina_t));
+            vHashMap.put("新浪", (TextView) this.f(R.id.sina_v));
+            sharedPref.edit().putString("webs", jsonArray.toString());
+            sharedPref.edit().commit();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         this.receiver = new BroadcastReceiver() {
             @Override
             // All onXyz() callbacks are single threaded
@@ -124,6 +195,10 @@ public class WebActivity extends ActivitySupport {
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
                     textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
+                    int completed = intent.getIntExtra("completed", 0);
+                    if (completed == barHashMap.size()) {
+                        onTaskFinish();
+                    }
                 }
             }
         };
@@ -133,7 +208,6 @@ public class WebActivity extends ActivitySupport {
 
     @AfterView
     private void init() {
-
         webCtl = (Button) this.f(R.id.bt_web_ctl);
         webCtl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,12 +217,26 @@ public class WebActivity extends ActivitySupport {
         });
     }
 
-    private void showBusySchedulerStatus() {
-        Intent intent = new Intent();
-        intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
-        intent.putExtra(
-                UpdateIntent.STATUS_MSG_PAYLOAD, "The scheduler is busy, your measurement will start shortly");
-        sendBroadcast(intent);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String webs = sharedPref.getString("web", "");
+        if (webs.isEmpty()) return;
+        try {
+            JSONArray jsonArray = new JSONArray(webs);
+            for (int index = 0; index < jsonArray.length(); index++) {
+                JSONObject object = (JSONObject) jsonArray.get(index);
+                String key = object.getString("key");
+                String value = object.getString("value");
+
+            }
+
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+
+
     }
 
     /**
@@ -173,6 +261,7 @@ public class WebActivity extends ActivitySupport {
                 }
             }
             barHashMap.get(key).setProgress(100);
+
         }
     }
 
@@ -184,61 +273,32 @@ public class WebActivity extends ActivitySupport {
 
     private void ctl() {
         if (!isStop.get()) {
-            for (String key : barHashMap.keySet()) {
-                barHashMap.get(key).setProgress(0);
-            }
             isStop.set(true);
             webCtl.setText("开始测试");
-            if (MainActivity.App.getScheduler() != null)
-                MainActivity.App.getScheduler().clean();
-            for (String key : tHashMap.keySet()) {
-                tHashMap.get(key).setText("耗时:-s");
-            }
-            for (String key : vHashMap.keySet()) {
-                vHashMap.get(key).setText("速率:-M/s");
-            }
-
-
+            stop();
         } else {
             isStop.set(false);
             webCtl.setText("停止测试");
-            startTest();
-
+            startTest(this);
         }
     }
 
-    private void startTest() {
+    private void onTaskFinish() {
+        isStop.set(true);
+        webCtl.setText("开始测试");
+    }
+
+    private void stop() {
         for (String key : barHashMap.keySet()) {
-//            if(!key.equals("sina")) continue;
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("url", barHashMap.get(key).getTag().toString());
-            params.put("method", "get");
-            HttpTask.HttpDesc desc = new HttpTask.HttpDesc(key,
-                    Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(),
-                    Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
-                    Config.DEFAULT_USER_MEASUREMENT_COUNT,
-                    MeasurementTask.USER_PRIORITY,
-                    params);
-            HttpTask newTask = new HttpTask(desc, WebActivity.this.getApplicationContext());
-            MeasurementScheduler scheduler = MainActivity.App.getScheduler();
-            if (scheduler != null && scheduler.submitTask(newTask)) {
-//                Toast.makeText(WebActivity.this, "开始测试 " + key, Toast.LENGTH_SHORT).show();
-                /*
-                 * Broadcast an intent with MEASUREMENT_ACTION so that the scheduler will immediately
-                 * handles the user measurement
-                 */
-                WebActivity.this.sendBroadcast(
-                        new UpdateIntent(newTask.getDescriptor(), UpdateIntent.MEASUREMENT_ACTION));
-
-
-                if (scheduler.getCurrentTask() != null) {
-                    showBusySchedulerStatus();
-                }
-            } else {
-                Toast.makeText(WebActivity.this, "测试 " + key + " 失败", Toast.LENGTH_LONG).show();
-            }
+            barHashMap.get(key).setProgress(0);
         }
-
+        if (MainActivity.App.getScheduler() != null)
+            MainActivity.App.getScheduler().clean("http");
+        for (String key : tHashMap.keySet()) {
+            tHashMap.get(key).setText("耗时:-s");
+        }
+        for (String key : vHashMap.keySet()) {
+            vHashMap.get(key).setText("速率:-M/s");
+        }
     }
 }

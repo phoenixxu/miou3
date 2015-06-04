@@ -5,10 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.datang.miou.R;
 import com.datang.miou.views.percept.BasePageFragment;
 import com.datang.miou.views.percept.task.NewTaskActivity;
+import com.datang.miou.views.percept.task.TaskListAdapter;
+import com.datang.miou.views.percept.task.TaskParser;
+import com.datang.miou.views.percept.task.TasksAdapter;
 
 public class TaskPageFragment extends BasePageFragment implements
 		View.OnClickListener {
@@ -19,7 +24,12 @@ public class TaskPageFragment extends BasePageFragment implements
 		View root = inflater.inflate(R.layout.fragment_page_task, container,
 				false);
 		root.findViewById(R.id.tv_add_task).setOnClickListener(this);
-		return root;
+       ListView taskListView = (ListView) root.findViewById(R.id.tasks_listView);
+        if(TaskParser.readTasks()){
+            taskListView.setAdapter(new TasksAdapter(this.getActivity()));
+        }
+
+        return root;
 	}
 
 	@Override

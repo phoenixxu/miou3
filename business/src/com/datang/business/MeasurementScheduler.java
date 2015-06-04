@@ -504,6 +504,8 @@ public class MeasurementScheduler extends Service {
     public void updateStatus() {
         Intent intent = new Intent();
         intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
+        intent.putExtra("completed", completedMeasurementCnt);
+        intent.putExtra("failed", failedMeasurementCnt);
         String statsMsg = completedMeasurementCnt + " completed, " + failedMeasurementCnt + " failed";
         intent.putExtra(UpdateIntent.STATS_MSG_PAYLOAD, statsMsg);
         sendBroadcast(intent);
@@ -536,10 +538,14 @@ public class MeasurementScheduler extends Service {
 //  }
 
 
-    public void clean() {
-        this.taskQueue.clear();
+    public void clean(String type) {
+        for (MeasurementTask task : taskQueue) {
+            if (!task.getType().equals(type)) continue;
+            this.taskQueue.remove(task);
+        }
 
-        if (this.currentTask != null) {
+
+        if (this.currentTask != null && currentTask.getType().equals(type)) {
             this.currentTask.stop();
         }
         completedMeasurementCnt = 0;
