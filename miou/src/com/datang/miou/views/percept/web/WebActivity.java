@@ -54,7 +54,7 @@ public class WebActivity extends ActivitySupport {
     private SharedPreferences sharedPref;
 
     public static void startTest(Activity context) {
-        SharedPreferences sharedPref = context.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences("TASK", Context.MODE_PRIVATE);
         String webs = sharedPref.getString("webs", "");
         if (webs.isEmpty()) return;
         try {
@@ -89,7 +89,7 @@ public class WebActivity extends ActivitySupport {
                         Intent intent = new Intent();
                         intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
                         intent.putExtra(
-                                UpdateIntent.STATUS_MSG_PAYLOAD, "The scheduler is busy, your measurement will start shortly");
+                                UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.WAIT_STATUS);
                         context.sendBroadcast(intent);
                     }
                 } else {
@@ -112,7 +112,7 @@ public class WebActivity extends ActivitySupport {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        sharedPref = getSharedPreferences("TASK", Context.MODE_PRIVATE);
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("网页测试");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
@@ -149,36 +149,37 @@ public class WebActivity extends ActivitySupport {
         try {
             final ProgressBar baidu = (ProgressBar) this.f(R.id.pb_baidu);
             baidu.setTag("www.baidu.com");
-            jsonArray.put(new JSONObject("{'百度':'www.baidu.com'}"));
+            jsonArray.put(new JSONObject("{'key':'百度','value':'www.baidu.com'}"));
             barHashMap.put("百度", baidu);
             tHashMap.put("百度", (TextView) this.f(R.id.baidu_t));
             vHashMap.put("百度", (TextView) this.f(R.id.baidu_v));
             final ProgressBar mobile = (ProgressBar) this.f(R.id.pb_mobile);
             mobile.setTag("www.10086.cn/sh/");
-            jsonArray.put(new JSONObject("{'移动':'www.10086.cn/sh/'}"));
+            jsonArray.put(new JSONObject("{'key':'移动','value':'www.10086.cn/sh/'}"));
             barHashMap.put("移动", mobile);
             tHashMap.put("移动", (TextView) this.f(R.id.mobile_t));
             vHashMap.put("移动", (TextView) this.f(R.id.mobile_v));
             final ProgressBar youku = (ProgressBar) this.f(R.id.pb_youku);
             youku.setTag("www.youku.com");
-            jsonArray.put(new JSONObject("{'优酷':'www.youku.com'}"));
+            jsonArray.put(new JSONObject("{'key':'优酷','value':'www.youku.com'}"));
             barHashMap.put("优酷", youku);
             tHashMap.put("优酷", (TextView) this.f(R.id.youku_t));
             vHashMap.put("优酷", (TextView) this.f(R.id.youku_v));
             final ProgressBar qq = (ProgressBar) this.f(R.id.pb_tengxu);
             qq.setTag("www.qq.com");
-            jsonArray.put(new JSONObject("{'QQ':'www.qq.com'}"));
+            jsonArray.put(new JSONObject("{'key':'QQ','value':'www.qq.com'}"));
             barHashMap.put("QQ", qq);
             tHashMap.put("QQ", (TextView) this.f(R.id.tengxu_t));
             vHashMap.put("QQ", (TextView) this.f(R.id.tengxu_v));
             final ProgressBar sina = (ProgressBar) this.f(R.id.pb_sina);
             sina.setTag("sina.cn");
-            jsonArray.put(new JSONObject("{'新浪':'sina.cn'}"));
+            jsonArray.put(new JSONObject("{'key':'新浪','value':'sina.cn'}"));
             barHashMap.put("新浪", sina);
             tHashMap.put("新浪", (TextView) this.f(R.id.sina_t));
             vHashMap.put("新浪", (TextView) this.f(R.id.sina_v));
-            sharedPref.edit().putString("webs", jsonArray.toString());
-            sharedPref.edit().commit();
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("webs", jsonArray.toString());
+            editor.commit();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -220,7 +221,7 @@ public class WebActivity extends ActivitySupport {
     @Override
     protected void onStart() {
         super.onStart();
-        String webs = sharedPref.getString("web", "");
+        String webs = sharedPref.getString("webs", "");
         if (webs.isEmpty()) return;
         try {
             JSONArray jsonArray = new JSONArray(webs);

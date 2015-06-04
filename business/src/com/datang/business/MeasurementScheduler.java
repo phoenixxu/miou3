@@ -995,7 +995,7 @@ public class MeasurementScheduler extends Service {
 //      MeasurementScheduler.this.sendBroadcast(intent);
 
 //            intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
-            intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, realTask.getDescriptor() + " is running. ");
+            intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.EXE_STATUS);
             MeasurementScheduler.this.sendBroadcast(intent);
         }
 
@@ -1009,13 +1009,14 @@ public class MeasurementScheduler extends Service {
             intent.putExtra(UpdateIntent.TASK_KEY, result.getTaskKey());
             if (result.isSuccess()) {
                 intent.putExtra(UpdateIntent.STRING_PAYLOAD, result.getResult());
-                intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, realTask.getDescriptor() + " has success");
+                intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.IDLE_STATUS);
             } else {
                 String errorString = "Measurement " + realTask.getDescriptor() + " has failed";
                 errorString += "\nTimestamp: " + Calendar.getInstance().getTime();
                 intent.putExtra(UpdateIntent.ERROR_STRING_PAYLOAD, errorString);
-                intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, realTask.getDescriptor() + " has failed");
+                intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.IDLE_STATUS);
             }
+            intent.putExtra(UpdateIntent.TASK_KEY, result.getTaskKey());
             MeasurementScheduler.this.sendBroadcast(intent);
             // Update the status bar once the user measurement finishes
             updateStatus();

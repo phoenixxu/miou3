@@ -72,6 +72,10 @@ public class TaskParser {
                             if (task != null) {
                                 task.count = xmlParser.nextText();
                             }
+                        }else if("timeStamp".equals(xmlParser.getName())){
+                            if (task != null) {
+                                task.timeStamp = xmlParser.nextText();
+                            }
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -156,6 +160,10 @@ public class TaskParser {
                 serializer.startTag(null, "interval");
                 serializer.text(task.interval);
                 serializer.endTag(null, "interval");
+
+                serializer.startTag(null, "timeStamp");
+                serializer.text(task.timeStamp);
+                serializer.endTag(null, "timeStamp");
 
                 serializer.endTag(null, "task");
             }

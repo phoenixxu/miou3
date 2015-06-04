@@ -57,12 +57,8 @@ public class TaskListAdapter extends BaseAdapter {
         holder.name.setText(list.get(position).name);
         holder.count.setText(list.get(position).count);
         holder.index.setText(position + "");
-        holder.checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                list.get(position).isChecked = isChecked;
-            }
-        });
+        holder.checked.setChecked( list.get(position).isChecked );
+
 
         return convertView;
     }

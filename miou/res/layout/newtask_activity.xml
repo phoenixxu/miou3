@@ -31,7 +31,9 @@
                 android:layout_gravity="center|left"
                 android:text="测试序列" />
 
-            <Spinner android:id="@+id/sp_newtask"
+            <Spinner
+                android:id="@+id/sp_newtask"
+                style="@style/BgMidButton"
                 android:layout_margin="3dp"
                 android:layout_weight="1" />
         </TableRow>
@@ -39,7 +41,8 @@
 
     </TableLayout>
 
-    <Button android:id="@+id/bt_save_task"
+    <Button
+        android:id="@+id/bt_save_task"
         style="@style/TaskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +68,8 @@
             android:layout_gravity="center"
             android:text="循环序列" />
 
-        <EditText android:id="@+id/count"
+        <EditText
+            android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -79,7 +83,8 @@
             android:layout_margin="5dp"
             android:text="等待时间" />
 
-        <EditText android:id="@+id/interval"
+        <EditText
+            android:id="@+id/interval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -93,7 +98,8 @@
             android:layout_margin="5dp"
             android:text="秒" />
 
-        <Button android:id="@+id/del_task"
+        <Button
+            android:id="@+id/del_task"
             style="@style/TaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +112,8 @@
         android:layout_height="wrap_content"
         android:background="@color/menu_gray">
 
-        <CheckBox android:id="@+id/all_checked"
+        <CheckBox
+            android:id="@+id/all_checked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -132,6 +139,7 @@
             android:text="测试次数" />
 
     </LinearLayout>
+
     <ListView
         android:id="@+id/newtask_listView"
         android:layout_width="match_parent"
