@@ -40,9 +40,9 @@ public abstract class MeasurementTask implements Callable<MeasurementResult>, Co
     public static final int INVALID_PRIORITY = Integer.MAX_VALUE;
     public static final int INFINITE_COUNT = -1;
 
-    public static final int WAIT_STATUS = 0;
+    public static final int WAIT_STATUS = -1;
     public static final int EXE_STATUS = 1;
-    public static final int IDLE_STATUS = 2;
+    public static final int IDLE_STATUS = 0;
 
     private static HashMap<String, Class> measurementTypes;
     // Maps between the type of task and its readable name

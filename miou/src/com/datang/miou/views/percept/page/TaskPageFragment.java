@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.datang.business.Config;
+import com.datang.business.MeasurementTask;
 import com.datang.business.UpdateIntent;
 import com.datang.miou.R;
 import com.datang.miou.views.percept.BasePageFragment;
@@ -21,8 +21,8 @@ import com.datang.miou.views.percept.task.TasksAdapter;
 public class TaskPageFragment extends BasePageFragment implements
         View.OnClickListener {
 
-    private TasksAdapter tasksAdapter;
     BroadcastReceiver receiver;
+    private TasksAdapter tasksAdapter;
 
     @Override
     protected View initUI(LayoutInflater inflater, ViewGroup container,
@@ -53,10 +53,19 @@ public class TaskPageFragment extends BasePageFragment implements
             // All onXyz() callbacks are single threaded
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION)) {
-                    if(intent.getStringExtra(UpdateIntent.TASK_KEY).equals("http")){
-
+                    int index = intent.getIntExtra(UpdateIntent.TASK_INDEX, -1);
+                    if (index > 0) {
+                        int status = intent.getIntExtra(UpdateIntent.STATUS_MSG_PAYLOAD, 0);
+                        if (status == MeasurementTask.IDLE_STATUS) {
+                            tasksAdapter.getItem(index).status = "空闲";
+                        } else if (status == MeasurementTask.EXE_STATUS) {
+                            tasksAdapter.getItem(index).status = "执行中";
+                        } else if (status == MeasurementTask.WAIT_STATUS) {
+                            tasksAdapter.getItem(index).status = "等待";
+                        }
+                        tasksAdapter.notifyDataSetChanged();
                     }
-                    textResult.setText(intent.getStringExtra(UpdateIntent.STATUS_MSG_PAYLOAD));
+
                 }
             }
         };

@@ -71,7 +71,7 @@ public class PingTask extends MeasurementTask {
     private String targetIp = null;
 
     public PingTask(MeasurementDesc desc, Context parent) {
-        super(new PingDesc(desc.key, desc.startTime, desc.endTime, desc.intervalSec,
+        super(new PingDesc(desc.name, desc.key, desc.startTime, desc.endTime, desc.intervalSec,
                 desc.count, desc.priority, desc.parameters), parent);
     }
 
@@ -86,7 +86,7 @@ public class PingTask extends MeasurementTask {
     @Override
     public MeasurementTask clone() {
         MeasurementDesc desc = this.measurementDesc;
-        PingDesc newDesc = new PingDesc(desc.key, desc.startTime, desc.endTime,
+        PingDesc newDesc = new PingDesc(desc.name, desc.key, desc.startTime, desc.endTime,
                 desc.intervalSec, desc.count, desc.priority, desc.parameters);
         return new PingTask(newDesc, parent);
     }
@@ -422,7 +422,13 @@ public class PingTask extends MeasurementTask {
         public PingDesc(String key, Date startTime,
                         Date endTime, double intervalSec, long count, long priority,
                         Map<String, String> params) throws InvalidParameterException {
-            super(PingTask.TYPE, key, startTime, endTime, intervalSec, count,
+            this("-1", key, startTime, endTime, intervalSec, count, priority, params);
+        }
+
+        public PingDesc(String name, String key, Date startTime,
+                        Date endTime, double intervalSec, long count, long priority,
+                        Map<String, String> params) throws InvalidParameterException {
+            super(name, PingTask.TYPE, key, startTime, endTime, intervalSec, count,
                     priority, params);
             initalizeParams(params);
             if (this.target == null || this.target.length() == 0) {
@@ -454,12 +460,13 @@ public class PingTask extends MeasurementTask {
             }
         }
 
-        public int packetSizeByte = PingTask.DEFAULT_PING_PACKET_SIZE;
-
         @Override
         public String getType() {
             return PingTask.TYPE;
         }
+
+        public int packetSizeByte = PingTask.DEFAULT_PING_PACKET_SIZE;
+
 
         public int pingTimeoutSec = PingTask.DEFAULT_PING_TIMEOUT;
 

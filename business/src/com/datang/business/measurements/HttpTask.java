@@ -76,7 +76,7 @@ public class HttpTask extends MeasurementTask {
   private AndroidHttpClient httpClient = null;
 
   public HttpTask(MeasurementDesc desc, Context parent) {
-    super(new HttpDesc(desc.key, desc.startTime, desc.endTime, desc.intervalSec,
+    super(new HttpDesc(desc.name,desc.key, desc.startTime, desc.endTime, desc.intervalSec,
       desc.count, desc.priority, desc.parameters), parent);
   }
   
@@ -89,10 +89,10 @@ public class HttpTask extends MeasurementTask {
     private String headers;
     private String body;
 
-    public HttpDesc(String key, Date startTime, Date endTime,
+    public HttpDesc(String name,String key, Date startTime, Date endTime,
                       double intervalSec, long count, long priority, Map<String, String> params) 
                       throws InvalidParameterException {
-      super(HttpTask.TYPE, key, startTime, endTime, intervalSec, count, priority, params);
+      super(HttpTask.TYPE, name,key, startTime, endTime, intervalSec, count, priority, params);
       initalizeParams(params);
       if (this.url == null || this.url.length() == 0) {
         throw new InvalidParameterException("URL for http task is null");
@@ -132,7 +132,7 @@ public class HttpTask extends MeasurementTask {
   @Override
   public MeasurementTask clone() {
     MeasurementDesc desc = this.measurementDesc;
-    HttpDesc newDesc = new HttpDesc(desc.key, desc.startTime, desc.endTime, 
+    HttpDesc newDesc = new HttpDesc(desc.name,desc.key, desc.startTime, desc.endTime,
         desc.intervalSec, desc.count, desc.priority, desc.parameters);
     return new HttpTask(newDesc, parent);
   }

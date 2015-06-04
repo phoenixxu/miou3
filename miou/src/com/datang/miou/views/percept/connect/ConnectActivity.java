@@ -90,8 +90,8 @@ public class ConnectActivity extends ActivitySupport {
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
                     textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
-                    int completed = intent.getIntExtra("completed",0);
-                    if (completed==beanMap.size()) {
+                    int completed = intent.getIntExtra("completed", 0);
+                    if (completed == beanMap.size()) {
                         onTaskFinish();
                     }
                 }
@@ -174,7 +174,7 @@ public class ConnectActivity extends ActivitySupport {
         }
     }
 
-    private void onTaskFinish(){
+    private void onTaskFinish() {
         isStop.set(true);
         ctl.setText("开始测试");
     }

@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.datang.miou.R;
+import com.datang.miou.views.percept.task.Task;
+import com.datang.miou.views.percept.task.TaskParser;
 import com.datang.miou.views.percept.web.WebActivity;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public class TasksAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Task getItem(int position) {
         return list.get(position);
     }
 
@@ -67,7 +69,7 @@ public class TasksAdapter extends BaseAdapter {
                 if (finalHolder.ctl.getText().equals("执行")) {
                     finalHolder.ctl.setText("中止");
                     if (task.name.equals("网页")) {
-                        WebActivity.startTest(mContext);
+                        WebActivity.startTest(mContext,position);
                     }
                 } else {
                     finalHolder.ctl.setText("执行");

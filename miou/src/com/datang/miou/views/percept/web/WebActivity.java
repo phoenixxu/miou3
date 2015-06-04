@@ -53,7 +53,7 @@ public class WebActivity extends ActivitySupport {
     private HashMap<String, TextView> vHashMap = new LinkedHashMap<String, TextView>();
     private SharedPreferences sharedPref;
 
-    public static void startTest(Activity context) {
+    public static void startTest(Activity context, int pos) {
         SharedPreferences sharedPref = context.getSharedPreferences("TASK", Context.MODE_PRIVATE);
         String webs = sharedPref.getString("webs", "");
         if (webs.isEmpty()) return;
@@ -66,7 +66,7 @@ public class WebActivity extends ActivitySupport {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("url", value);
                 params.put("method", "get");
-                HttpTask.HttpDesc desc = new HttpTask.HttpDesc(key,
+                HttpTask.HttpDesc desc = new HttpTask.HttpDesc(pos + "", key,
                         Calendar.getInstance().getTime(),
                         Calendar.getInstance().getTime(),
                         Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
@@ -280,7 +280,7 @@ public class WebActivity extends ActivitySupport {
         } else {
             isStop.set(false);
             webCtl.setText("停止测试");
-            startTest(this);
+            startTest(this, -1);
         }
     }
 

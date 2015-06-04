@@ -35,7 +35,7 @@ public class UpdateIntent extends Intent {
   public static final String STATS_MSG_PAYLOAD = "STATS_MSG_PAYLOAD";
   public static final String TASK_PRIORITY_PAYLOAD = "TASK_PRIORITY_PAYLOAD";
   public static final String TASK_KEY="TASK_KEY";
-  
+    public static final String TASK_INDEX="TASK_INDEX";
   // Different types of actions that this intent can represent:
   private static final String PACKAGE_PREFIX = UpdateIntent.class.getPackage().getName();
   public static final String MSG_ACTION = PACKAGE_PREFIX + ".MSG_ACTION";

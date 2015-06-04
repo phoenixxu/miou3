@@ -71,69 +71,14 @@ public class PingTask extends MeasurementTask {
     private Process pingProc = null;
     private String targetIp = null;
 
-    /**
-     * Encode ping specific parameters, along with common parameters inherited from MeasurmentDesc
-     *
-     * @author dingzhongchang
-     */
-    public static class PingDesc extends MeasurementDesc {
-        public String pingExe = null;
-        // Host address either in the numeric form or domain names
-        public String target = null;
-        // The payload size in bytes of the ICMP packet
-        public int packetSizeByte = PingTask.DEFAULT_PING_PACKET_SIZE;
-        public int pingTimeoutSec = PingTask.DEFAULT_PING_TIMEOUT;
-
-
-        public PingDesc(String key, Date startTime,
-                        Date endTime, double intervalSec, long count, long priority,
-                        Map<String, String> params) throws InvalidParameterException {
-            super(PingTask.TYPE, key, startTime, endTime, intervalSec, count,
-                    priority, params);
-            initalizeParams(params);
-            if (this.target == null || this.target.length() == 0) {
-                throw new InvalidParameterException("PingTask cannot be created due "
-                        + " to null target string");
-            }
-        }
-
-        @Override
-        protected void initalizeParams(Map<String, String> params) {
-            if (params == null) {
-                return;
-            }
-
-            this.target = params.get("target");
-
-            try {
-                String val = null;
-                if ((val = params.get("packet_size_byte")) != null && val.length() > 0 &&
-                        Integer.parseInt(val) > 0) {
-                    this.packetSizeByte = Integer.parseInt(val);
-                }
-                if ((val = params.get("ping_timeout_sec")) != null && val.length() > 0 &&
-                        Integer.parseInt(val) > 0) {
-                    this.pingTimeoutSec = Integer.parseInt(val);
-                }
-            } catch (NumberFormatException e) {
-                throw new InvalidParameterException("PingTask cannot be created due to invalid params");
-            }
-        }
-
-        @Override
-        public String getType() {
-            return PingTask.TYPE;
-        }
+    public PingTask(MeasurementDesc desc, Context parent) {
+        super(new PingDesc(desc.name, desc.key, desc.startTime, desc.endTime, desc.intervalSec,
+                desc.count, desc.priority, desc.parameters), parent);
     }
 
     @SuppressWarnings("rawtypes")
     public static Class getDescClass() throws InvalidClassException {
         return PingDesc.class;
-    }
-
-    public PingTask(MeasurementDesc desc, Context parent) {
-        super(new PingDesc(desc.key, desc.startTime, desc.endTime, desc.intervalSec,
-                desc.count, desc.priority, desc.parameters), parent);
     }
 
     /**
@@ -142,7 +87,7 @@ public class PingTask extends MeasurementTask {
     @Override
     public MeasurementTask clone() {
         MeasurementDesc desc = this.measurementDesc;
-        PingDesc newDesc = new PingDesc(desc.key, desc.startTime, desc.endTime,
+        PingDesc newDesc = new PingDesc(desc.name, desc.key, desc.startTime, desc.endTime,
                 desc.intervalSec, desc.count, desc.priority, desc.parameters);
         return new PingTask(newDesc, parent);
     }
@@ -223,7 +168,7 @@ public class PingTask extends MeasurementTask {
         MeasurementResult result = new MeasurementResult(phoneUtils.getDeviceInfo().deviceId,
                 phoneUtils.getDeviceProperty(), PingTask.TYPE, System.currentTimeMillis() * 1000,
                 success, this.measurementDesc);
-        
+
         result.addResult("target_ip", targetIp);
         result.addResult("mean_rtt_ms", avg);
         result.addResult("min_rtt_ms", min);
@@ -234,7 +179,7 @@ public class PingTask extends MeasurementTask {
         }
         result.addResult("packet_loss", packetLoss);
         result.addResult("packets_sent", packetsSent);
-        
+
         return result;
     }
 
@@ -299,7 +244,7 @@ public class PingTask extends MeasurementTask {
             while ((line = br.readLine()) != null) {
                 // Ping prints a number of 'param=value' pairs, among which we only need the
                 // 'time=rrt_val' pair
-            	Log.i(TAG, "line = " + line);
+                Log.i(TAG, "line = " + line);
                 String[] extractedValues = Util.extractInfoFromPingOutput(line);
                 if (extractedValues != null) {
                     int curIcmpSeq = Integer.parseInt(extractedValues[0]);
@@ -464,5 +409,69 @@ public class PingTask extends MeasurementTask {
     @Override
     public void stop() {
         cleanUp(pingProc);
+    }
+
+    /**
+     * Encode ping specific parameters, along with common parameters inherited from MeasurmentDesc
+     *
+     * @author dingzhongchang
+     */
+    public static class PingDesc extends MeasurementDesc {
+        public String pingExe = null;
+        // Host address either in the numeric form or domain names
+        public String target = null;
+
+        public PingDesc(String key, Date startTime,
+                        Date endTime, double intervalSec, long count, long priority,
+                        Map<String, String> params) throws InvalidParameterException {
+            this("-1", key, startTime, endTime, intervalSec, count, priority, params);
+        }
+
+        public PingDesc(String name, String key, Date startTime,
+                        Date endTime, double intervalSec, long count, long priority,
+                        Map<String, String> params) throws InvalidParameterException {
+            super(PingTask.TYPE, name, key, startTime, endTime, intervalSec, count,
+                    priority, params);
+            initalizeParams(params);
+            if (this.target == null || this.target.length() == 0) {
+                throw new InvalidParameterException("PingTask cannot be created due "
+                        + " to null target string");
+            }
+        }        // The payload size in bytes of the ICMP packet
+
+        @Override
+        protected void initalizeParams(Map<String, String> params) {
+            if (params == null) {
+                return;
+            }
+
+            this.target = params.get("target");
+
+            try {
+                String val = null;
+                if ((val = params.get("packet_size_byte")) != null && val.length() > 0 &&
+                        Integer.parseInt(val) > 0) {
+                    this.packetSizeByte = Integer.parseInt(val);
+                }
+                if ((val = params.get("ping_timeout_sec")) != null && val.length() > 0 &&
+                        Integer.parseInt(val) > 0) {
+                    this.pingTimeoutSec = Integer.parseInt(val);
+                }
+            } catch (NumberFormatException e) {
+                throw new InvalidParameterException("PingTask cannot be created due to invalid params");
+            }
+        }
+
+        @Override
+        public String getType() {
+            return PingTask.TYPE;
+        }
+
+        public int packetSizeByte = PingTask.DEFAULT_PING_PACKET_SIZE;
+
+
+        public int pingTimeoutSec = PingTask.DEFAULT_PING_TIMEOUT;
+
+
     }
 }
