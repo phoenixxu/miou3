@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
 
-        <include layout="@layout/result_web_item" />
+        <include layout="@layout/result_ftp_item" />
 
         <ListView
             android:layout_width="match_parent"

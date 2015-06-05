@@ -25,7 +25,7 @@ public class ConnectFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_web, container, false);
+        View root = inflater.inflate(R.layout.fragment_connect, container, false);
 
         return root;
     }

@@ -19,16 +19,6 @@
         android:layout_gravity="center"
         android:padding="5dp"
         android:text="测试结束时间" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="5dp"
-        android:text="所在测试任务名称" />
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,13 +34,23 @@
         android:padding="5dp"
         android:text="纬度" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:text="所在测试任务名称" />
+
+
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:text="打开网页地址" />
+        android:text="Ftp 服务器地址" />
 
 
     <TextView
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:text="打开网页大小" />
+        android:text="服务小区信息" />
 
 
     <TextView
@@ -74,13 +74,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:text="耗费时间" />
+        android:text="上传速率" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:text="速率" />
+        android:text="下载速率" />
 
 </LinearLayout>
