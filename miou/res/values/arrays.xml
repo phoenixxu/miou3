@@ -31,13 +31,16 @@
         <item>@color/green</item>
         <item>@color/red</item>
     </integer-array>
+
     <string-array name="web_urls">
         <item>www.baidu.com</item>
-        <item>www.10086.com</item>
+        <item>www.10086.cn</item>
         <item>www.youku.com</item>
         <item>www.qq.com</item>
-        <item>www.sina.cn</item>
+        <item>www.sina.com.cn</item>
     </string-array>
+
+
     <string-array name="web_names">
         <item>百度</item>
         <item>移动</item>
@@ -53,7 +56,7 @@
         <item>www.sina.com.cn</item>
         <item>www.youku.com</item>
     </string-array>
-    <string-array name="ping_nams">
+    <string-array name="ping_names">
         <item>移动</item>
         <item>百度</item>
         <item>腾讯</item>

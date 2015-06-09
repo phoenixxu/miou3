@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.datang.miou.R;
+import com.datang.miou.views.percept.connect.ConnectActivity;
 import com.datang.miou.views.percept.task.Task;
 import com.datang.miou.views.percept.task.TaskParser;
 import com.datang.miou.views.percept.web.WebActivity;
@@ -70,11 +71,15 @@ public class TasksAdapter extends BaseAdapter {
                     finalHolder.ctl.setText("中止");
                     if (task.name.equals("网页")) {
                         WebActivity.startTest(mContext,position);
+                    }else if(task.name.equals("连接")){
+                        ConnectActivity.startTest(mContext,position);
                     }
                 } else {
                     finalHolder.ctl.setText("执行");
                     if (task.name.equals("网页")) {
                         WebActivity.stopTask();
+                    }else if(task.name.equals("连接")){
+                        ConnectActivity.stopTask();
                     }
                 }
 

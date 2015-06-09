@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +28,8 @@ import com.datang.miou.R;
 import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
 import com.datang.miou.views.MainActivity;
+import com.datang.miou.widget.FlowLayout;
+import com.datang.miou.widget.WebProgressView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +55,8 @@ public class WebActivity extends ActivitySupport {
     private HashMap<String, TextView> tHashMap = new LinkedHashMap<String, TextView>();
     private HashMap<String, TextView> vHashMap = new LinkedHashMap<String, TextView>();
     private SharedPreferences sharedPref;
+    private LayoutInflater mInflater;
+    private FlowLayout flowLayout;
 
     public static void startTest(Activity context, int pos) {
         SharedPreferences sharedPref = context.getSharedPreferences("TASK", Context.MODE_PRIVATE);
@@ -113,6 +118,7 @@ public class WebActivity extends ActivitySupport {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = getSharedPreferences("TASK", Context.MODE_PRIVATE);
+        mInflater = LayoutInflater.from(this);
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("网页测试");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
@@ -137,52 +143,14 @@ public class WebActivity extends ActivitySupport {
                 startActivity(new Intent(mContext, EditWebActivity.class));
             }
         });
+        final TextView textResult = (TextView) this.findViewById(R.id.tv_web_test_result);
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(UpdateIntent.SCHEDULER_CONNECTED_ACTION);
         filter.addAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
         filter.addAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
 
 
-        final TextView textResult = (TextView) this.findViewById(R.id.tv_web_test_result);
-        JSONArray jsonArray = new JSONArray();
-
-        try {
-            final ProgressBar baidu = (ProgressBar) this.f(R.id.pb_baidu);
-            baidu.setTag("www.baidu.com");
-            jsonArray.put(new JSONObject("{'key':'百度','value':'www.baidu.com'}"));
-            barHashMap.put("百度", baidu);
-            tHashMap.put("百度", (TextView) this.f(R.id.baidu_t));
-            vHashMap.put("百度", (TextView) this.f(R.id.baidu_v));
-            final ProgressBar mobile = (ProgressBar) this.f(R.id.pb_mobile);
-            mobile.setTag("www.10086.cn/sh/");
-            jsonArray.put(new JSONObject("{'key':'移动','value':'www.10086.cn/sh/'}"));
-            barHashMap.put("移动", mobile);
-            tHashMap.put("移动", (TextView) this.f(R.id.mobile_t));
-            vHashMap.put("移动", (TextView) this.f(R.id.mobile_v));
-            final ProgressBar youku = (ProgressBar) this.f(R.id.pb_youku);
-            youku.setTag("www.youku.com");
-            jsonArray.put(new JSONObject("{'key':'优酷','value':'www.youku.com'}"));
-            barHashMap.put("优酷", youku);
-            tHashMap.put("优酷", (TextView) this.f(R.id.youku_t));
-            vHashMap.put("优酷", (TextView) this.f(R.id.youku_v));
-            final ProgressBar qq = (ProgressBar) this.f(R.id.pb_tengxu);
-            qq.setTag("www.qq.com");
-            jsonArray.put(new JSONObject("{'key':'QQ','value':'www.qq.com'}"));
-            barHashMap.put("QQ", qq);
-            tHashMap.put("QQ", (TextView) this.f(R.id.tengxu_t));
-            vHashMap.put("QQ", (TextView) this.f(R.id.tengxu_v));
-            final ProgressBar sina = (ProgressBar) this.f(R.id.pb_sina);
-            sina.setTag("sina.cn");
-            jsonArray.put(new JSONObject("{'key':'新浪','value':'sina.cn'}"));
-            barHashMap.put("新浪", sina);
-            tHashMap.put("新浪", (TextView) this.f(R.id.sina_t));
-            vHashMap.put("新浪", (TextView) this.f(R.id.sina_v));
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("webs", jsonArray.toString());
-            editor.commit();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         this.receiver = new BroadcastReceiver() {
             @Override
             // All onXyz() callbacks are single threaded
@@ -192,7 +160,7 @@ public class WebActivity extends ActivitySupport {
                             Config.INVALID_PROGRESS);
                     String key = intent.getStringExtra(UpdateIntent.TASK_KEY);
                     progress(key, progress, intent.getStringExtra(UpdateIntent.STRING_PAYLOAD));
-                    textResult.setText(intent.getStringExtra(UpdateIntent.STATUS_MSG_PAYLOAD));
+                    textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
                     textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
@@ -204,6 +172,9 @@ public class WebActivity extends ActivitySupport {
             }
         };
         this.registerReceiver(this.receiver, filter);
+        flowLayout = (FlowLayout) f(R.id.fl_web_task);
+
+
 
     }
 
@@ -221,20 +192,55 @@ public class WebActivity extends ActivitySupport {
     @Override
     protected void onStart() {
         super.onStart();
+        flowLayout.removeAllViews();
         String webs = sharedPref.getString("webs", "");
-        if (webs.isEmpty()) return;
-        try {
-            JSONArray jsonArray = new JSONArray(webs);
-            for (int index = 0; index < jsonArray.length(); index++) {
-                JSONObject object = (JSONObject) jsonArray.get(index);
-                String key = object.getString("key");
-                String value = object.getString("value");
+        if (webs.isEmpty()) {
+            String[] webNames = this.getResources().getStringArray(R.array.web_names);
+            String[] webUrls = this.getResources().getStringArray(R.array.web_urls);
 
+            JSONArray jsonArray = new JSONArray();
+            int len = webNames.length;
+            try {
+                for (int index = 0; index < len; index++) {
+                    String name = webNames[index];
+                    String url = webUrls[index];
+                    WebProgressView webItemView = new WebProgressView(this);
+                    flowLayout.addView(webItemView);
+                    final ProgressBar pb = webItemView.getPb();
+                    pb.setTag(url);
+                    webItemView.setName(name);
+                    barHashMap.put(name, pb);
+                    tHashMap.put(name, webItemView.getWebT());
+                    vHashMap.put(name, webItemView.getWebV());
+
+                    jsonArray.put(new JSONObject("{'key':" + name + ",'value':" + url + "}"));
+                }
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("webs", jsonArray.toString());
+                editor.commit();
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage(), e);
             }
-
-
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage(), e);
+        } else {
+            try {
+                JSONArray jsonArray = new JSONArray(webs);
+                int length = jsonArray.length();
+                for (int index = 0; index < length; index++) {
+                    JSONObject object = (JSONObject) jsonArray.get(index);
+                    String name = object.getString("key");
+                    String url = object.getString("value");
+                    WebProgressView webItemView = new WebProgressView(this);
+                    flowLayout.addView(webItemView);
+                    final ProgressBar pb = webItemView.getPb();
+                    pb.setTag(url);
+                    webItemView.setName(name);
+                    barHashMap.put(name, pb);
+                    tHashMap.put(name, webItemView.getWebT());
+                    vHashMap.put(name, webItemView.getWebV());
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
         }
 
 

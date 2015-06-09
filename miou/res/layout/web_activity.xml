@@ -34,303 +34,308 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.datang.miou.widget.FlowLayout
-        android:id="@+id/fl_web_task"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:gravity="center|top|left">
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="160dp"
-            android:layout_margin="8dp">
+        android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/connect"
-                android:gravity="center"
-                android:text="百度" />
+        <com.datang.miou.widget.FlowLayout
+            android:id="@+id/fl_web_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="top|left">
+            <!--<RelativeLayout-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="160dp"-->
+            <!--android:layout_margin="8dp">-->
 
-            <ProgressBar
-                android:id="@+id/pb_baidu"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:indeterminate="false"
-                android:progress="0"
-                android:progressDrawable="@drawable/circular_progress_bar" />
+            <!--<TextView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:background="@drawable/connect"-->
+            <!--android:gravity="center"-->
+            <!--android:text="百度" />-->
+
+            <!--<ProgressBar-->
+            <!--android:id="@+id/pb_baidu"-->
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:indeterminate="false"-->
+            <!--android:progress="0"-->
+            <!--android:progressDrawable="@drawable/circular_progress_bar" />-->
 
 
-            <TextView
-                android:id="@+id/baidu_divider"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@id/pb_baidu"
-                android:layout_centerInParent="true"
-                android:background="@drawable/triangle"
-                android:gravity="bottom" />
+            <!--<TextView-->
+            <!--android:id="@+id/baidu_divider"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_alignBottom="@id/pb_baidu"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@drawable/triangle"-->
+            <!--android:gravity="bottom" />-->
 
-            <LinearLayout
-                android:id="@+id/baidu_msg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/baidu_divider"
-                android:background="@drawable/rectangle"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="8dp">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/baidu_msg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_below="@id/baidu_divider"-->
+            <!--android:background="@drawable/rectangle"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingLeft="8dp">-->
 
-                <TextView
-                    android:id="@+id/baidu_v"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="速率:-M/s"
-                    android:textColor="@color/btn_text_color" />
+            <!--<TextView-->
+            <!--android:id="@+id/baidu_v"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="速率:-M/s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
 
-                <TextView
-                    android:id="@+id/baidu_t"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="耗时:-s"
-                    android:textColor="@color/btn_text_color" />
-            </LinearLayout>
-        </RelativeLayout>
+            <!--<TextView-->
+            <!--android:id="@+id/baidu_t"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="耗时:-s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
+            <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="160dp"
-            android:layout_margin="8dp">
+            <!--<RelativeLayout-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="160dp"-->
+            <!--android:layout_margin="8dp">-->
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/connect"
-                android:gravity="center"
-                android:text="移动" />
+            <!--<TextView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:background="@drawable/connect"-->
+            <!--android:gravity="center"-->
+            <!--android:text="移动" />-->
 
-            <ProgressBar
-                android:id="@+id/pb_mobile"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:indeterminate="false"
-                android:progress="0"
-                android:progressDrawable="@drawable/circular_progress_bar" />
+            <!--<ProgressBar-->
+            <!--android:id="@+id/pb_mobile"-->
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:indeterminate="false"-->
+            <!--android:progress="0"-->
+            <!--android:progressDrawable="@drawable/circular_progress_bar" />-->
 
-            <TextView
-                android:id="@+id/mobile_divider"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@id/pb_mobile"
-                android:layout_centerInParent="true"
-                android:background="@drawable/triangle"
-                android:gravity="bottom" />
+            <!--<TextView-->
+            <!--android:id="@+id/mobile_divider"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_alignBottom="@id/pb_mobile"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@drawable/triangle"-->
+            <!--android:gravity="bottom" />-->
 
-            <LinearLayout
-                android:id="@+id/mobile_msg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/mobile_divider"
-                android:background="@drawable/rectangle"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="8dp">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/mobile_msg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_below="@id/mobile_divider"-->
+            <!--android:background="@drawable/rectangle"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingLeft="8dp">-->
 
-                <TextView android:id="@+id/mobile_v"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="速率:-M/s"
-                    android:textColor="@color/btn_text_color" />
+            <!--<TextView android:id="@+id/mobile_v"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="速率:-M/s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
 
-                <TextView android:id="@+id/mobile_t"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="耗时:-s"
-                    android:textColor="@color/btn_text_color" />
-            </LinearLayout>
-        </RelativeLayout>
+            <!--<TextView android:id="@+id/mobile_t"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="耗时:-s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
+            <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="160dp"
-            android:layout_margin="8dp">
+            <!--<RelativeLayout-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="160dp"-->
+            <!--android:layout_margin="8dp">-->
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/connect"
-                android:gravity="center"
-                android:text="优酷" />
+            <!--<TextView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:background="@drawable/connect"-->
+            <!--android:gravity="center"-->
+            <!--android:text="优酷" />-->
 
-            <ProgressBar
-                android:id="@+id/pb_youku"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:indeterminate="false"
-                android:progress="0"
-                android:progressDrawable="@drawable/circular_progress_bar" />
+            <!--<ProgressBar-->
+            <!--android:id="@+id/pb_youku"-->
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:indeterminate="false"-->
+            <!--android:progress="0"-->
+            <!--android:progressDrawable="@drawable/circular_progress_bar" />-->
 
-            <TextView
-                android:id="@+id/youku_divider"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@id/pb_youku"
-                android:layout_centerInParent="true"
-                android:background="@drawable/triangle"
-                android:gravity="bottom" />
+            <!--<TextView-->
+            <!--android:id="@+id/youku_divider"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_alignBottom="@id/pb_youku"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@drawable/triangle"-->
+            <!--android:gravity="bottom" />-->
 
-            <LinearLayout
-                android:id="@+id/youku_msg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/youku_divider"
-                android:background="@drawable/rectangle"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="8dp">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/youku_msg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_below="@id/youku_divider"-->
+            <!--android:background="@drawable/rectangle"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingLeft="8dp">-->
 
-                <TextView android:id="@+id/youku_v"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="速率:-M/s"
-                    android:textColor="@color/btn_text_color" />
+            <!--<TextView android:id="@+id/youku_v"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="速率:-M/s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
 
-                <TextView android:id="@+id/youku_t"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="耗时:-s"
-                    android:textColor="@color/btn_text_color" />
-            </LinearLayout>
-        </RelativeLayout>
+            <!--<TextView android:id="@+id/youku_t"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="耗时:-s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
+            <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="160dp"
-            android:layout_margin="8dp">
+            <!--<RelativeLayout-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="160dp"-->
+            <!--android:layout_margin="8dp">-->
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/connect"
-                android:gravity="center"
-                android:text="腾讯" />
+            <!--<TextView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:background="@drawable/connect"-->
+            <!--android:gravity="center"-->
+            <!--android:text="腾讯" />-->
 
-            <ProgressBar
-                android:id="@+id/pb_tengxu"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:indeterminate="false"
-                android:progress="0"
-                android:progressDrawable="@drawable/circular_progress_bar" />
+            <!--<ProgressBar-->
+            <!--android:id="@+id/pb_tengxu"-->
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:indeterminate="false"-->
+            <!--android:progress="0"-->
+            <!--android:progressDrawable="@drawable/circular_progress_bar" />-->
 
-            <TextView
-                android:id="@+id/tengxu_divider"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@id/pb_tengxu"
-                android:layout_centerInParent="true"
-                android:background="@drawable/triangle"
-                android:gravity="bottom" />
+            <!--<TextView-->
+            <!--android:id="@+id/tengxu_divider"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_alignBottom="@id/pb_tengxu"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@drawable/triangle"-->
+            <!--android:gravity="bottom" />-->
 
-            <LinearLayout
-                android:id="@+id/tengxu_msg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/tengxu_divider"
-                android:background="@drawable/rectangle"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="8dp">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/tengxu_msg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_below="@id/tengxu_divider"-->
+            <!--android:background="@drawable/rectangle"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingLeft="8dp">-->
 
-                <TextView android:id="@+id/tengxu_v"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="速率:-M/s"
-                    android:textColor="@color/btn_text_color" />
+            <!--<TextView android:id="@+id/tengxu_v"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="速率:-M/s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
 
-                <TextView android:id="@+id/tengxu_t"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="耗时:-s"
-                    android:textColor="@color/btn_text_color" />
-            </LinearLayout>
-        </RelativeLayout>
+            <!--<TextView android:id="@+id/tengxu_t"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="耗时:-s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
+            <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="160dp"
-            android:layout_margin="8dp">
+            <!--<RelativeLayout-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="160dp"-->
+            <!--android:layout_margin="8dp">-->
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/connect"
-                android:gravity="center"
-                android:text="新浪" />
+            <!--<TextView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:background="@drawable/connect"-->
+            <!--android:gravity="center"-->
+            <!--android:text="新浪" />-->
 
-            <ProgressBar
-                android:id="@+id/pb_sina"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:indeterminate="false"
-                android:progress="0"
-                android:progressDrawable="@drawable/circular_progress_bar" />
+            <!--<ProgressBar-->
+            <!--android:id="@+id/pb_sina"-->
+            <!--style="?android:attr/progressBarStyleHorizontal"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:indeterminate="false"-->
+            <!--android:progress="0"-->
+            <!--android:progressDrawable="@drawable/circular_progress_bar" />-->
 
-            <TextView
-                android:id="@+id/sina_divider"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@id/pb_sina"
-                android:layout_centerInParent="true"
-                android:background="@drawable/triangle"
-                android:gravity="bottom" />
+            <!--<TextView-->
+            <!--android:id="@+id/sina_divider"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_alignBottom="@id/pb_sina"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@drawable/triangle"-->
+            <!--android:gravity="bottom" />-->
 
-            <LinearLayout
-                android:id="@+id/sina_msg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/sina_divider"
-                android:background="@drawable/rectangle"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="8dp">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/sina_msg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_below="@id/sina_divider"-->
+            <!--android:background="@drawable/rectangle"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingLeft="8dp">-->
 
-                <TextView android:id="@+id/sina_v"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="速率:-M/s"
-                    android:textColor="@color/btn_text_color" />
+            <!--<TextView android:id="@+id/sina_v"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="速率:-M/s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
 
-                <TextView android:id="@+id/sina_t"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="耗时:-s"
-                    android:textColor="@color/btn_text_color" />
-            </LinearLayout>
-        </RelativeLayout>
+            <!--<TextView android:id="@+id/sina_t"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="耗时:-s"-->
+            <!--android:textColor="@color/btn_text_color" />-->
+            <!--</LinearLayout>-->
+            <!--</RelativeLayout>-->
 
-    </com.datang.miou.widget.FlowLayout>
+        </com.datang.miou.widget.FlowLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/bt_web_ctl"

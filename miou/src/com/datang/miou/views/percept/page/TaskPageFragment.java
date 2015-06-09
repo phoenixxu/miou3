@@ -85,9 +85,10 @@ public class TaskPageFragment extends BasePageFragment implements
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onStop() {
+        super.onStop();
         this.getActivity().unregisterReceiver(this.receiver);
     }
+
 
 }

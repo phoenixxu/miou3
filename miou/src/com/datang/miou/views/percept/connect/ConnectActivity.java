@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.datang.miou.annotation.AfterView;
 import com.datang.miou.annotation.AutoView;
 import com.datang.miou.views.MainActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,10 +49,67 @@ public class ConnectActivity extends ActivitySupport {
     Map<String, PingBean> beanMap = new LinkedHashMap<String, PingBean>();
     private TextView ctl;
     private ConnectAdapter adapter;
+    private SharedPreferences sharedPref;
+
+    public static void startTest(Activity mContext, int pos) {
+        SharedPreferences sharedPref = mContext.getSharedPreferences("TASK", Context.MODE_PRIVATE);
+        String webs = sharedPref.getString("urls", "");
+        if (webs.isEmpty()) return;
+        try {
+            JSONArray jsonArray = new JSONArray(webs);
+            for (int index = 0; index < jsonArray.length(); index++) {
+                JSONObject object = (JSONObject) jsonArray.get(index);
+                String key = object.getString("key");
+                String value = object.getString("value");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("target", value);
+                PingTask.PingDesc desc = new PingTask.PingDesc(pos + "", value,
+                        Calendar.getInstance().getTime(),
+                        Calendar.getInstance().getTime(),
+                        Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
+                        Config.DEFAULT_USER_MEASUREMENT_COUNT,
+                        MeasurementTask.USER_PRIORITY,
+                        params);
+                PingTask newTask = new PingTask(desc, mContext.getApplicationContext());
+                MeasurementScheduler scheduler = MainActivity.App.getScheduler();
+                if (scheduler != null && scheduler.submitTask(newTask)) {
+//                Toast.makeText(WebActivity.this, "开始测试 " + key, Toast.LENGTH_SHORT).show();
+                /*
+                 * Broadcast an intent with MEASUREMENT_ACTION so that the scheduler will immediately
+                 * handles the user measurement
+                 */
+                    mContext.sendBroadcast(
+                            new UpdateIntent(newTask.getDescriptor(), UpdateIntent.MEASUREMENT_ACTION));
+
+
+                    if (scheduler.getCurrentTask() != null) {
+                        Intent intent = new Intent();
+                        intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
+                        intent.putExtra(
+                                UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.WAIT_STATUS);
+                        mContext.sendBroadcast(intent);
+                    }
+                } else {
+                    Toast.makeText(mContext, "测试 " + key + " 失败", Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+
+    }
+
+    public static void stopTask() {
+        if (MainActivity.App.getScheduler() != null)
+            MainActivity.App.getScheduler().clean("ping");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = getSharedPreferences("TASK", Context.MODE_PRIVATE);
         TextView mTitleTextView = (TextView) findViewById(R.id.app_title_value);
         mTitleTextView.setText("连接测试");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
@@ -86,7 +145,7 @@ public class ConnectActivity extends ActivitySupport {
                             Config.INVALID_PROGRESS);
                     String key = intent.getStringExtra(UpdateIntent.TASK_KEY);
                     progress(key, progress, intent.getStringExtra(UpdateIntent.STRING_PAYLOAD));
-                    textResult.setText(intent.getStringExtra(UpdateIntent.STATUS_MSG_PAYLOAD));
+//                    textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
                     textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
@@ -130,17 +189,6 @@ public class ConnectActivity extends ActivitySupport {
 
     @AfterView
     private void init() {
-        String[] names = this.getResources().getStringArray(R.array.ping_nams);
-        String[] urls = this.getResources().getStringArray(R.array.ping_urls);
-        for (int index = 0; index < names.length; index++) {
-            PingBean bean = new PingBean(urls[index]);
-            bean.name = names[index];
-            beanMap.put(bean.url, bean);
-        }
-        ListView connectLv = (ListView) findViewById(R.id.lv_connect);
-        adapter = new ConnectAdapter(mContext, beanMap.values());
-        connectLv.setAdapter(adapter);
-
         ctl = (TextView) f(R.id.bt_connect_ctl);
         ctl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +196,57 @@ public class ConnectActivity extends ActivitySupport {
                 ctl();
             }
         });
+
+        ListView connectLv = (ListView) findViewById(R.id.lv_connect);
+        adapter = new ConnectAdapter(mContext, beanMap.values());
+        connectLv.setAdapter(adapter);
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        beanMap.clear();
+        adapter.removeAll();
+        String webs = sharedPref.getString("urls", "");
+        if (webs.isEmpty()) {
+            JSONArray jsonArray = new JSONArray();
+            String[] names = this.getResources().getStringArray(R.array.ping_names);
+            String[] urls = this.getResources().getStringArray(R.array.ping_urls);
+            try {
+                for (int index = 0; index < names.length; index++) {
+                    PingBean bean = new PingBean(urls[index]);
+                    bean.name = names[index];
+                    beanMap.put(bean.url, bean);
+                    jsonArray.put(new JSONObject("{'key':" + bean.name + ",'value':" + bean.url + "}"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("urls", jsonArray.toString());
+            editor.commit();
+            adapter.addAll(beanMap.values());
+
+        } else {
+            try {
+                JSONArray jsonArray = new JSONArray(webs);
+                int length = jsonArray.length();
+                for (int index = 0; index < length; index++) {
+                    JSONObject object = (JSONObject) jsonArray.get(index);
+                    String name = object.getString("key");
+                    String url = object.getString("value");
+                    PingBean bean = new PingBean(url);
+                    bean.name = name;
+                    beanMap.put(bean.url, bean);
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            adapter.addAll(beanMap.values());
+        }
+
 
     }
 
@@ -169,7 +268,7 @@ public class ConnectActivity extends ActivitySupport {
         } else {
             isStop.set(false);
             ctl.setText("停止测试");
-            startTest();
+            startTest(this, -1);
 
         }
     }
@@ -177,47 +276,6 @@ public class ConnectActivity extends ActivitySupport {
     private void onTaskFinish() {
         isStop.set(true);
         ctl.setText("开始测试");
-    }
-
-    private void startTest() {
-        for (PingBean bean : beanMap.values()) {
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("target", bean.url);
-            PingTask.PingDesc desc = new PingTask.PingDesc(bean.url,
-                    Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(),
-                    Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
-                    Config.DEFAULT_USER_MEASUREMENT_COUNT,
-                    MeasurementTask.USER_PRIORITY,
-                    params);
-            PingTask newTask = new PingTask(desc, mContext.getApplicationContext());
-            MeasurementScheduler scheduler = MainActivity.App.getScheduler();
-            if (scheduler != null && scheduler.submitTask(newTask)) {
-//                Toast.makeText(WebActivity.this, "开始测试 " + key, Toast.LENGTH_SHORT).show();
-                /*
-                 * Broadcast an intent with MEASUREMENT_ACTION so that the scheduler will immediately
-                 * handles the user measurement
-                 */
-                mContext.sendBroadcast(
-                        new UpdateIntent(newTask.getDescriptor(), UpdateIntent.MEASUREMENT_ACTION));
-
-
-                if (scheduler.getCurrentTask() != null) {
-                    showBusySchedulerStatus();
-                }
-            } else {
-                Toast.makeText(mContext, "测试 " + bean.name + " 失败", Toast.LENGTH_LONG).show();
-            }
-        }
-
-    }
-
-    private void showBusySchedulerStatus() {
-        Intent intent = new Intent();
-        intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
-        intent.putExtra(
-                UpdateIntent.STATUS_MSG_PAYLOAD, "The scheduler is busy, your measurement will start shortly");
-        sendBroadcast(intent);
     }
 
     @Override

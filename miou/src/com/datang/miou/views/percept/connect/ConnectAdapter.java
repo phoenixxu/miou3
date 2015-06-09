@@ -21,7 +21,7 @@ public class ConnectAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
-    private final List<PingBean> mDatas=new ArrayList<PingBean>();
+    private final List<PingBean> mDatas = new ArrayList<PingBean>();
 
 
     public ConnectAdapter(Context context, Collection<PingBean> datas) {
@@ -31,6 +31,17 @@ public class ConnectAdapter extends BaseAdapter {
 
     }
 
+    //删除所有数据
+    public void removeAll() {
+        mDatas.clear();
+        notifyDataSetChanged();
+    }
+
+    //添加新数据
+    public void addAll(Collection<PingBean> datas) {
+        mDatas.addAll(datas);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
