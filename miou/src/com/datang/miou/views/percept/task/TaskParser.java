@@ -32,6 +32,10 @@ public class TaskParser {
     private static final String TAG = "TaskParser";
     private static final String path = SDCardUtils.getPerScript() + File.separator + "tasks.xml";
 
+    public static List<Task> getTasks() {
+        return taskList;
+    }
+
     public static boolean readTasks() {
         XmlPullParser xmlParser = Xml.newPullParser();
         File file = new File(path);
@@ -72,7 +76,7 @@ public class TaskParser {
                             if (task != null) {
                                 task.count = xmlParser.nextText();
                             }
-                        }else if("timeStamp".equals(xmlParser.getName())){
+                        } else if ("timeStamp".equals(xmlParser.getName())) {
                             if (task != null) {
                                 task.timeStamp = xmlParser.nextText();
                             }
@@ -81,7 +85,7 @@ public class TaskParser {
                     case XmlPullParser.END_TAG:
                         if ("task".equals(xmlParser.getName())) {
                             Log.d(TAG, "name:" + xmlParser.getName() + ", task=" + task.name);
-                            taskList.add(task);
+                            addTask(task);
                             task = null;
                         }
                         break;
@@ -192,4 +196,13 @@ public class TaskParser {
         return true;
     }
 
+    public static boolean addTask(Task task) {
+        for (Task t : taskList) {
+            if (t.name.equals(task.name)) {
+                return false;
+            }
+        }
+        taskList.add(task);
+        return true;
+    }
 }

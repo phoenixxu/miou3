@@ -51,7 +51,7 @@ public class ConnectActivity extends ActivitySupport {
     private ConnectAdapter adapter;
     private SharedPreferences sharedPref;
 
-    public static void startTest(Activity mContext, int pos) {
+    public static void startTest(Activity mContext, String name) {
         SharedPreferences sharedPref = mContext.getSharedPreferences("TASK", Context.MODE_PRIVATE);
         String webs = sharedPref.getString("urls", "");
         if (webs.isEmpty()) return;
@@ -63,7 +63,7 @@ public class ConnectActivity extends ActivitySupport {
                 String value = object.getString("value");
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("target", value);
-                PingTask.PingDesc desc = new PingTask.PingDesc(pos + "", value,
+                PingTask.PingDesc desc = new PingTask.PingDesc(name, value,
                         Calendar.getInstance().getTime(),
                         Calendar.getInstance().getTime(),
                         Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
@@ -83,11 +83,8 @@ public class ConnectActivity extends ActivitySupport {
 
 
                     if (scheduler.getCurrentTask() != null) {
-                        Intent intent = new Intent();
-                        intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
-                        intent.putExtra(
-                                UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.WAIT_STATUS);
-                        mContext.sendBroadcast(intent);
+                        Toast.makeText(mContext, "测试正在执行中...", Toast.LENGTH_SHORT).show();
+                        return;
                     }
                 } else {
                     Toast.makeText(mContext, "测试 " + key + " 失败", Toast.LENGTH_LONG).show();
@@ -103,7 +100,7 @@ public class ConnectActivity extends ActivitySupport {
 
     public static void stopTask() {
         if (MainActivity.App.getScheduler() != null)
-            MainActivity.App.getScheduler().clean("ping");
+            MainActivity.App.getScheduler().clean(PingTask.TYPE);
     }
 
     @Override
@@ -148,16 +145,17 @@ public class ConnectActivity extends ActivitySupport {
 //                    textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
-                    textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
                     int completed = intent.getIntExtra("completed", 0);
                     if (completed == beanMap.size()) {
                         onTaskFinish();
                     }
+                    String stringExtra = intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD);
+                    if (stringExtra == null) return;
+                    textResult.setText(stringExtra);
                 }
             }
         };
         IntentFilter filter = new IntentFilter();
-        filter.addAction(UpdateIntent.SCHEDULER_CONNECTED_ACTION);
         filter.addAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
         filter.addAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
         this.registerReceiver(this.receiver, filter);
@@ -200,7 +198,6 @@ public class ConnectActivity extends ActivitySupport {
         ListView connectLv = (ListView) findViewById(R.id.lv_connect);
         adapter = new ConnectAdapter(mContext, beanMap.values());
         connectLv.setAdapter(adapter);
-
     }
 
 
@@ -254,8 +251,6 @@ public class ConnectActivity extends ActivitySupport {
         if (!isStop.get()) {
             isStop.set(true);
             ctl.setText("开始测试");
-            if (MainActivity.App.getScheduler() != null)
-                MainActivity.App.getScheduler().clean("ping");
             if (!beanMap.isEmpty()) {
                 for (String key : beanMap.keySet()) {
                     PingBean bean = beanMap.get(key);
@@ -268,7 +263,7 @@ public class ConnectActivity extends ActivitySupport {
         } else {
             isStop.set(false);
             ctl.setText("停止测试");
-            startTest(this, -1);
+            startTest(this, "_-1");
 
         }
     }

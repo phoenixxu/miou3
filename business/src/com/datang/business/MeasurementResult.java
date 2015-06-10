@@ -25,6 +25,8 @@ import com.datang.business.util.Util;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +39,7 @@ import java.util.Map;
  */
 public class MeasurementResult {
 
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String deviceId;
     private DeviceProperty properties;
     private long timestamp;
@@ -67,6 +70,13 @@ public class MeasurementResult {
         this.values = new HashMap<String, String>();
     }
 
+    /**
+     * Returns the name of this result
+     */
+    public String getName() {
+        return parameters.name;
+    }
+
     /* Returns the type of this result */
     public String getType() {
         return parameters.getType();
@@ -82,7 +92,6 @@ public class MeasurementResult {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         StringBuilderPrinter printer = new StringBuilderPrinter(builder);
-        Formatter format = new Formatter();
         try {
             if (type == PingTask.TYPE) {
                 getPingResult(printer, values);
@@ -153,6 +162,61 @@ public class MeasurementResult {
 
         return new JSONObject(r).toString();
 
+
+    }
+
+    public String getStatResult() {
+        Map<String, String> r = new HashMap<String, String>();
+        if (type == PingTask.TYPE) {
+            getPingStatResult(r);
+        } else if (type == HttpTask.TYPE) {
+            getHttpStatResult(r);
+        }
+
+
+        return new JSONObject(r).toString();
+
+
+    }
+
+    private void getPingStatResult(Map<String, String> r) {
+        PingDesc desc = (PingDesc) parameters;
+        r.put("startTime", format.format(desc.startTime));
+        r.put("stopTime", format.format(Calendar.getInstance().getTime()));
+        r.put("url", desc.target);
+        r.put("IP", removeQuotes(values.get("target_ip")));
+        r.put("name", desc.name.split("_")[0]);
+
+
+        if (success) {
+            float packetLoss = Float.parseFloat(values.get("packet_loss"));
+            int count = Integer.parseInt(values.get("packets_sent"));
+            r.put("count", count + "");
+            r.put("suc", ((1 - packetLoss) * 100) + "%");
+            float mean_rtt_ms = Float.parseFloat(values.get("mean_rtt_ms"));
+            float max_rtt_ms = Float.parseFloat(values.get("max_rtt_ms"));
+            r.put("avgTime", String.format("%.1f", mean_rtt_ms) + " ms" + "/" + String.format("%.1f", max_rtt_ms) + " ms");
+        } else {
+            r.put("suc", "0%");
+        }
+    }
+
+    private void getHttpStatResult(Map<String, String> r) {
+        HttpDesc desc = (HttpDesc) parameters;
+        r.put("startTime", format.format(desc.startTime));
+        r.put("stopTime", format.format(Calendar.getInstance().getTime()));
+        r.put("url", desc.url);
+        r.put("name", desc.name.split("_")[0]);
+        if (success) {
+            int headerLen = Integer.parseInt(values.get("headers_len"));
+            int bodyLen = Integer.parseInt(values.get("body_len"));
+            int time = Integer.parseInt(values.get("time_ms"));
+            r.put("size", (headerLen + bodyLen) + " b");
+            r.put("speed", (headerLen + bodyLen) * 8 / time + " Kbps");
+            r.put("lostTime", values.get("time_ms")+"ms");
+        } else {
+            r.put("code", values.get("code"));
+        }
 
     }
 

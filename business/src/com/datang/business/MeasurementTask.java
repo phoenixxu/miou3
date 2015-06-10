@@ -21,6 +21,8 @@ import com.datang.business.measurements.HttpTask;
 import com.datang.business.measurements.PingTask;
 
 import java.io.InvalidClassException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -43,6 +45,7 @@ public abstract class MeasurementTask implements Callable<MeasurementResult>, Co
     public static final int WAIT_STATUS = -1;
     public static final int EXE_STATUS = 1;
     public static final int IDLE_STATUS = 0;
+    public static final int END_STSATUS = 2;
 
     private static HashMap<String, Class> measurementTypes;
     // Maps between the type of task and its readable name
@@ -181,9 +184,18 @@ public abstract class MeasurementTask implements Callable<MeasurementResult>, Co
             Intent intent = new Intent();
             intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
             intent.putExtra(UpdateIntent.TASK_KEY, measurementDesc.key);
+            intent.putExtra(UpdateIntent.TASK_TYPE, measurementDesc.getType());
             intent.putExtra(UpdateIntent.PROGRESS_PAYLOAD, progress);
             intent.putExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD, MeasurementTask.USER_PRIORITY);
             parent.sendBroadcast(intent);
+
+            Intent statIntent = new Intent();
+            statIntent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
+            statIntent.putExtra(UpdateIntent.TASK_INDEX, measurementDesc.name);
+//            intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
+            statIntent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.EXE_STATUS);
+            statIntent.putExtra(UpdateIntent.TASK_LAST_TIME, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+            parent.sendBroadcast(statIntent);
         }
     }
 }

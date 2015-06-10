@@ -5,12 +5,12 @@ package com.datang.miou.views.percept.task;
  */
 public class Task {
     boolean isChecked;
-    String timeStamp;//创建时间
-    String lastTimeStamp="";//最后一次执行时间
+    public String timeStamp;//创建时间
+    public String lastTimeStamp="";//最后一次执行时间
     public String status="";//当前执行状态
-    String name;//任务名字
-    String type;//类型http／ping
-    String interval;//间隔时间
-    String count;//执行次数
+    public String name;//任务名字
+    public String type;//类型http／ping
+    public String interval;//间隔时间
+    public String count;//执行次数
 
 }

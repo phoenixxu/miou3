@@ -20,7 +20,7 @@
                 android:layout_gravity="center|left"
                 android:text="测试任务名称" />
 
-            <EditText
+            <EditText android:id="@+id/task_name"
                 android:layout_margin="3dp"
                 android:layout_weight="1" />
         </TableRow>

@@ -1,86 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="42dp"
     android:orientation="horizontal">
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/startTime"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="测试开始时间" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/stopTime"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="测试结束时间" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/name"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="所在测试任务名称" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/lon"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="经度" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/lat"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="纬度" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/url"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="打开网页地址" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tac"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="终端TAC" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/size"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="打开网页大小" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/lostTime"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="耗费时间" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/speed"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="5dp"
+        android:layout_margin="3dp"
         android:text="速率" />
 
 </LinearLayout>

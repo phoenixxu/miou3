@@ -26,8 +26,9 @@ public class WebProgressView extends RelativeLayout {
         webT = (TextView) view.findViewById(R.id.web_t);
         webV = (TextView) view.findViewById(R.id.web_v);
         key = (TextView) view.findViewById(R.id.key);
-        FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(220, 400);
+        FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(220, 330);
         params.rightMargin = 10;
+        params.leftMargin = 10;
         this.setLayoutParams(params);
     }
 
@@ -37,8 +38,9 @@ public class WebProgressView extends RelativeLayout {
         pb = (ProgressBar) view.findViewById(R.id.pb_web);
         webT = (TextView) view.findViewById(R.id.web_t);
         webV = (TextView) view.findViewById(R.id.web_v);
-        FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(220, 400);
+        FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(220, 330);
         params.rightMargin = 10;
+        params.leftMargin = 10;
         this.setLayoutParams(params);
     }
 

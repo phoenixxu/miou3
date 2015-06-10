@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.datang.business.measurements.HttpTask;
+import com.datang.business.measurements.PingTask;
 import com.datang.miou.R;
 import com.datang.miou.views.percept.connect.ConnectActivity;
-import com.datang.miou.views.percept.task.Task;
-import com.datang.miou.views.percept.task.TaskParser;
 import com.datang.miou.views.percept.web.WebActivity;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 public class TasksAdapter extends BaseAdapter {
 
     private final Activity mContext;
-    List<Task> list = TaskParser.taskList;
+    List<Task> list = TaskParser.getTasks();
 
 
     public TasksAdapter(Activity ctx) {
@@ -63,22 +63,30 @@ public class TasksAdapter extends BaseAdapter {
         holder.createTime.setText(task.timeStamp);
         holder.lastTime.setText(task.lastTimeStamp);
         holder.status.setText(task.status);
+        if (!task.status.equals("")) {
+            if (task.status.equals("结束")) {
+                holder.ctl.setText("执行");
+            } else {
+                holder.ctl.setText("中止");
+            }
+        }
+
         final ViewHolder finalHolder = holder;
         holder.ctl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (finalHolder.ctl.getText().equals("执行")) {
                     finalHolder.ctl.setText("中止");
-                    if (task.name.equals("网页")) {
-                        WebActivity.startTest(mContext,position);
-                    }else if(task.name.equals("连接")){
-                        ConnectActivity.startTest(mContext,position);
+                    if (task.type.equals(HttpTask.TYPE)) {
+                        WebActivity.startTest(mContext, task.name + "_" + position);
+                    } else if (task.type.equals(PingTask.TYPE)) {
+                        ConnectActivity.startTest(mContext, task.name + "_" + position);
                     }
                 } else {
                     finalHolder.ctl.setText("执行");
-                    if (task.name.equals("网页")) {
+                    if (task.type.equals(HttpTask.TYPE)) {
                         WebActivity.stopTask();
-                    }else if(task.name.equals("连接")){
+                    } else if (task.name.equals(PingTask.TYPE)) {
                         ConnectActivity.stopTask();
                     }
                 }

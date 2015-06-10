@@ -428,7 +428,7 @@ public class PingTask extends MeasurementTask {
         public PingDesc(String name, String key, Date startTime,
                         Date endTime, double intervalSec, long count, long priority,
                         Map<String, String> params) throws InvalidParameterException {
-            super(name, PingTask.TYPE, key, startTime, endTime, intervalSec, count,
+            super(PingTask.TYPE, name, key, startTime, endTime, intervalSec, count,
                     priority, params);
             initalizeParams(params);
             if (this.target == null || this.target.length() == 0) {

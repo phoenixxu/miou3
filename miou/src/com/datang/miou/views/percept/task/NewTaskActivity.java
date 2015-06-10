@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datang.miou.ActivitySupport;
 import com.datang.miou.R;
@@ -57,6 +58,12 @@ public class NewTaskActivity extends ActivitySupport {
         mTitleTextView.setText("新增任务");
         TextView mRight = (TextView) findViewById(R.id.app_title_right_txt);
         mRight.setText("完成");
+        mRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         ImageView mBackButton = (ImageView) findViewById(R.id.app_title_left);
         mBackButton.setOnClickListener(new View.OnClickListener() {
 
@@ -78,7 +85,7 @@ public class NewTaskActivity extends ActivitySupport {
         allChecked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                for (Task task : TaskParser.taskList) {
+                for (Task task : TaskParser.getTasks()) {
                     task.isChecked = isChecked;
                 }
                 taskListAdapter.notifyDataSetChanged();
@@ -91,22 +98,32 @@ public class NewTaskActivity extends ActivitySupport {
         final EditText editTextCount = (EditText) f(R.id.count);
         final EditText editTextInterval = (EditText) f(R.id.interval);
         final Spinner spinner = (Spinner) f(R.id.sp_newtask);
+        final EditText taskEditText = (EditText) f(R.id.task_name);
         String[] taskNames = this.getResources().getStringArray(R.array.task_names);
         spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, taskNames));
         this.f(R.id.bt_save_task).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Task task = new Task();
-                task.name = spinner.getSelectedItem().toString();
-                if (task.name.equals("网页")) {
+                task.name = taskEditText.getText().toString();
+                String type = spinner.getSelectedItem().toString();
+                if (type.equals("网页")) {
                     task.type = "http";
-                } else if (task.name.equals("连接")) {
+                } else if (type.equals("连接")) {
                     task.type = "ping";
+                } else if (type.equals("视频")) {
+                    task.type = "video";
+                } else if (type.equals("语音")) {
+                    task.type = "voice";
+                } else if (type.equals("测速")) {
+                    task.type = "ftp";
                 }
                 task.count = editTextCount.getText().toString();
                 task.interval = editTextInterval.getText().toString();
                 task.timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
-                TaskParser.taskList.add(task);
+                if (!TaskParser.addTask(task)) {
+                    Toast.makeText(mContext, task.name + "任务更新成功", Toast.LENGTH_SHORT).show();
+                }
                 TaskParser.writeTasks();
                 taskListAdapter.notifyDataSetChanged();
             }
@@ -115,7 +132,7 @@ public class NewTaskActivity extends ActivitySupport {
         this.f(R.id.del_task).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Iterator<Task> iterator = TaskParser.taskList.iterator();
+                Iterator<Task> iterator = TaskParser.getTasks().iterator();
                 while (iterator.hasNext()) {
                     Task task = iterator.next();
                     if (task.isChecked) {

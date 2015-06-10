@@ -58,7 +58,7 @@ public class WebActivity extends ActivitySupport {
     private LayoutInflater mInflater;
     private FlowLayout flowLayout;
 
-    public static void startTest(Activity context, int pos) {
+    public static void startTest(Activity context, String name) {
         SharedPreferences sharedPref = context.getSharedPreferences("TASK", Context.MODE_PRIVATE);
         String webs = sharedPref.getString("webs", "");
         if (webs.isEmpty()) return;
@@ -71,7 +71,7 @@ public class WebActivity extends ActivitySupport {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("url", value);
                 params.put("method", "get");
-                HttpTask.HttpDesc desc = new HttpTask.HttpDesc(pos + "", key,
+                HttpTask.HttpDesc desc = new HttpTask.HttpDesc(name, key,
                         Calendar.getInstance().getTime(),
                         Calendar.getInstance().getTime(),
                         Config.DEFAULT_USER_MEASUREMENT_INTERVAL_SEC,
@@ -88,14 +88,9 @@ public class WebActivity extends ActivitySupport {
                  */
                     context.sendBroadcast(
                             new UpdateIntent(newTask.getDescriptor(), UpdateIntent.MEASUREMENT_ACTION));
-
-
                     if (scheduler.getCurrentTask() != null) {
-                        Intent intent = new Intent();
-                        intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
-                        intent.putExtra(
-                                UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.WAIT_STATUS);
-                        context.sendBroadcast(intent);
+                        Toast.makeText(context, "测试正在执行中...", Toast.LENGTH_SHORT).show();
+                        return;
                     }
                 } else {
                     Toast.makeText(context, "测试 " + key + " 失败", Toast.LENGTH_LONG).show();
@@ -111,7 +106,7 @@ public class WebActivity extends ActivitySupport {
 
     public static void stopTask() {
         if (MainActivity.App.getScheduler() != null)
-            MainActivity.App.getScheduler().clean("http");
+            MainActivity.App.getScheduler().clean(HttpTask.TYPE);
     }
 
     @Override
@@ -155,25 +150,27 @@ public class WebActivity extends ActivitySupport {
             @Override
             // All onXyz() callbacks are single threaded
             public void onReceive(Context context, Intent intent) {
+
                 if (intent.getAction().equals(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION)) {
                     int progress = intent.getIntExtra(UpdateIntent.PROGRESS_PAYLOAD,
                             Config.INVALID_PROGRESS);
                     String key = intent.getStringExtra(UpdateIntent.TASK_KEY);
                     progress(key, progress, intent.getStringExtra(UpdateIntent.STRING_PAYLOAD));
-                    textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
 
                 } else if (intent.getAction().equals(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION)) {
-                    textResult.setText(intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD));
+
                     int completed = intent.getIntExtra("completed", 0);
                     if (completed == barHashMap.size()) {
                         onTaskFinish();
                     }
+                    String stringExtra = intent.getStringExtra(UpdateIntent.STATS_MSG_PAYLOAD);
+                    if (stringExtra == null) return;
+                    textResult.setText(stringExtra);
                 }
             }
         };
         this.registerReceiver(this.receiver, filter);
         flowLayout = (FlowLayout) f(R.id.fl_web_task);
-
 
 
     }
@@ -286,7 +283,7 @@ public class WebActivity extends ActivitySupport {
         } else {
             isStop.set(false);
             webCtl.setText("停止测试");
-            startTest(this, -1);
+            startTest(this, "_-1");
         }
     }
 
@@ -300,7 +297,7 @@ public class WebActivity extends ActivitySupport {
             barHashMap.get(key).setProgress(0);
         }
         if (MainActivity.App.getScheduler() != null)
-            MainActivity.App.getScheduler().clean("http");
+            MainActivity.App.getScheduler().clean(HttpTask.TYPE);
         for (String key : tHashMap.keySet()) {
             tHashMap.get(key).setText("耗时:-s");
         }

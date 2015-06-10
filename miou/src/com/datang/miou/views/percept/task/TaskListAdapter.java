@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.datang.miou.R;
@@ -18,7 +17,7 @@ import java.util.List;
 public class TaskListAdapter extends BaseAdapter {
 
     private final Context mContext;
-    List<Task> list = TaskParser.taskList;
+    List<Task> list = TaskParser.getTasks();
 
 
     public TaskListAdapter(Context ctx) {
@@ -54,10 +53,10 @@ public class TaskListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.name.setText(list.get(position).name);
+        holder.name.setText(list.get(position).type);
         holder.count.setText(list.get(position).count);
         holder.index.setText(position + "");
-        holder.checked.setChecked( list.get(position).isChecked );
+        holder.checked.setChecked(list.get(position).isChecked);
 
 
         return convertView;

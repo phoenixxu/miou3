@@ -88,7 +88,7 @@ public class BatteryCapPowerManager {
       Logger.i("Starting PowerAwareTask " + realTask);
       Intent intent = new Intent();
       intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
-      intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, "Running " + realTask.getDescriptor());
+      intent.putExtra(UpdateIntent.STATS_MSG_PAYLOAD, "Running " + realTask.getDescriptor());
       
       scheduler.sendBroadcast(intent);
     }
@@ -99,6 +99,7 @@ public class BatteryCapPowerManager {
       if (!(error instanceof MeasurementSkippedException)) {
         Intent intent = new Intent();
         intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
+          intent.putExtra(UpdateIntent.TASK_TYPE,result.getType());
 //        intent.putExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD,
 //            (int) realTask.getDescription().priority);
         // A progress value MEASUREMENT_END_PROGRESS indicates the end of an measurement

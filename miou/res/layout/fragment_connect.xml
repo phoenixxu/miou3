@@ -14,7 +14,7 @@
 
         <include layout="@layout/result_connect_item" />
 
-        <ListView
+        <ListView android:id="@+id/ping_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"></ListView>

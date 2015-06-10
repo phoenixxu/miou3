@@ -304,12 +304,22 @@ public class MeasurementScheduler extends Service {
 //        persistState();
     }
 
+
     /**
      * Returns the current task being run. In the current implementation, the
      * synchronized keyword is not needed because only one thread runs
      * com.datang.business.measurements and calls this method. It is not thread safe.
      */
     public MeasurementTask getCurrentTask() {
+        if (this.currentTask != null) {
+            Intent intent = new Intent();
+            intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
+            intent.putExtra(UpdateIntent.TASK_TYPE, currentTask.getType());
+            intent.putExtra(
+                    UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.WAIT_STATUS);
+            intent.putExtra(UpdateIntent.TASK_INDEX, currentTask.measurementDesc.name);
+            this.sendBroadcast(intent);
+        }
         return this.currentTask;
     }
 
@@ -506,8 +516,12 @@ public class MeasurementScheduler extends Service {
         intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
         intent.putExtra("completed", completedMeasurementCnt);
         intent.putExtra("failed", failedMeasurementCnt);
+        if (currentTask != null) {
+            intent.putExtra(UpdateIntent.TASK_INDEX, currentTask.measurementDesc.name);
+        }
         String statsMsg = completedMeasurementCnt + " completed, " + failedMeasurementCnt + " failed";
         intent.putExtra(UpdateIntent.STATS_MSG_PAYLOAD, statsMsg);
+        intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.END_STSATUS);
         sendBroadcast(intent);
     }
 
@@ -990,13 +1004,13 @@ public class MeasurementScheduler extends Service {
 
         private void broadcastMeasurementStart() {
             Intent intent = new Intent();
-            intent.setAction(UpdateIntent.MEASUREMENT_PROGRESS_UPDATE_ACTION);
-//      intent.putExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD, MeasurementTask.USER_PRIORITY);
-//      MeasurementScheduler.this.sendBroadcast(intent);
-
+            intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
+            intent.putExtra(UpdateIntent.TASK_INDEX, realTask.measurementDesc.name);
 //            intent.setAction(UpdateIntent.SYSTEM_STATUS_UPDATE_ACTION);
-            intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.EXE_STATUS);
+            intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.WAIT_STATUS);
+            intent.putExtra(UpdateIntent.STATS_MSG_PAYLOAD, "Running " + realTask.getDescriptor());
             MeasurementScheduler.this.sendBroadcast(intent);
+
         }
 
         private void broadcastMeasurementEnd(MeasurementResult result) {
@@ -1006,17 +1020,20 @@ public class MeasurementScheduler extends Service {
 //      intent.putExtra(UpdateIntent.TASK_PRIORITY_PAYLOAD, MeasurementTask.USER_PRIORITY);
             // A progress value greater than max progress to indicate the termination of a measurement
             intent.putExtra(UpdateIntent.PROGRESS_PAYLOAD, Config.MEASUREMENT_END_PROGRESS);
-            intent.putExtra(UpdateIntent.TASK_KEY, result.getTaskKey());
+
             if (result.isSuccess()) {
                 intent.putExtra(UpdateIntent.STRING_PAYLOAD, result.getResult());
+                intent.putExtra(UpdateIntent.STATS_RESULT, result.getStatResult());
                 intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.IDLE_STATUS);
             } else {
                 String errorString = "Measurement " + realTask.getDescriptor() + " has failed";
                 errorString += "\nTimestamp: " + Calendar.getInstance().getTime();
                 intent.putExtra(UpdateIntent.ERROR_STRING_PAYLOAD, errorString);
-                intent.putExtra(UpdateIntent.STATUS_MSG_PAYLOAD, MeasurementTask.IDLE_STATUS);
+
             }
             intent.putExtra(UpdateIntent.TASK_KEY, result.getTaskKey());
+            intent.putExtra(UpdateIntent.TASK_TYPE, result.getType());
+
             MeasurementScheduler.this.sendBroadcast(intent);
             // Update the status bar once the user measurement finishes
             updateStatus();
@@ -1038,8 +1055,8 @@ public class MeasurementScheduler extends Service {
             } catch (Exception ex) {
                 Log.w(TAG, ex.getMessage(), ex);
             } finally {
-                setCurrentTask(null);
                 broadcastMeasurementEnd(result);
+                setCurrentTask(null);
                 PhoneUtils.getPhoneUtils().releaseWakeLock();
                 sendStringMsg("Done running:\n" + realTask.toString());
 //                persistState();
